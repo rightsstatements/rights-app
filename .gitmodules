@@ -1,0 +1,3 @@
+[submodule "conf/data-model"]
+	path = conf/data-model
+	url = https://github.com/rightsstatements/data-model.git
