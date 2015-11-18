@@ -30,6 +30,20 @@ public class Application extends Controller {
   private static Model rightsStatements = ModelFactory.createDefaultModel().read(Play.application().classloader()
       .getResourceAsStream(Play.application().configuration().getString("rs.source.ttl")), null, "TURTLE");
 
+  public static Result getVocab(String version) {
+    return redirect(routes.Application.getVocabData(version, null).absoluteURL(request()));
+  }
+
+  public static Result getVocabData(String version, String ext) {
+
+    MimeType mimeType = getMimeType(request(), ext);
+    response().setHeader("Content-Location", routes.Application.getVocabData(version,
+        mimeTypeExtensionMap.get(mimeType.toString())).absoluteURL(request()));
+
+    return getData(rightsStatements, mimeType);
+
+  }
+
   private static Result getData(Model model, MimeType mimeType) {
 
     OutputStream result = new ByteArrayOutputStream();

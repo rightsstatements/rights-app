@@ -1,0 +1,3 @@
+GET   /vocab/:version/              controllers.Application.getVocab(version: String)
+GET   /data/:version/               controllers.Application.getVocabData(version: String, ext=null)
+GET   /data/:version.:ext           controllers.Application.getVocabData(version: String, ext: String)
