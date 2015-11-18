@@ -1,0 +1,3 @@
+GET   /vocab/:id/:version/          controllers.Application.getStatement(id: String, version: String)
+GET   /data/:id/:version/           controllers.Application.getStatementData(id: String, version: String, ext=null)
+GET   /data/:id/:version.:ext       controllers.Application.getStatementData(id: String, version: String, ext: String)
