@@ -36,7 +36,7 @@ public class ApplicationTest {
   }
 
   @Test
-  public void testGetStatementData() {
+  public void testGetStatementDataAsTurtle() {
 
     running(fakeApplication(), new Runnable() {
       @Override
@@ -47,6 +47,23 @@ public class ApplicationTest {
         assertEquals("text/turtle", result.contentType());
         assertEquals("http://null/data/InC/1.0.ttl", result.header("Content-Location"));
         assertEquals(getResource("data/InC/1.0.ttl"), contentAsString(result));
+      }
+    });
+
+  }
+
+  @Test
+  public void testGetStatementDataAsJson() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getStatementData("InC", "1.0", null))
+            .header("Accept", "application/ld+json"));
+        assertEquals(200, result.status());
+        assertEquals("application/ld+json", result.contentType());
+        assertEquals("http://null/data/InC/1.0.jsonld", result.header("Content-Location"));
+        assertEquals(getResource("data/InC/1.0.jsonld"), contentAsString(result));
       }
     });
 

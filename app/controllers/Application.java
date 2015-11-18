@@ -44,6 +44,12 @@ public class Application extends Controller {
       response().setHeader("Content-Location", routes.Application.getStatementData(id, version, "ttl")
           .absoluteURL(request()));
       return ok(result.toString()).as("text/turtle");
+    } else if ("jsonld".equals(ext) || request().accepts("application/ld+json")
+        || request().accepts("application/json")) {
+      rightsStatement.write(result, "JSON-LD");
+      response().setHeader("Content-Location", routes.Application.getStatementData(id, version, "jsonld")
+          .absoluteURL(request()));
+      return ok(result.toString()).as("application/ld+json");
     } else {
       return status(406);
     }
