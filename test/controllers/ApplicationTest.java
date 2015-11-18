@@ -84,6 +84,23 @@ public class ApplicationTest {
 
   }
 
+  @Test
+  public void testGetVocabDataAsJson() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getVocabData("1.0", null))
+            .header("Accept", "application/ld+json"));
+        assertEquals(200, result.status());
+        assertEquals("application/ld+json", result.contentType());
+        assertEquals("http://null/data/1.0.jsonld", result.header("Content-Location"));
+        assertEquals(getResource("data/1.0.jsonld"), contentAsString(result));
+      }
+    });
+
+  }
+
   private String getResource(String file) {
 
     InputStream in = ClassLoader.getSystemResourceAsStream(file);

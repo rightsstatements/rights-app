@@ -55,15 +55,23 @@ public class Application extends Controller {
   }
 
   public static Result getVocabData(String version, String ext) {
+
     OutputStream result = new ByteArrayOutputStream();
     if ("ttl".equals(ext) || request().accepts("text/turtle")) {
       rightsStatements.write(result, "TURTLE");
       response().setHeader("Content-Location", routes.Application.getVocabData(version, "ttl")
           .absoluteURL(request()));
       return ok(result.toString()).as("text/turtle");
+    } else if ("jsonld".equals(ext) || request().accepts("application/ld+json")
+        || request().accepts("application/json")) {
+      rightsStatements.write(result, "JSON-LD");
+      response().setHeader("Content-Location", routes.Application.getVocabData(version, "jsonld")
+          .absoluteURL(request()));
+      return ok(result.toString()).as("application/ld+json");
     } else {
       return status(406);
     }
+
   }
 
 }
