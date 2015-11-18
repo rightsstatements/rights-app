@@ -36,7 +36,7 @@ public class ApplicationTest {
   }
 
   @Test
-  public void testGetStatementData() {
+  public void testGetStatementDataAsTurtle() {
 
     running(fakeApplication(), new Runnable() {
       @Override
@@ -52,7 +52,40 @@ public class ApplicationTest {
 
   }
 
+  @Test
+  public void testGetVocab() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getVocab("1.0"))
+            .header("Accept", "text/turtle"));
+        assertEquals(303, result.status());
+        assertEquals("http://null/data/1.0/", result.redirectLocation());
+      }
+    });
+
+  }
+
+  @Test
+  public void testGetVocabDataAsTurtle() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getVocabData("1.0", null))
+            .header("Accept", "text/turtle"));
+        assertEquals(200, result.status());
+        assertEquals("text/turtle", result.contentType());
+        assertEquals("http://null/data/1.0.ttl", result.header("Content-Location"));
+        assertEquals(getResource("data/1.0.ttl"), contentAsString(result));
+      }
+    });
+
+  }
+
   private String getResource(String file) {
+
     InputStream in = ClassLoader.getSystemResourceAsStream(file);
     try {
       return IOUtils.toString(in, "UTF-8");
@@ -60,6 +93,7 @@ public class ApplicationTest {
       Logger.error(e.toString());
       return null;
     }
+
   }
 
 }

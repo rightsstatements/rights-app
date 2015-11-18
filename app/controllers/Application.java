@@ -50,4 +50,20 @@ public class Application extends Controller {
 
   }
 
+  public static Result getVocab(String version) {
+    return redirect(routes.Application.getVocabData(version, null).absoluteURL(request()));
+  }
+
+  public static Result getVocabData(String version, String ext) {
+    OutputStream result = new ByteArrayOutputStream();
+    if ("ttl".equals(ext) || request().accepts("text/turtle")) {
+      rightsStatements.write(result, "TURTLE");
+      response().setHeader("Content-Location", routes.Application.getVocabData(version, "ttl")
+          .absoluteURL(request()));
+      return ok(result.toString()).as("text/turtle");
+    } else {
+      return status(406);
+    }
+  }
+
 }
