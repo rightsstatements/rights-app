@@ -1,0 +1,27 @@
+@prefix cc:    <http://creativecommons.org/ns#> .
+@prefix schema: <http://schema.org/> .
+@prefix premiscopy: <http://id.loc.gov/vocabulary/preservation/copyrightStatus/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype: <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix p3p:   <http://www.w3.org/2002/01/p3prdfv1#> .
+@prefix edm:   <http://www.europeana.eu/schemas/edm/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix odrl:  <http://www.w3c.org/community/odrl/two/vocab/2.1/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:    <http://purl.org/dc/elements/1.1/> .
+
+<http://rightsstatements.org/vocab/InC/1.0/>
+        a                  dcterms:RightsStatement , skos:Concept ;
+        dc:identifier      "InC" ;
+        dcterms:creator    <http://rightsstatements.org/vocab/irswg> ;
+        dcterms:modified   "2015-10-16" ;
+        owl:versionInfo    "1.0" ;
+        skos:closeMatch    <http://www.europeana.eu/rights/rr-f/> ;
+        skos:definition    "This Item is protected by copyright and/or related rights.\n\n  You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use.\n\n  For other uses you need to obtain permission from the rights-holder(s)."@en ;
+        skos:inScheme      <http://rightsstatements.org/vocab/1.0/> ;
+        skos:note          "You may find additional information about the copyright status of the Item on the website of the organization that has made the Item available."@en , "Unless expressly stated otherwise, the organization that has made this Item available makes no warranties about the Item and cannot guarantee the accuracy of this Rights Statement. You are responsible for your own use."@en , "You may need to obtain other permissions for your intended use. For example, other rights such as publicity, privacy or moral rights may limit how you may use the material."@en ;
+        skos:prefLabel     "In Copyright"@en ;
+        skos:relatedMatch  premiscopy:cpr ;
+        skos:scopeNote     "This Rights Statement can be used for an Item that is in copyright. Using this statement implies that the organization making this Item available has determined that the Item is in copyright and either is the rights­holder, has obtained permission from the rights­holder(s) to make the Work available, or makes the Work available under an exception or limitation to copyright (including Fair Use) that entitles it to make the Work available."@en .
