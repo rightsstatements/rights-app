@@ -1,0 +1,71 @@
+{
+  "@id" : "http://rightsstatements.org/vocab/InC/1.0/",
+  "@type" : [ "dcterms:RightsStatement", "skos:Concept" ],
+  "identifier" : "InC",
+  "creator" : "http://rightsstatements.org/vocab/irswg",
+  "modified" : "2015-10-16",
+  "versionInfo" : "1.0",
+  "closeMatch" : "http://www.europeana.eu/rights/rr-f/",
+  "definition" : {
+    "@language" : "en",
+    "@value" : "This Item is protected by copyright and/or related rights.\n\n  You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use.\n\n  For other uses you need to obtain permission from the rights-holder(s)."
+  },
+  "inScheme" : "http://rightsstatements.org/vocab/1.0/",
+  "note" : [ {
+    "@language" : "en",
+    "@value" : "You may find additional information about the copyright status of the Item on the website of the organization that has made the Item available."
+  }, {
+    "@language" : "en",
+    "@value" : "Unless expressly stated otherwise, the organization that has made this Item available makes no warranties about the Item and cannot guarantee the accuracy of this Rights Statement. You are responsible for your own use."
+  }, {
+    "@language" : "en",
+    "@value" : "You may need to obtain other permissions for your intended use. For example, other rights such as publicity, privacy or moral rights may limit how you may use the material."
+  } ],
+  "prefLabel" : {
+    "@language" : "en",
+    "@value" : "In Copyright"
+  },
+  "relatedMatch" : "premiscopy:cpr",
+  "scopeNote" : {
+    "@language" : "en",
+    "@value" : "This Rights Statement can be used for an Item that is in copyright. Using this statement implies that the organization making this Item available has determined that the Item is in copyright and either is the rights­holder, has obtained permission from the rights­holder(s) to make the Work available, or makes the Work available under an exception or limitation to copyright (including Fair Use) that entitles it to make the Work available."
+  },
+  "@context" : {
+    "note" : "http://www.w3.org/2004/02/skos/core#note",
+    "creator" : {
+      "@id" : "http://purl.org/dc/terms/creator",
+      "@type" : "@id"
+    },
+    "modified" : "http://purl.org/dc/terms/modified",
+    "relatedMatch" : {
+      "@id" : "http://www.w3.org/2004/02/skos/core#relatedMatch",
+      "@type" : "@id"
+    },
+    "prefLabel" : "http://www.w3.org/2004/02/skos/core#prefLabel",
+    "definition" : "http://www.w3.org/2004/02/skos/core#definition",
+    "scopeNote" : "http://www.w3.org/2004/02/skos/core#scopeNote",
+    "identifier" : "http://purl.org/dc/elements/1.1/identifier",
+    "closeMatch" : {
+      "@id" : "http://www.w3.org/2004/02/skos/core#closeMatch",
+      "@type" : "@id"
+    },
+    "inScheme" : {
+      "@id" : "http://www.w3.org/2004/02/skos/core#inScheme",
+      "@type" : "@id"
+    },
+    "versionInfo" : "http://www.w3.org/2002/07/owl#versionInfo",
+    "cc" : "http://creativecommons.org/ns#",
+    "schema" : "http://schema.org/",
+    "premiscopy" : "http://id.loc.gov/vocabulary/preservation/copyrightStatus/",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "dcmitype" : "http://purl.org/dc/dcmitype/",
+    "skos" : "http://www.w3.org/2004/02/skos/core#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "p3p" : "http://www.w3.org/2002/01/p3prdfv1#",
+    "edm" : "http://www.europeana.eu/schemas/edm/",
+    "dcterms" : "http://purl.org/dc/terms/",
+    "odrl" : "http://www.w3c.org/community/odrl/two/vocab/2.1/",
+    "foaf" : "http://xmlns.com/foaf/0.1/",
+    "dc" : "http://purl.org/dc/elements/1.1/"
+  }
+}

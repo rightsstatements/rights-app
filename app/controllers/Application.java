@@ -1,7 +1,10 @@
 package controllers;
 
+import com.hp.hpl.jena.query.QueryExecutionFactory;
+import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+
 import play.Logger;
 import play.Play;
 import play.mvc.Controller;
@@ -11,6 +14,7 @@ import play.mvc.Result;
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +33,32 @@ public class Application extends Controller {
 
   private static Model rightsStatements = ModelFactory.createDefaultModel().read(Play.application().classloader()
       .getResourceAsStream(Play.application().configuration().getString("rs.source.ttl")), null, "TURTLE");
+
+  public static Result getStatement(String id, String version) {
+    return redirect(routes.Application.getStatementData(id, version, null).absoluteURL(request()));
+  }
+
+  public static Result getStatementData(String id, String version, String ext) throws IOException {
+
+    String statementURI = "http://rightsstatements.org/vocab/%s/%s/";
+    String constructStatement = "CONSTRUCT {<%1$s> ?p ?o} WHERE {<%1$s> ?p ?o}";
+    Model rightsStatement = ModelFactory.createDefaultModel();
+    QueryExecutionFactory.create(QueryFactory.create(String.format(constructStatement,
+        String.format(statementURI, id, version))), rightsStatements).execConstruct(rightsStatement);
+
+    if (rightsStatement.isEmpty()) {
+      return notFound();
+    }
+
+    MimeType mimeType = getMimeType(request(), ext);
+    response().setHeader("Content-Location", routes.Application.getStatementData(id, version,
+        mimeTypeExtensionMap.get(mimeType.toString())).absoluteURL(request()));
+    response().setHeader("Link", "<".concat(routes.Application.getStatementData(id, version, null)
+        .absoluteURL(request())).concat(">; rel=derivedfrom"));
+
+    return getData(rightsStatement, mimeType);
+
+  }
 
   private static Result getData(Model model, MimeType mimeType) {
 
