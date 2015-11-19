@@ -53,6 +53,8 @@ public class Application extends Controller {
     MimeType mimeType = getMimeType(request(), ext);
     response().setHeader("Content-Location", routes.Application.getStatementData(id, version,
         mimeTypeExtensionMap.get(mimeType.toString())).absoluteURL(request()));
+    response().setHeader("Link", "<".concat(routes.Application.getStatementData(id, version, null)
+        .absoluteURL(request())).concat(">; rel=derivedfrom"));
 
     return getData(rightsStatement, mimeType);
 
