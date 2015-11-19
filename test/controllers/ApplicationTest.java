@@ -46,6 +46,7 @@ public class ApplicationTest {
         assertEquals(200, result.status());
         assertEquals("text/turtle", result.contentType());
         assertEquals("http://null/data/1.0.ttl", result.header("Content-Location"));
+        assertEquals("<http://null/data/1.0/>; rel=derivedfrom", result.header("Link"));
         assertEquals(getResource("data/1.0.ttl"), contentAsString(result));
       }
     });
@@ -63,6 +64,7 @@ public class ApplicationTest {
         assertEquals(200, result.status());
         assertEquals("application/ld+json", result.contentType());
         assertEquals("http://null/data/1.0.jsonld", result.header("Content-Location"));
+        assertEquals("<http://null/data/1.0/>; rel=derivedfrom", result.header("Link"));
         assertEquals(getResource("data/1.0.jsonld"), contentAsString(result));
       }
     });
