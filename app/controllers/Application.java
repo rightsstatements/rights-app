@@ -34,6 +34,22 @@ public class Application extends Controller {
   private static Model rightsStatements = ModelFactory.createDefaultModel().read(Play.application().classloader()
       .getResourceAsStream(Play.application().configuration().getString("rs.source.ttl")), null, "TURTLE");
 
+  public static Result getVocab(String version) {
+    return redirect(routes.Application.getVocabData(version, null).absoluteURL(request()));
+  }
+
+  public static Result getVocabData(String version, String ext) {
+
+    MimeType mimeType = getMimeType(request(), ext);
+    response().setHeader("Content-Location", routes.Application.getVocabData(version,
+        mimeTypeExtensionMap.get(mimeType.toString())).absoluteURL(request()));
+    response().setHeader("Link", "<".concat(routes.Application.getVocabData(version, null)
+        .absoluteURL(request())).concat(">; rel=derivedfrom"));
+
+    return getData(rightsStatements, mimeType);
+
+  }
+
   public static Result getStatement(String id, String version) {
     return redirect(routes.Application.getStatementData(id, version, null).absoluteURL(request()));
   }

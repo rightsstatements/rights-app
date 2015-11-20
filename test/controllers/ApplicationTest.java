@@ -21,6 +21,19 @@ import java.io.InputStream;
 public class ApplicationTest {
 
   @Test
+  public void testGetVocab() {
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getVocab("1.0"))
+            .header("Accept", "text/turtle"));
+        assertEquals(303, result.status());
+        assertEquals("http://null/data/1.0/", result.redirectLocation());
+      }
+    });
+  }
+
+  @Test
   public void testGetStatement() {
 
     running(fakeApplication(), new Runnable() {
@@ -33,6 +46,22 @@ public class ApplicationTest {
       }
     });
 
+  }
+
+  @Test
+  public void testGetVocabDataAsTurtle() {
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getVocabData("1.0", null))
+            .header("Accept", "text/turtle"));
+        assertEquals(200, result.status());
+        assertEquals("text/turtle", result.contentType());
+        assertEquals("http://null/data/1.0.ttl", result.header("Content-Location"));
+        assertEquals("<http://null/data/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals(getResource("data/1.0.ttl"), contentAsString(result));
+      }
+    });
   }
 
   @Test
@@ -51,6 +80,22 @@ public class ApplicationTest {
       }
     });
 
+  }
+
+  @Test
+  public void testGetVocabDataAsJson() {
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getVocabData("1.0", null))
+            .header("Accept", "application/ld+json"));
+        assertEquals(200, result.status());
+        assertEquals("application/ld+json", result.contentType());
+        assertEquals("http://null/data/1.0.jsonld", result.header("Content-Location"));
+        assertEquals("<http://null/data/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals(getResource("data/1.0.jsonld"), contentAsString(result));
+      }
+    });
   }
 
   @Test
