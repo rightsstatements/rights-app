@@ -22,15 +22,24 @@ public class ApplicationTest {
 
   @Test
   public void testGetVocab() {
+
     running(fakeApplication(), new Runnable() {
       @Override
       public void run() {
-        Result result = route(fakeRequest(routes.Application.getVocab("1.0"))
+
+        Result data = route(fakeRequest(routes.Application.getVocab("1.0"))
             .header("Accept", "text/turtle"));
-        assertEquals(303, result.status());
-        assertEquals("http://null/data/1.0/", result.redirectLocation());
+        assertEquals(303, data.status());
+        assertEquals("http://null/data/1.0/", data.redirectLocation());
+
+        Result page = route(fakeRequest(routes.Application.getVocab("1.0"))
+            .header("Accept", "text/html"));
+        assertEquals(303, page.status());
+        assertEquals("http://null/page/1.0/", page.redirectLocation());
+
       }
     });
+
   }
 
   @Test
@@ -39,10 +48,17 @@ public class ApplicationTest {
     running(fakeApplication(), new Runnable() {
       @Override
       public void run() {
-        Result result = route(fakeRequest(routes.Application.getStatement("InC", "1.0"))
+
+        Result data = route(fakeRequest(routes.Application.getStatement("InC", "1.0"))
             .header("Accept", "text/turtle"));
-        assertEquals(303, result.status());
-        assertEquals("http://null/data/InC/1.0/", result.redirectLocation());
+        assertEquals(303, data.status());
+        assertEquals("http://null/data/InC/1.0/", data.redirectLocation());
+
+        Result page = route(fakeRequest(routes.Application.getStatement("InC", "1.0"))
+            .header("Accept", "text/html"));
+        assertEquals(303, page.status());
+        assertEquals("http://null/page/InC/1.0/", page.redirectLocation());
+
       }
     });
 
@@ -50,6 +66,7 @@ public class ApplicationTest {
 
   @Test
   public void testGetVocabDataAsTurtle() {
+
     running(fakeApplication(), new Runnable() {
       @Override
       public void run() {
@@ -62,6 +79,7 @@ public class ApplicationTest {
         assertEquals(getResource("data/1.0.ttl"), contentAsString(result));
       }
     });
+
   }
 
   @Test
@@ -84,6 +102,7 @@ public class ApplicationTest {
 
   @Test
   public void testGetVocabDataAsJson() {
+
     running(fakeApplication(), new Runnable() {
       @Override
       public void run() {
@@ -96,6 +115,7 @@ public class ApplicationTest {
         assertEquals(getResource("data/1.0.jsonld"), contentAsString(result));
       }
     });
+
   }
 
   @Test
@@ -111,6 +131,40 @@ public class ApplicationTest {
         assertEquals("http://null/data/InC/1.0.jsonld", result.header("Content-Location"));
         assertEquals("<http://null/data/InC/1.0/>; rel=derivedfrom", result.header("Link"));
         assertEquals(getResource("data/InC/1.0.jsonld"), contentAsString(result));
+      }
+    });
+
+  }
+
+  @Test
+  public void testGetVocabPage() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getVocabPage("1.0"))
+            .header("Accept", "text/html"));
+        assertEquals(200, result.status());
+        assertEquals("text/html", result.contentType());
+        assertEquals("<http://null/page/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals(getResource("page/1.0"), contentAsString(result));
+      }
+    });
+
+  }
+
+  @Test
+  public void testGetStatementPage() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getStatementPage("InC", "1.0"))
+            .header("Accept", "text/html"));
+        assertEquals(200, result.status());
+        assertEquals("text/html", result.contentType());
+        assertEquals("<http://null/page/InC/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals(getResource("page/InC/1.0"), contentAsString(result));
       }
     });
 
