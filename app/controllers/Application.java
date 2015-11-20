@@ -35,7 +35,13 @@ public class Application extends Controller {
       .getResourceAsStream(Play.application().configuration().getString("rs.source.ttl")), null, "TURTLE");
 
   public static Result getVocab(String version) {
-    return redirect(routes.Application.getVocabData(version, null).absoluteURL(request()));
+
+    if (request().accepts("text/html")) {
+      return redirect(routes.Application.getVocabPage(version).absoluteURL(request()));
+    } else {
+      return redirect(routes.Application.getVocabData(version, null).absoluteURL(request()));
+    }
+
   }
 
   public static Result getVocabData(String version, String ext) {
@@ -50,8 +56,18 @@ public class Application extends Controller {
 
   }
 
+  public static Result getVocabPage(String version) {
+    return ok();
+  }
+
   public static Result getStatement(String id, String version) {
-    return redirect(routes.Application.getStatementData(id, version, null).absoluteURL(request()));
+
+    if (request().accepts("text/html")) {
+      return redirect(routes.Application.getStatementPage(id, version).absoluteURL(request()));
+    } else {
+      return redirect(routes.Application.getStatementData(id, version, null).absoluteURL(request()));
+    }
+
   }
 
   public static Result getStatementData(String id, String version, String ext) throws IOException {
@@ -74,6 +90,10 @@ public class Application extends Controller {
 
     return getData(rightsStatement, mimeType);
 
+  }
+
+  public static Result getStatementPage(String id, String version) {
+    return ok();
   }
 
   private static Result getData(Model model, MimeType mimeType) {
