@@ -1,0 +1,102 @@
+<table class="ui celled table">
+
+    <thead>
+        <tr>
+            <th colspan="2">{{a @id}}</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{#if title}}
+            <tr>
+                <td>Title</td>
+                <td>{{title.@value}}</td>
+            </tr>
+        {{/if}}
+        {{#if name}}
+            <tr>
+                <td>Name</td>
+                <td>{{name.@value}}</td>
+            </tr>
+        {{/if}}
+        {{#if prefLabel}}
+            <tr>
+                <td>PrefLabel</td>
+                <td>{{prefLabel.@value}}</td>
+            </tr>
+        {{/if}}
+        {{#if identifier}}
+            <tr>
+                <td>Identifier</td>
+                <td>{{identifier}}</td>
+            </tr>
+        {{/if}}
+        {{#if @type}}
+            <tr>
+                <td>Type</td>
+                <td><ul>{{#@type}}<li>{{.}}</li>{{/@type}}</ul></td>
+            </tr>
+        {{/if}}
+        {{#if member}}
+            <tr>
+                <td>Member</td>
+                <td><ul>{{#member}}<li>{{a .}}</li>{{/member}}</ul></td>
+            </tr>
+        {{/if}}
+        {{#if note}}
+            <tr>
+                <td>Note</td>
+                <td><ul>{{#note}}<li>{{@value}}</li>{{/note}}</ul></td>
+            </tr>
+        {{/if}}
+        {{#if creator}}
+            <tr>
+                <td>Creator</td>
+                <td>{{a creator}}</td>
+            </tr>
+        {{/if}}
+        {{#if inScheme}}
+            <tr>
+                <td>InScheme</td>
+                <td>{{a inScheme}}</td>
+            </tr>
+        {{/if}}
+        {{#if versionInfo}}
+            <tr>
+                <td>VersionInfo</td>
+                <td>{{versionInfo}}</td>
+            </tr>
+        {{/if}}
+        {{#if closeMatch}}
+            <tr>
+                <td>CloseMatch</td>
+                <td>{{closeMatch}}</td>
+            </tr>
+        {{/if}}
+        {{#if relatedMatch}}
+            <tr>
+                <td>RelatedMatch</td>
+                <td>{{relatedMatch}}</td>
+            </tr>
+        {{/if}}
+        {{#if modified}}
+            <tr>
+                <td>Modified</td>
+                <td>{{modified}}</td>
+            </tr>
+        {{/if}}
+        {{#if definition}}
+            <tr>
+                <td>Definition</td>
+                <td>{{definition.@value}}</td>
+            </tr>
+        {{/if}}
+        {{#if scopeNote}}
+            <tr>
+                <td>ScopeNote</td>
+                <td>{{scopeNote.@value}}</td>
+            </tr>
+        {{/if}}
+    </tbody>
+
+</table>
