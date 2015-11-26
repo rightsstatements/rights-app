@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.io.TemplateLoader;
+import com.google.inject.Inject;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.rdf.model.Model;
@@ -11,10 +12,10 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 import helpers.ResourceTemplateLoader;
 import play.Logger;
-import play.Play;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import services.VocabProvider;
 
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
@@ -37,10 +38,14 @@ public class Application extends Controller {
     mimeTypeExtensionMap.put("application/json", "jsonld");
   }
 
-  private static Model vocab = ModelFactory.createDefaultModel().read(Play.application().classloader()
-      .getResourceAsStream(Play.application().configuration().getString("rs.source.ttl")), null, "TURTLE");
+  private final VocabProvider vocabProvider;
 
-  public static Result getVocab(String version) {
+  @Inject
+  public Application(VocabProvider vocabProvider) {
+    this.vocabProvider = vocabProvider;
+  }
+
+  public Result getVocab(String version) {
 
     if (request().accepts("text/html")) {
       return redirect(routes.Application.getVocabPage(version).absoluteURL(request()));
@@ -50,7 +55,13 @@ public class Application extends Controller {
 
   }
 
-  public static Result getVocabData(String version, String ext) {
+  public Result getVocabData(String version, String ext) {
+
+    Model vocab = getVocabModel(version);
+
+    if (vocab.isEmpty()) {
+      return notFound();
+    }
 
     MimeType mimeType = getMimeType(request(), ext);
     response().setHeader("Content-Location", routes.Application.getVocabData(version,
@@ -62,7 +73,13 @@ public class Application extends Controller {
 
   }
 
-  public static Result getVocabPage(String version) throws IOException {
+  public Result getVocabPage(String version) throws IOException {
+
+    Model vocab = getVocabModel(version);
+
+    if (vocab.isEmpty()) {
+      return notFound();
+    }
 
     response().setHeader("Link", "<".concat(routes.Application.getVocabPage(version)
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
@@ -71,7 +88,7 @@ public class Application extends Controller {
 
   }
 
-  public static Result getStatement(String id, String version) {
+  public Result getStatement(String id, String version) {
 
     if (request().accepts("text/html")) {
       return redirect(routes.Application.getStatementPage(id, version).absoluteURL(request()));
@@ -81,7 +98,7 @@ public class Application extends Controller {
 
   }
 
-  public static Result getStatementData(String id, String version, String ext) throws IOException {
+  public Result getStatementData(String id, String version, String ext) throws IOException {
 
     Model rightsStatement = getStatementModel(id, version);
 
@@ -99,7 +116,7 @@ public class Application extends Controller {
 
   }
 
-  public static Result getStatementPage(String id, String version) throws IOException {
+  public Result getStatementPage(String id, String version) throws IOException {
 
     Model rightsStatement = getStatementModel(id, version);
 
@@ -114,7 +131,7 @@ public class Application extends Controller {
 
   }
 
-  private static Result getData(Model model, MimeType mimeType) {
+  private Result getData(Model model, MimeType mimeType) {
 
     OutputStream result = new ByteArrayOutputStream();
 
@@ -134,7 +151,7 @@ public class Application extends Controller {
 
   }
 
-  private static Result getPage(Model model, String templateFile) throws IOException {
+  private Result getPage(Model model, String templateFile) throws IOException {
 
     OutputStream boas = new ByteArrayOutputStream();
     model.write(boas, "JSON-LD");
@@ -160,19 +177,30 @@ public class Application extends Controller {
 
   }
 
-  private static Model getStatementModel(String id, String version) {
+  private Model getVocabModel(String version) {
 
-    String statementURI = "http://rightsstatements.org/vocab/%s/%s/";
-    String constructStatement = "CONSTRUCT WHERE {<%1$s> ?p ?o}";
-    Model rightsStatement = ModelFactory.createDefaultModel();
-    QueryExecutionFactory.create(QueryFactory.create(String.format(constructStatement,
-        String.format(statementURI, id, version))), vocab).execConstruct(rightsStatement);
+    String constructStatement = "CONSTRUCT WHERE {?s <http://www.w3.org/2002/07/owl#versionInfo> \"%1$s\" . ?s ?p ?o}";
+    Model vocab = ModelFactory.createDefaultModel();
+    QueryExecutionFactory.create(QueryFactory.create(String.format(constructStatement, version)),
+        vocabProvider.getVocab()).execConstruct(vocab);
 
-    return rightsStatement;
+    return vocab;
 
   }
 
-  private static MimeType getMimeType(Http.Request request, String ext) {
+  private Model getStatementModel(String id, String version) {
+
+    String constructStatement = "CONSTRUCT WHERE {?s <http://www.w3.org/2002/07/owl#versionInfo> \"%1$s\" ."
+        .concat("?s <http://purl.org/dc/elements/1.1/identifier> \"%2$s\" . ?s ?p ?o}");
+    Model statement = ModelFactory.createDefaultModel();
+    QueryExecutionFactory.create(QueryFactory.create(String.format(constructStatement, version, id)),
+        vocabProvider.getVocab()).execConstruct(statement);
+
+    return statement;
+
+  }
+
+  private MimeType getMimeType(Http.Request request, String ext) {
 
     MimeType mimeType;
 
