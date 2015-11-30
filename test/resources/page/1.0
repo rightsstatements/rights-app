@@ -420,11 +420,11 @@
       "@type": "skos:Collection",
       "versionInfo": "1.0",
       "member": [
-        "http://rightsstatements.org/vocab/InC-NC/1.0/",
-        "http://rightsstatements.org/vocab/InC-EDU/1.0/",
-        "http://rightsstatements.org/vocab/InC-RUU/1.0/",
+        "http://rightsstatements.org/vocab/InC/1.0/",
         "http://rightsstatements.org/vocab/InC-OW-EU/1.0/",
-        "http://rightsstatements.org/vocab/InC/1.0/"
+        "http://rightsstatements.org/vocab/InC-RUU/1.0/",
+        "http://rightsstatements.org/vocab/InC-EDU/1.0/",
+        "http://rightsstatements.org/vocab/InC-NC/1.0/"
       ],
       "prefLabel": {
         "@language": "en",
@@ -436,8 +436,8 @@
       "@type": "skos:Collection",
       "versionInfo": "1.0",
       "member": [
-        "http://rightsstatements.org/vocab/CNE/1.0/",
-        "http://rightsstatements.org/vocab/NKC/1.0/"
+        "http://rightsstatements.org/vocab/NKC/1.0/",
+        "http://rightsstatements.org/vocab/CNE/1.0/"
       ],
       "prefLabel": {
         "@language": "en",
@@ -449,57 +449,40 @@
       "@type": "skos:Collection",
       "versionInfo": "1.0",
       "member": [
-        "http://rightsstatements.org/vocab/NoC-OKLR/1.0/",
+        "http://rightsstatements.org/vocab/OOC-NC/1.0/",
         "http://rightsstatements.org/vocab/NoC-CR/1.0/",
-        "http://rightsstatements.org/vocab/OOC-NC/1.0/"
+        "http://rightsstatements.org/vocab/NoC-OKLR/1.0/"
       ],
       "prefLabel": {
         "@language": "en",
         "@value": "Rights Statements for works that are not in copyright"
       }
-    },
-    {
-      "@id": "http://rightsstatements.org/vocab/irswg",
-      "@type": [
-        "foaf:Group",
-        "edm:Agent"
-      ],
-      "prefLabel": {
-        "@language": "en",
-        "@value": "International Rights Statements Working Group"
-      },
-      "homepage": "http://rightsstatements.org/",
-      "name": {
-        "@language": "en",
-        "@value": "International Rights Statements Working Group"
-      }
     }
   ],
   "@context": {
-    "versionInfo": "http://www.w3.org/2002/07/owl#versionInfo",
-    "identifier": "http://purl.org/dc/elements/1.1/identifier",
+    "note": "http://www.w3.org/2004/02/skos/core#note",
     "creator": {
       "@id": "http://purl.org/dc/terms/creator",
-      "@type": "@id"
-    },
-    "title": "http://purl.org/dc/terms/title",
-    "modified": "http://purl.org/dc/terms/modified",
-    "closeMatch": {
-      "@id": "http://www.w3.org/2004/02/skos/core#closeMatch",
       "@type": "@id"
     },
     "inScheme": {
       "@id": "http://www.w3.org/2004/02/skos/core#inScheme",
       "@type": "@id"
     },
+    "prefLabel": "http://www.w3.org/2004/02/skos/core#prefLabel",
+    "versionInfo": "http://www.w3.org/2002/07/owl#versionInfo",
+    "scopeNote": "http://www.w3.org/2004/02/skos/core#scopeNote",
+    "modified": "http://purl.org/dc/terms/modified",
     "definition": "http://www.w3.org/2004/02/skos/core#definition",
-    "note": "http://www.w3.org/2004/02/skos/core#note",
+    "identifier": "http://purl.org/dc/elements/1.1/identifier",
     "relatedMatch": {
       "@id": "http://www.w3.org/2004/02/skos/core#relatedMatch",
       "@type": "@id"
     },
-    "prefLabel": "http://www.w3.org/2004/02/skos/core#prefLabel",
-    "scopeNote": "http://www.w3.org/2004/02/skos/core#scopeNote",
+    "closeMatch": {
+      "@id": "http://www.w3.org/2004/02/skos/core#closeMatch",
+      "@type": "@id"
+    },
     "prohibits": {
       "@id": "http://creativecommons.org/ns#prohibits",
       "@type": "@id"
@@ -508,11 +491,7 @@
       "@id": "http://www.w3.org/2004/02/skos/core#member",
       "@type": "@id"
     },
-    "homepage": {
-      "@id": "http://xmlns.com/foaf/0.1/homepage",
-      "@type": "@id"
-    },
-    "name": "http://xmlns.com/foaf/0.1/name",
+    "title": "http://purl.org/dc/terms/title",
     "cc": "http://creativecommons.org/ns#",
     "schema": "http://schema.org/",
     "premiscopy": "http://id.loc.gov/vocabulary/preservation/copyrightStatus/",
@@ -1505,7 +1484,7 @@ Please refer to the organization that has made the Item available for more infor
         
             <tr>
                 <td>Member</td>
-                <td><ul><li><a href="http://rightsstatements.org/vocab/InC-NC/1.0/">http://rightsstatements.org/vocab/InC-NC/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/InC-EDU/1.0/">http://rightsstatements.org/vocab/InC-EDU/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/InC-RUU/1.0/">http://rightsstatements.org/vocab/InC-RUU/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/InC-OW-EU/1.0/">http://rightsstatements.org/vocab/InC-OW-EU/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/InC/1.0/">http://rightsstatements.org/vocab/InC/1.0/</a></li></ul></td>
+                <td><ul><li><a href="http://rightsstatements.org/vocab/InC/1.0/">http://rightsstatements.org/vocab/InC/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/InC-OW-EU/1.0/">http://rightsstatements.org/vocab/InC-OW-EU/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/InC-RUU/1.0/">http://rightsstatements.org/vocab/InC-RUU/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/InC-EDU/1.0/">http://rightsstatements.org/vocab/InC-EDU/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/InC-NC/1.0/">http://rightsstatements.org/vocab/InC-NC/1.0/</a></li></ul></td>
             </tr>
         
         
@@ -1554,7 +1533,7 @@ Please refer to the organization that has made the Item available for more infor
         
             <tr>
                 <td>Member</td>
-                <td><ul><li><a href="http://rightsstatements.org/vocab/CNE/1.0/">http://rightsstatements.org/vocab/CNE/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/NKC/1.0/">http://rightsstatements.org/vocab/NKC/1.0/</a></li></ul></td>
+                <td><ul><li><a href="http://rightsstatements.org/vocab/NKC/1.0/">http://rightsstatements.org/vocab/NKC/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/CNE/1.0/">http://rightsstatements.org/vocab/CNE/1.0/</a></li></ul></td>
             </tr>
         
         
@@ -1603,7 +1582,7 @@ Please refer to the organization that has made the Item available for more infor
         
             <tr>
                 <td>Member</td>
-                <td><ul><li><a href="http://rightsstatements.org/vocab/NoC-OKLR/1.0/">http://rightsstatements.org/vocab/NoC-OKLR/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/NoC-CR/1.0/">http://rightsstatements.org/vocab/NoC-CR/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/OOC-NC/1.0/">http://rightsstatements.org/vocab/OOC-NC/1.0/</a></li></ul></td>
+                <td><ul><li><a href="http://rightsstatements.org/vocab/OOC-NC/1.0/">http://rightsstatements.org/vocab/OOC-NC/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/NoC-CR/1.0/">http://rightsstatements.org/vocab/NoC-CR/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/NoC-OKLR/1.0/">http://rightsstatements.org/vocab/NoC-OKLR/1.0/</a></li></ul></td>
             </tr>
         
         
@@ -1614,50 +1593,6 @@ Please refer to the organization that has made the Item available for more infor
                 <td>VersionInfo</td>
                 <td>1.0</td>
             </tr>
-        
-        
-        
-        
-        
-        
-    </tbody>
-
-</table>
-
-
-    <table class="ui celled table">
-
-    <thead>
-        <tr>
-            <th colspan="2"><a href="http://rightsstatements.org/vocab/irswg">http://rightsstatements.org/vocab/irswg</a></th>
-        </tr>
-    </thead>
-
-    <tbody>
-        
-        
-            <tr>
-                <td>Name</td>
-                <td>International Rights Statements Working Group</td>
-            </tr>
-        
-        
-            <tr>
-                <td>PrefLabel</td>
-                <td>International Rights Statements Working Group</td>
-            </tr>
-        
-        
-        
-            <tr>
-                <td>Type</td>
-                <td><ul><li>foaf:Group</li><li>edm:Agent</li></ul></td>
-            </tr>
-        
-        
-        
-        
-        
         
         
         
