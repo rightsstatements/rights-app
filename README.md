@@ -13,8 +13,8 @@ Init and update submodules
 
     $ git submodule init && git submodule update
 
-Make sure you have a
-[JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+rights-app is built with [Play Framework](https://www.playframework.com/) 2.4.3 so you nedd to make sure to have the
+[Java 8 JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 and [sbt](http://www.scala-sbt.org/download.html) installed. Then
 
     $ sbt run
