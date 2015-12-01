@@ -522,7 +522,7 @@
         
             <tr>
                 <td>Title</td>
-                <td>RightsStatements.org Standardized International Rights Statements</td>
+                <td><ul><li>RightsStatements.org Standardized International Rights Statements</li></ul></td>
             </tr>
         
         
@@ -578,7 +578,7 @@
         
             <tr>
                 <td>PrefLabel</td>
-                <td>Copyright Not Evaluated</td>
+                <td><ul><li>Copyright Not Evaluated</li></ul></td>
             </tr>
         
         
@@ -639,17 +639,17 @@
         
             <tr>
                 <td>Definition</td>
-                <td>The copyright and related rights status of this Item has not been evaluated.
+                <td><ul><li>The copyright and related rights status of this Item has not been evaluated.
 
 Please refer to the organization that has made the Item available for more information.
 
-You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use.</td>
+You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use.</li></ul></td>
             </tr>
         
         
             <tr>
                 <td>ScopeNote</td>
-                <td>This Rights Statement should be used for Items for which the copyright status is unknown and for which the data provider has not undertaken an effort to determine the copyright status of the work.</td>
+                <td><ul><li>This Rights Statement should be used for Items for which the copyright status is unknown and for which the data provider has not undertaken an effort to determine the copyright status of the work.</li></ul></td>
             </tr>
         
     </tbody>
@@ -671,7 +671,7 @@ You are free to use this Item in any way that is permitted by the copyright and 
         
             <tr>
                 <td>PrefLabel</td>
-                <td>In Copyright - Educational Use Permitted</td>
+                <td><ul><li>In Copyright - Educational Use Permitted</li></ul></td>
             </tr>
         
         
@@ -727,17 +727,17 @@ You are free to use this Item in any way that is permitted by the copyright and 
         
             <tr>
                 <td>Definition</td>
-                <td>This Item is protected by copyright and/or related rights.
+                <td><ul><li>This Item is protected by copyright and/or related rights.
 
 You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use. In addition, no permission is required from the rights-holder(s) for educational uses.
 
-For other uses, you need to obtain permission from the rights-holder(s).</td>
+For other uses, you need to obtain permission from the rights-holder(s).</li></ul></td>
             </tr>
         
         
             <tr>
                 <td>ScopeNote</td>
-                <td>This Rights Statement can be used only for copyrighted Items for which the organization making the Item available is the rights-holder or has been explicitly authorized by the rights-holder(s) to allow third parties to use the Work for educational purposes without first obtaining permission.</td>
+                <td><ul><li>This Rights Statement can be used only for copyrighted Items for which the organization making the Item available is the rights-holder or has been explicitly authorized by the rights-holder(s) to allow third parties to use the Work for educational purposes without first obtaining permission.</li></ul></td>
             </tr>
         
     </tbody>
@@ -759,7 +759,7 @@ For other uses, you need to obtain permission from the rights-holder(s).</td>
         
             <tr>
                 <td>PrefLabel</td>
-                <td>In Copyright - NonCommercial Use Permitted</td>
+                <td><ul><li>In Copyright - NonCommercial Use Permitted</li></ul></td>
             </tr>
         
         
@@ -820,17 +820,17 @@ For other uses, you need to obtain permission from the rights-holder(s).</td>
         
             <tr>
                 <td>Definition</td>
-                <td>This Item is protected by copyright and/or related rights.
+                <td><ul><li>This Item is protected by copyright and/or related rights.
 
 You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use. In addition, no permission is required from the rights-holder(s) for non-commercial uses.
 
-For other uses you need to obtain permission from the rightsholder(s).</td>
+For other uses you need to obtain permission from the rightsholder(s).</li></ul></td>
             </tr>
         
         
             <tr>
                 <td>ScopeNote</td>
-                <td>This Rights Statement can be used only for copyrighted Items for which the organization making  the Item available is the rights-holder or has been explicitly authorized by the rights-holder(s) to allow third parties to use the Work for non-commercial purposes without obtaining permission first.</td>
+                <td><ul><li>This Rights Statement can be used only for copyrighted Items for which the organization making  the Item available is the rights-holder or has been explicitly authorized by the rights-holder(s) to allow third parties to use the Work for non-commercial purposes without obtaining permission first.</li></ul></td>
             </tr>
         
     </tbody>
@@ -852,7 +852,7 @@ For other uses you need to obtain permission from the rightsholder(s).</td>
         
             <tr>
                 <td>PrefLabel</td>
-                <td>In Copyright - EU Orphan Work</td>
+                <td><ul><li>In Copyright - EU Orphan Work</li></ul></td>
             </tr>
         
         
@@ -913,17 +913,17 @@ For other uses you need to obtain permission from the rightsholder(s).</td>
         
             <tr>
                 <td>Definition</td>
-                <td>This Item has been identified as an orphan work in the country of first publication and in line with Directive 2012/28/EU of the European Parliament and of the Council of 25 October 2012 on certain permitted uses of orphan works.
+                <td><ul><li>This Item has been identified as an orphan work in the country of first publication and in line with Directive 2012/28/EU of the European Parliament and of the Council of 25 October 2012 on certain permitted uses of orphan works.
 
   For this Item, either (a) no rights-holder(s) have been identified or (b) one or more rights-holder(s) have been identified but none have been located even though a diligent search for the rights-holder(s) has been conducted. The results of the diligent search are available in the EU Orphan Works Database.
 
-  You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use.</td>
+  You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use.</li></ul></td>
             </tr>
         
         
             <tr>
                 <td>ScopeNote</td>
-                <td>This Rights Statement is intended for use with Works that have been identified as Orphan Works in accordance with Directive 2012/28/EU of the European Parliament and of the Council of 25 October 2012 on certain permitted uses of Orphan Works. It can only be applied to Works that are covered by the Directive: Works published in the form of books, journals, newspapers, magazines or other writings as well as cinematographic or audiovisual works and phonograms (note: this excludes photography and visual arts). It can only be applied by data providers that are beneficiaries of the Directive: publicly accessible libraries, educational establishments and museums, archives, film or audio heritage institutions and public-service broadcasting organizations, established in one of the EU member states. The beneficiary is also expected to have registered the work in the EU Orphan Works Database maintained by OHIM.</td>
+                <td><ul><li>This Rights Statement is intended for use with Works that have been identified as Orphan Works in accordance with Directive 2012/28/EU of the European Parliament and of the Council of 25 October 2012 on certain permitted uses of Orphan Works. It can only be applied to Works that are covered by the Directive: Works published in the form of books, journals, newspapers, magazines or other writings as well as cinematographic or audiovisual works and phonograms (note: this excludes photography and visual arts). It can only be applied by data providers that are beneficiaries of the Directive: publicly accessible libraries, educational establishments and museums, archives, film or audio heritage institutions and public-service broadcasting organizations, established in one of the EU member states. The beneficiary is also expected to have registered the work in the EU Orphan Works Database maintained by OHIM.</li></ul></td>
             </tr>
         
     </tbody>
@@ -945,7 +945,7 @@ For other uses you need to obtain permission from the rightsholder(s).</td>
         
             <tr>
                 <td>PrefLabel</td>
-                <td>In Copyright - In Copyright - Rights-holder(s) Unlocatable or Unidentifiable</td>
+                <td><ul><li>In Copyright - In Copyright - Rights-holder(s) Unlocatable or Unidentifiable</li></ul></td>
             </tr>
         
         
@@ -1001,15 +1001,15 @@ For other uses you need to obtain permission from the rightsholder(s).</td>
         
             <tr>
                 <td>Definition</td>
-                <td>This Item is protected by copyright and/or related rights. However, for this Item, either (a) no rights-holder(s) have been identified or (b) one or more rights-holder(s) have been identified but none have been located.
+                <td><ul><li>This Item is protected by copyright and/or related rights. However, for this Item, either (a) no rights-holder(s) have been identified or (b) one or more rights-holder(s) have been identified but none have been located.
 
-You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use.</td>
+You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use.</li></ul></td>
             </tr>
         
         
             <tr>
                 <td>ScopeNote</td>
-                <td>This Rights Statement is intended for use with an Item that has been identified as in copyright but for which no rights-holder(s) has been identified or located after some reasonable investigation. This Rights Statement should only be used if the data provider is reasonably sure that the work is in copyright. This Rights Statement is not intended for use by EU-based data providers who have identified works as Orphan Works in accordance with the EU Orphan Works Directive (they must use InC-OW-EU instead).</td>
+                <td><ul><li>This Rights Statement is intended for use with an Item that has been identified as in copyright but for which no rights-holder(s) has been identified or located after some reasonable investigation. This Rights Statement should only be used if the data provider is reasonably sure that the work is in copyright. This Rights Statement is not intended for use by EU-based data providers who have identified works as Orphan Works in accordance with the EU Orphan Works Directive (they must use InC-OW-EU instead).</li></ul></td>
             </tr>
         
     </tbody>
@@ -1031,7 +1031,7 @@ You are free to use this Item in any way that is permitted by the copyright and 
         
             <tr>
                 <td>PrefLabel</td>
-                <td>In Copyright</td>
+                <td><ul><li>In Copyright</li></ul></td>
             </tr>
         
         
@@ -1092,17 +1092,17 @@ You are free to use this Item in any way that is permitted by the copyright and 
         
             <tr>
                 <td>Definition</td>
-                <td>This Item is protected by copyright and/or related rights.
+                <td><ul><li>This Item is protected by copyright and/or related rights.
 
   You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use.
 
-  For other uses you need to obtain permission from the rights-holder(s).</td>
+  For other uses you need to obtain permission from the rights-holder(s).</li></ul></td>
             </tr>
         
         
             <tr>
                 <td>ScopeNote</td>
-                <td>This Rights Statement can be used for an Item that is in copyright. Using this statement implies that the organization making this Item available has determined that the Item is in copyright and either is the rights­holder, has obtained permission from the rights­holder(s) to make the Work available, or makes the Work available under an exception or limitation to copyright (including Fair Use) that entitles it to make the Work available.</td>
+                <td><ul><li>This Rights Statement can be used for an Item that is in copyright. Using this statement implies that the organization making this Item available has determined that the Item is in copyright and either is the rights­holder, has obtained permission from the rights­holder(s) to make the Work available, or makes the Work available under an exception or limitation to copyright (including Fair Use) that entitles it to make the Work available.</li></ul></td>
             </tr>
         
     </tbody>
@@ -1124,7 +1124,7 @@ You are free to use this Item in any way that is permitted by the copyright and 
         
             <tr>
                 <td>PrefLabel</td>
-                <td>No Known Copyright</td>
+                <td><ul><li>No Known Copyright</li></ul></td>
             </tr>
         
         
@@ -1180,17 +1180,17 @@ You are free to use this Item in any way that is permitted by the copyright and 
         
             <tr>
                 <td>Definition</td>
-                <td>The organization that has made the Item available reasonably believes that the Item is not restricted by copyright or related rights, but a conclusive determination could not be made.
+                <td><ul><li>The organization that has made the Item available reasonably believes that the Item is not restricted by copyright or related rights, but a conclusive determination could not be made.
 
 Please refer to the organization that has made the Item available for more information.
 
-You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use.</td>
+You are free to use this Item in any way that is permitted by the copyright and related rights legislation that applies to your use.</li></ul></td>
             </tr>
         
         
             <tr>
                 <td>ScopeNote</td>
-                <td>This Rights Statement should be used for Items for which the copyright status has not been determined conclusively, but for which the data provider has reasonable cause to believe that the work is not covered by copyright or related rights anymore. This Rights Statement should not be used for Orphan Works (which are assumed to be in-copyright) or for Works where the data provider has not undertaken an effort to ascertain the copyright status of the Work.</td>
+                <td><ul><li>This Rights Statement should be used for Items for which the copyright status has not been determined conclusively, but for which the data provider has reasonable cause to believe that the work is not covered by copyright or related rights anymore. This Rights Statement should not be used for Orphan Works (which are assumed to be in-copyright) or for Works where the data provider has not undertaken an effort to ascertain the copyright status of the Work.</li></ul></td>
             </tr>
         
     </tbody>
@@ -1212,7 +1212,7 @@ You are free to use this Item in any way that is permitted by the copyright and 
         
             <tr>
                 <td>PrefLabel</td>
-                <td>No Copyright - Contractual Restrictions</td>
+                <td><ul><li>No Copyright - Contractual Restrictions</li></ul></td>
             </tr>
         
         
@@ -1268,17 +1268,17 @@ You are free to use this Item in any way that is permitted by the copyright and 
         
             <tr>
                 <td>Definition</td>
-                <td>Use of this Item is not restricted by copyright and/or related rights.
+                <td><ul><li>Use of this Item is not restricted by copyright and/or related rights.
 
 As part of the acquisition or digitization of this Item, the organization that has made the Item available is contractually required to limit the use of this Item. Limitations may include, but are not limited to, privacy issues, cultural protections, digitization agreements or donor agreements.
 
-Please refer to the organization that has made the Item available for more information.</td>
+Please refer to the organization that has made the Item available for more information.</li></ul></td>
             </tr>
         
         
             <tr>
                 <td>ScopeNote</td>
-                <td>This Rights Statement can only be used for Items that are in the Public Domain but for which the data provider has entered into contractual agreement that requires it to take steps to restrict third party uses of the Item. In order for this Rights Statement to be conclusive, the data provider must provide a link to a page detailing the the contractual restrictions that apply to the use of the Item.</td>
+                <td><ul><li>This Rights Statement can only be used for Items that are in the Public Domain but for which the data provider has entered into contractual agreement that requires it to take steps to restrict third party uses of the Item. In order for this Rights Statement to be conclusive, the data provider must provide a link to a page detailing the the contractual restrictions that apply to the use of the Item.</li></ul></td>
             </tr>
         
     </tbody>
@@ -1300,7 +1300,7 @@ Please refer to the organization that has made the Item available for more infor
         
             <tr>
                 <td>PrefLabel</td>
-                <td>No Copyright - Other Known Legal Restrictions</td>
+                <td><ul><li>No Copyright - Other Known Legal Restrictions</li></ul></td>
             </tr>
         
         
@@ -1356,17 +1356,17 @@ Please refer to the organization that has made the Item available for more infor
         
             <tr>
                 <td>Definition</td>
-                <td>Use of this Item is not restricted by copyright and/or related rights.
+                <td><ul><li>Use of this Item is not restricted by copyright and/or related rights.
 
 In one or more jurisdictions, laws other than copyright are known to impose restrictions on the use of this Item.
 
-Please refer to the organization that has made the Item available for more information.</td>
+Please refer to the organization that has made the Item available for more information.</li></ul></td>
             </tr>
         
         
             <tr>
                 <td>ScopeNote</td>
-                <td>This Rights Statement should be used for Items that are in the public domain but that cannot be freely re-used as the consequence of known legal restrictions that prevent the data provider from allowing free re-use of the Work, such as cultural heritage or traditional cultural expression protections. In order for this Rights Statement to be conclusive, the data provider must provide a link to a page detailing the the legal restrictions that limit re-use of the Item.</td>
+                <td><ul><li>This Rights Statement should be used for Items that are in the public domain but that cannot be freely re-used as the consequence of known legal restrictions that prevent the data provider from allowing free re-use of the Work, such as cultural heritage or traditional cultural expression protections. In order for this Rights Statement to be conclusive, the data provider must provide a link to a page detailing the the legal restrictions that limit re-use of the Item.</li></ul></td>
             </tr>
         
     </tbody>
@@ -1388,7 +1388,7 @@ Please refer to the organization that has made the Item available for more infor
         
             <tr>
                 <td>PrefLabel</td>
-                <td>Out Of Copyright - Non-Commercial Use Only</td>
+                <td><ul><li>Out Of Copyright - Non-Commercial Use Only</li></ul></td>
             </tr>
         
         
@@ -1439,17 +1439,17 @@ Please refer to the organization that has made the Item available for more infor
         
             <tr>
                 <td>Definition</td>
-                <td>This object has been digitized in a public-private partnership. As part of this partnership, the partners have agreed to limit commercial uses of￼ this digital representation of the object by third parties.￼
+                <td><ul><li>This object has been digitized in a public-private partnership. As part of this partnership, the partners have agreed to limit commercial uses of￼ this digital representation of the object by third parties.￼
 
  You can, without permission, copy, modify, distribute, display, or perform the digital object, for non-commercial uses. For any other permissible uses, please review the terms and conditions of the Data￼ Provider.
 
- In some jurisdictions moral rights of the author may persist beyond the term of copyright. These rights may include the right to be identified as ￼the author and the right to object to derogatory treatments. When using this digital object please respect Europeana&#x27;s usage Guidelines for public domain works.</td>
+ In some jurisdictions moral rights of the author may persist beyond the term of copyright. These rights may include the right to be identified as ￼the author and the right to object to derogatory treatments. When using this digital object please respect Europeana&#x27;s usage Guidelines for public domain works.</li></ul></td>
             </tr>
         
         
             <tr>
                 <td>ScopeNote</td>
-                <td>This Rights Statement can only be used for Works that are in the Public Domain and have been digitized in a public-private partnership as part of which, the partners have agreed to limit commercial uses of ￼this digital representation of the Work by third parties. It has been developed specifically to allow the inclusion of Works that have been digitized as part of the partnerships between European Libraries and Google, but can in theory be applied to works that have been digitized in similar public-private partnerships.</td>
+                <td><ul><li>This Rights Statement can only be used for Works that are in the Public Domain and have been digitized in a public-private partnership as part of which, the partners have agreed to limit commercial uses of ￼this digital representation of the Work by third parties. It has been developed specifically to allow the inclusion of Works that have been digitized as part of the partnerships between European Libraries and Google, but can in theory be applied to works that have been digitized in similar public-private partnerships.</li></ul></td>
             </tr>
         
     </tbody>
@@ -1471,7 +1471,7 @@ Please refer to the organization that has made the Item available for more infor
         
             <tr>
                 <td>PrefLabel</td>
-                <td>Rights Statements for works that are in copyright</td>
+                <td><ul><li>Rights Statements for works that are in copyright</li></ul></td>
             </tr>
         
         
@@ -1520,7 +1520,7 @@ Please refer to the organization that has made the Item available for more infor
         
             <tr>
                 <td>PrefLabel</td>
-                <td>other Rights Statements</td>
+                <td><ul><li>other Rights Statements</li></ul></td>
             </tr>
         
         
@@ -1569,7 +1569,7 @@ Please refer to the organization that has made the Item available for more infor
         
             <tr>
                 <td>PrefLabel</td>
-                <td>Rights Statements for works that are not in copyright</td>
+                <td><ul><li>Rights Statements for works that are not in copyright</li></ul></td>
             </tr>
         
         
