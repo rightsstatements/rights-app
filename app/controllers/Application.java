@@ -12,6 +12,7 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 import helpers.ResourceTemplateLoader;
 import play.Logger;
+import play.Play;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -24,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -48,7 +50,8 @@ public class Application extends Controller {
   public Result getVocab(String version) {
 
     if (request().accepts("text/html")) {
-      return redirect(routes.Application.getVocabPage(version).absoluteURL(request()));
+      Locale locale = getLocale(request(), null);
+      return redirect(routes.Application.getVocabPage(version, locale.getLanguage()).absoluteURL(request()));
     } else {
       return redirect(routes.Application.getVocabData(version, null).absoluteURL(request()));
     }
@@ -73,25 +76,28 @@ public class Application extends Controller {
 
   }
 
-  public Result getVocabPage(String version) throws IOException {
+  public Result getVocabPage(String version, String language) throws IOException {
 
     Model vocab = getVocabModel(version);
+    Locale locale = getLocale(request(), language);
 
     if (vocab.isEmpty()) {
       return notFound();
     }
 
-    response().setHeader("Link", "<".concat(routes.Application.getVocabPage(version)
+    response().setHeader("Link", "<".concat(routes.Application.getVocabPage(version, null)
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
+    response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(vocab, "vocab.hbs");
+    return getPage(vocab, "vocab.hbs", locale.getLanguage());
 
   }
 
   public Result getStatement(String id, String version) {
 
     if (request().accepts("text/html")) {
-      return redirect(routes.Application.getStatementPage(id, version).absoluteURL(request()));
+      Locale locale = getLocale(request(), null);
+      return redirect(routes.Application.getStatementPage(id, version, locale.getLanguage()).absoluteURL(request()));
     } else {
       return redirect(routes.Application.getStatementData(id, version, null).absoluteURL(request()));
     }
@@ -116,18 +122,20 @@ public class Application extends Controller {
 
   }
 
-  public Result getStatementPage(String id, String version) throws IOException {
+  public Result getStatementPage(String id, String version, String language) throws IOException {
 
     Model rightsStatement = getStatementModel(id, version);
+    Locale locale = getLocale(request(), language);
 
     if (rightsStatement.isEmpty()) {
       return notFound();
     }
 
-    response().setHeader("Link", "<".concat(routes.Application.getStatementPage(id, version)
+    response().setHeader("Link", "<".concat(routes.Application.getStatementPage(id, version, null)
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
+    response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(rightsStatement, "statement.hbs");
+    return getPage(rightsStatement, "statement.hbs", locale.getLanguage());
 
   }
 
@@ -151,10 +159,17 @@ public class Application extends Controller {
 
   }
 
-  private Result getPage(Model model, String templateFile) throws IOException {
+  private Result getPage(Model model, String templateFile, String language) throws IOException {
+
+    String constructLocalizedModel = "CONSTRUCT {?s ?p ?o}"
+        .concat("WHERE {?s ?p ?o . FILTER(!isLiteral(?o) || lang(?o) = \"\" || langMatches(lang(?o), \"")
+        .concat(language).concat("\"))}");
+    Model localized = ModelFactory.createDefaultModel();
+    QueryExecutionFactory.create(QueryFactory.create(constructLocalizedModel),
+        model).execConstruct(localized);
 
     OutputStream boas = new ByteArrayOutputStream();
-    model.write(boas, "JSON-LD");
+    localized.write(boas, "JSON-LD");
     Map<?,?> scope = new ObjectMapper().readValue(boas.toString(), HashMap.class);
 
     TemplateLoader loader = new ResourceTemplateLoader();
@@ -226,6 +241,22 @@ public class Application extends Controller {
     }
 
     return mimeType;
+
+  }
+
+  private Locale getLocale(Http.Request request, String language) {
+
+    String code;
+
+    if (language != null) {
+      code = language;
+    } else if (!request.acceptLanguages().isEmpty()) {
+      code = request.acceptLanguages().get(0).language();
+    } else {
+      code = Play.application().configuration().getString("default.language");
+    }
+
+    return new Locale(code);
 
   }
 

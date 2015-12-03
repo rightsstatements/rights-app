@@ -420,11 +420,11 @@
       "@type": "skos:Collection",
       "versionInfo": "1.0",
       "member": [
-        "http://rightsstatements.org/vocab/InC/1.0/",
-        "http://rightsstatements.org/vocab/InC-OW-EU/1.0/",
-        "http://rightsstatements.org/vocab/InC-RUU/1.0/",
+        "http://rightsstatements.org/vocab/InC-NC/1.0/",
         "http://rightsstatements.org/vocab/InC-EDU/1.0/",
-        "http://rightsstatements.org/vocab/InC-NC/1.0/"
+        "http://rightsstatements.org/vocab/InC-RUU/1.0/",
+        "http://rightsstatements.org/vocab/InC-OW-EU/1.0/",
+        "http://rightsstatements.org/vocab/InC/1.0/"
       ],
       "prefLabel": {
         "@language": "en",
@@ -436,8 +436,8 @@
       "@type": "skos:Collection",
       "versionInfo": "1.0",
       "member": [
-        "http://rightsstatements.org/vocab/NKC/1.0/",
-        "http://rightsstatements.org/vocab/CNE/1.0/"
+        "http://rightsstatements.org/vocab/CNE/1.0/",
+        "http://rightsstatements.org/vocab/NKC/1.0/"
       ],
       "prefLabel": {
         "@language": "en",
@@ -449,9 +449,9 @@
       "@type": "skos:Collection",
       "versionInfo": "1.0",
       "member": [
-        "http://rightsstatements.org/vocab/OOC-NC/1.0/",
+        "http://rightsstatements.org/vocab/NoC-OKLR/1.0/",
         "http://rightsstatements.org/vocab/NoC-CR/1.0/",
-        "http://rightsstatements.org/vocab/NoC-OKLR/1.0/"
+        "http://rightsstatements.org/vocab/OOC-NC/1.0/"
       ],
       "prefLabel": {
         "@language": "en",
@@ -1484,7 +1484,7 @@ Please refer to the organization that has made the Item available for more infor
         
             <tr>
                 <td>Member</td>
-                <td><ul><li><a href="http://rightsstatements.org/vocab/InC/1.0/">http://rightsstatements.org/vocab/InC/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/InC-OW-EU/1.0/">http://rightsstatements.org/vocab/InC-OW-EU/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/InC-RUU/1.0/">http://rightsstatements.org/vocab/InC-RUU/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/InC-EDU/1.0/">http://rightsstatements.org/vocab/InC-EDU/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/InC-NC/1.0/">http://rightsstatements.org/vocab/InC-NC/1.0/</a></li></ul></td>
+                <td><ul><li><a href="http://rightsstatements.org/vocab/InC-NC/1.0/">http://rightsstatements.org/vocab/InC-NC/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/InC-EDU/1.0/">http://rightsstatements.org/vocab/InC-EDU/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/InC-RUU/1.0/">http://rightsstatements.org/vocab/InC-RUU/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/InC-OW-EU/1.0/">http://rightsstatements.org/vocab/InC-OW-EU/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/InC/1.0/">http://rightsstatements.org/vocab/InC/1.0/</a></li></ul></td>
             </tr>
         
         
@@ -1533,7 +1533,7 @@ Please refer to the organization that has made the Item available for more infor
         
             <tr>
                 <td>Member</td>
-                <td><ul><li><a href="http://rightsstatements.org/vocab/NKC/1.0/">http://rightsstatements.org/vocab/NKC/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/CNE/1.0/">http://rightsstatements.org/vocab/CNE/1.0/</a></li></ul></td>
+                <td><ul><li><a href="http://rightsstatements.org/vocab/CNE/1.0/">http://rightsstatements.org/vocab/CNE/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/NKC/1.0/">http://rightsstatements.org/vocab/NKC/1.0/</a></li></ul></td>
             </tr>
         
         
@@ -1582,7 +1582,7 @@ Please refer to the organization that has made the Item available for more infor
         
             <tr>
                 <td>Member</td>
-                <td><ul><li><a href="http://rightsstatements.org/vocab/OOC-NC/1.0/">http://rightsstatements.org/vocab/OOC-NC/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/NoC-CR/1.0/">http://rightsstatements.org/vocab/NoC-CR/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/NoC-OKLR/1.0/">http://rightsstatements.org/vocab/NoC-OKLR/1.0/</a></li></ul></td>
+                <td><ul><li><a href="http://rightsstatements.org/vocab/NoC-OKLR/1.0/">http://rightsstatements.org/vocab/NoC-OKLR/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/NoC-CR/1.0/">http://rightsstatements.org/vocab/NoC-CR/1.0/</a></li><li><a href="http://rightsstatements.org/vocab/OOC-NC/1.0/">http://rightsstatements.org/vocab/OOC-NC/1.0/</a></li></ul></td>
             </tr>
         
         
