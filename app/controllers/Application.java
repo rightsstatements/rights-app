@@ -13,6 +13,7 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import helpers.ResourceTemplateLoader;
 import play.Logger;
 import play.Play;
+import play.api.http.MediaRange;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -20,11 +21,13 @@ import services.VocabProvider;
 
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
+import javax.annotation.Nonnull;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -37,7 +40,8 @@ public class Application extends Controller {
   static {
     mimeTypeExtensionMap.put("text/turtle", "ttl");
     mimeTypeExtensionMap.put("application/ld+json", "jsonld");
-    mimeTypeExtensionMap.put("application/json", "jsonld");
+    mimeTypeExtensionMap.put("application/json", "json");
+    mimeTypeExtensionMap.put("*/*", "json");
   }
 
   private final VocabProvider vocabProvider;
@@ -58,7 +62,7 @@ public class Application extends Controller {
 
   }
 
-  public Result getVocabData(String version, String ext) {
+  public Result getVocabData(String version, String extension) {
 
     Model vocab = getVocabModel(version);
 
@@ -66,7 +70,7 @@ public class Application extends Controller {
       return notFound();
     }
 
-    MimeType mimeType = getMimeType(request(), ext);
+    MimeType mimeType = getMimeType(request(), extension);
     response().setHeader("Content-Location", routes.Application.getVocabData(version,
         mimeTypeExtensionMap.get(mimeType.toString())).absoluteURL(request()));
     response().setHeader("Link", "<".concat(routes.Application.getVocabData(version, null)
@@ -104,7 +108,7 @@ public class Application extends Controller {
 
   }
 
-  public Result getStatementData(String id, String version, String ext) throws IOException {
+  public Result getStatementData(String id, String version, String extension) throws IOException {
 
     Model rightsStatement = getStatementModel(id, version);
 
@@ -112,7 +116,7 @@ public class Application extends Controller {
       return notFound();
     }
 
-    MimeType mimeType = getMimeType(request(), ext);
+    MimeType mimeType = getMimeType(request(), extension);
     response().setHeader("Content-Location", routes.Application.getStatementData(id, version,
         mimeTypeExtensionMap.get(mimeType.toString())).absoluteURL(request()));
     response().setHeader("Link", "<".concat(routes.Application.getStatementData(id, version, null)
@@ -142,20 +146,28 @@ public class Application extends Controller {
   private Result getData(Model model, MimeType mimeType) {
 
     OutputStream result = new ByteArrayOutputStream();
+    String contentType;
 
     switch (mimeType.toString()) {
       case "text/turtle":
         model.write(result, "TURTLE");
+        contentType = "text/turtle";
         break;
       case "application/ld+json":
+        model.write(result, "JSON-LD");
+        contentType = "application/ld+json";
+        break;
       case "application/json":
         model.write(result, "JSON-LD");
+        contentType = "application/json";
         break;
       default:
-        return status(406);
+        model.write(result, "JSON-LD");
+        contentType = "application/json";
+        break;
     }
 
-    return ok(result.toString()).as(mimeType.toString());
+    return ok(result.toString()).as(contentType);
 
   }
 
@@ -215,25 +227,26 @@ public class Application extends Controller {
 
   }
 
-  private MimeType getMimeType(Http.Request request, String ext) {
+  private MimeType getMimeType(Http.Request request, String extension) {
+
+    if (extension != null) {
+      return getMimeTypeByExtension(extension);
+    } else {
+      return getMimeTypeFromRequest(request);
+    }
+
+  }
+
+  private static MimeType getMimeTypeFromRequest(Http.Request request) {
 
     MimeType mimeType;
+    List<MediaRange> acceptedTypes = request.acceptedTypes();
 
     try {
-      if (ext != null) {
-        switch (ext) {
-          case "ttl":
-            mimeType = new MimeType("text/turtle");
-            break;
-          case "jsonld":
-            mimeType = new MimeType("application/ld+json");
-            break;
-          default:
-            mimeType = new MimeType("text/html");
-            break;
-        }
-      } else {
+      if (! acceptedTypes.isEmpty()) {
         mimeType = new MimeType(request.acceptedTypes().get(0).toString());
+      } else {
+        mimeType = new MimeType("*/*");
       }
     } catch (MimeTypeParseException e) {
       Logger.error(e.toString());
@@ -244,13 +257,37 @@ public class Application extends Controller {
 
   }
 
+  private static MimeType getMimeTypeByExtension(@Nonnull String extension) {
+
+    for (Map.Entry<String, String> entry : mimeTypeExtensionMap.entrySet()) {
+      if (entry.getValue().equals(extension)) {
+        try {
+          return new MimeType(entry.getKey());
+        } catch (MimeTypeParseException e) {
+          Logger.error(e.toString());
+        }
+      }
+    }
+
+    return new MimeType();
+
+  }
+
   private Locale getLocale(Http.Request request, String language) {
+
+    if (language != null) {
+      return getLocaleByCode(language);
+    } else {
+      return getLocaleFromRequest(request);
+    }
+
+  }
+
+  private Locale getLocaleFromRequest(Http.Request request) {
 
     String code;
 
-    if (language != null) {
-      code = language;
-    } else if (!request.acceptLanguages().isEmpty()) {
+    if (!request.acceptLanguages().isEmpty()) {
       code = request.acceptLanguages().get(0).language();
     } else {
       code = Play.application().configuration().getString("default.language");
@@ -259,5 +296,12 @@ public class Application extends Controller {
     return new Locale(code);
 
   }
+
+  private Locale getLocaleByCode(String code) {
+
+    return new Locale(code);
+
+  }
+
 
 }

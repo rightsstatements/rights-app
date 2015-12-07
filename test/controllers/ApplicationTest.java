@@ -101,7 +101,60 @@ public class ApplicationTest {
   }
 
   @Test
+  public void testGetVocabDataWithoutAcceptHeader() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getVocabData("1.0", null)));
+        assertEquals(200, result.status());
+        assertEquals("application/json", result.contentType());
+        assertEquals("http://null/data/1.0.json", result.header("Content-Location"));
+        assertEquals("<http://null/data/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals(getResource("data/1.0.jsonld"), contentAsString(result));
+      }
+    });
+
+  }
+
+  @Test
+  public void testGetVocabDataWithWildcardAcceptHeader() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getVocabData("1.0", null))
+            .header("Accept", "*/*"));
+        assertEquals(200, result.status());
+        assertEquals("application/json", result.contentType());
+        assertEquals("http://null/data/1.0.json", result.header("Content-Location"));
+        assertEquals("<http://null/data/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals(getResource("data/1.0.jsonld"), contentAsString(result));
+      }
+    });
+
+  }
+
+  @Test
   public void testGetVocabDataAsJson() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getVocabData("1.0", null))
+            .header("Accept", "application/json"));
+        assertEquals(200, result.status());
+        assertEquals("application/json", result.contentType());
+        assertEquals("http://null/data/1.0.json", result.header("Content-Location"));
+        assertEquals("<http://null/data/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals(getResource("data/1.0.jsonld"), contentAsString(result));
+      }
+    });
+
+  }
+
+  @Test
+  public void testGetVocabDataAsJsonLd() {
 
     running(fakeApplication(), new Runnable() {
       @Override
@@ -119,7 +172,60 @@ public class ApplicationTest {
   }
 
   @Test
+  public void testGetStatementDataWithoutAcceptHeader() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getStatementData("InC", "1.0", null)));
+        assertEquals(200, result.status());
+        assertEquals("application/json", result.contentType());
+        assertEquals("http://null/data/InC/1.0.json", result.header("Content-Location"));
+        assertEquals("<http://null/data/InC/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals(getResource("data/InC/1.0.jsonld"), contentAsString(result));
+      }
+    });
+
+  }
+
+  @Test
+  public void testGetStatementDataWithWildcardAcceptHeader() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getStatementData("InC", "1.0", null))
+            .header("Accept", "*/*"));
+        assertEquals(200, result.status());
+        assertEquals("application/json", result.contentType());
+        assertEquals("http://null/data/InC/1.0.json", result.header("Content-Location"));
+        assertEquals("<http://null/data/InC/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals(getResource("data/InC/1.0.jsonld"), contentAsString(result));
+      }
+    });
+
+  }
+
+  @Test
   public void testGetStatementDataAsJson() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getStatementData("InC", "1.0", null))
+            .header("Accept", "application/json"));
+        assertEquals(200, result.status());
+        assertEquals("application/json", result.contentType());
+        assertEquals("http://null/data/InC/1.0.json", result.header("Content-Location"));
+        assertEquals("<http://null/data/InC/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals(getResource("data/InC/1.0.jsonld"), contentAsString(result));
+      }
+    });
+
+  }
+
+  @Test
+  public void testGetStatementDataAsJsonLd() {
 
     running(fakeApplication(), new Runnable() {
       @Override
