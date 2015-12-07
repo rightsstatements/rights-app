@@ -33,9 +33,9 @@ public class ApplicationTest {
         assertEquals("http://null/data/1.0/", data.redirectLocation());
 
         Result page = route(fakeRequest(routes.Application.getVocab("1.0"))
-            .header("Accept", "text/html"));
+            .header("Accept", "text/html").header("Accept-Language", "en"));
         assertEquals(303, page.status());
-        assertEquals("http://null/page/1.0/", page.redirectLocation());
+        assertEquals("http://null/page/1.0/?language=en", page.redirectLocation());
 
       }
     });
@@ -55,9 +55,9 @@ public class ApplicationTest {
         assertEquals("http://null/data/InC/1.0/", data.redirectLocation());
 
         Result page = route(fakeRequest(routes.Application.getStatement("InC", "1.0"))
-            .header("Accept", "text/html"));
+            .header("Accept", "text/html").header("Accept-Language", "en"));
         assertEquals(303, page.status());
-        assertEquals("http://null/page/InC/1.0/", page.redirectLocation());
+        assertEquals("http://null/page/InC/1.0/?language=en", page.redirectLocation());
 
       }
     });
@@ -142,11 +142,12 @@ public class ApplicationTest {
     running(fakeApplication(), new Runnable() {
       @Override
       public void run() {
-        Result result = route(fakeRequest(routes.Application.getVocabPage("1.0"))
+        Result result = route(fakeRequest(routes.Application.getVocabPage("1.0", "en"))
             .header("Accept", "text/html"));
         assertEquals(200, result.status());
         assertEquals("text/html", result.contentType());
         assertEquals("<http://null/page/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals("en", result.header("Content-Language"));
         assertEquals(getResource("page/1.0"), contentAsString(result));
       }
     });
@@ -159,11 +160,12 @@ public class ApplicationTest {
     running(fakeApplication(), new Runnable() {
       @Override
       public void run() {
-        Result result = route(fakeRequest(routes.Application.getStatementPage("InC", "1.0"))
+        Result result = route(fakeRequest(routes.Application.getStatementPage("InC", "1.0", "en"))
             .header("Accept", "text/html"));
         assertEquals(200, result.status());
         assertEquals("text/html", result.contentType());
         assertEquals("<http://null/page/InC/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals("en", result.header("Content-Language"));
         assertEquals(getResource("page/InC/1.0"), contentAsString(result));
       }
     });
