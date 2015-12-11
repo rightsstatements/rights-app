@@ -1,6 +1,7 @@
 package controllers;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static play.test.Helpers.contentAsString;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.fakeRequest;
@@ -273,6 +274,68 @@ public class ApplicationTest {
         assertEquals("<http://null/page/InC/1.0/>; rel=derivedfrom", result.header("Link"));
         assertEquals("en", result.header("Content-Language"));
         assertEquals(getResource("page/InC/1.0"), contentAsString(result));
+      }
+    });
+
+  }
+
+  @Test
+  public void testStatementAlternates() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest("GET", routes.Application.getStatement("InC-OW-EU", "1.0").url()
+            .concat("?relatedURL=http://example.org/")));
+        assertEquals(406, result.status());
+        assertEquals("{\"/page/InC-OW-EU/1.0/?relatedURL=http://example.org/\" 0.9 {text/html}},"
+            .concat("{\"/data/InC-OW-EU/1.0/\" 0.9 {text/turtle}}"), result.header("Alternates"));
+      }
+    });
+
+  }
+
+  @Test
+  public void testStatementDataAlternates() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest("GET", routes.Application.getStatementData("InC-OW-EU", "1.0", null).url()
+            .concat("?relatedURL=http://example.org/")));
+        assertEquals(406, result.status());
+        assertEquals("{\"/page/InC-OW-EU/1.0/?relatedURL=http://example.org/\" 0.9 {text/html}},"
+            .concat("{\"/data/InC-OW-EU/1.0/\" 0.9 {text/turtle}}"), result.header("Alternates"));
+      }
+    });
+
+  }
+
+  @Test
+  public void testInvalidStatementParameter() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest("GET", routes.Application.getStatement("InC", "1.0").url()
+            .concat("?relatedURL=http://example.org/")));
+        assertEquals(406, result.status());
+        assertNull(result.header("Alternates"));
+      }
+    });
+
+  }
+
+  @Test
+  public void testInvalidStatementDataParameter() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest("GET", routes.Application.getStatementData("InC", "1.0", null).url()
+            .concat("?relatedURL=http://example.org/")));
+        assertEquals(406, result.status());
+        assertNull(result.header("Alternates"));
       }
     });
 

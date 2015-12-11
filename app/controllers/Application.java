@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.ArrayList;
 
 /**
  * Created by fo on 16.11.15.
@@ -43,6 +44,8 @@ public class Application extends Controller {
     mimeTypeExtensionMap.put("application/json", "json");
     mimeTypeExtensionMap.put("*/*", "json");
   }
+
+  private static Map<String, Object> validParameters = Play.application().configuration().getConfig("params").asMap();
 
   private final VocabProvider vocabProvider;
 
@@ -99,7 +102,10 @@ public class Application extends Controller {
 
   public Result getStatement(String id, String version) {
 
-    if (request().accepts("text/html")) {
+    if (!request().queryString().isEmpty()) {
+      setAlternates(request(), id, version);
+      return status(406);
+    } else  if (request().accepts("text/html")) {
       Locale locale = getLocale(request(), null);
       return redirect(routes.Application.getStatementPage(id, version, locale.getLanguage()).absoluteURL(request()));
     } else {
@@ -109,6 +115,11 @@ public class Application extends Controller {
   }
 
   public Result getStatementData(String id, String version, String extension) throws IOException {
+
+    if (!request().queryString().isEmpty()) {
+      setAlternates(request(), id, version);
+      return status(406);
+    }
 
     Model rightsStatement = getStatementModel(id, version);
 
@@ -303,5 +314,34 @@ public class Application extends Controller {
 
   }
 
+  private void setAlternates(Http.Request request, String id, String version) {
+
+    Map<String, String[]> parameters = request.queryString();
+    String validParameters = (String) Application.validParameters.get(id);
+
+    if (parameters.size() > 0 && validParameters != null) {
+
+      List<String> recoveryParameters = new ArrayList<>();
+
+      for (String validParameter : validParameters.split(" ")) {
+        String suppliedParameter = request.getQueryString(validParameter);
+        if (suppliedParameter != null) {
+          recoveryParameters.add(validParameter.concat("=").concat(suppliedParameter));
+        }
+      }
+
+      if (!recoveryParameters.isEmpty()) {
+        String pageUrl = routes.Application.getStatementPage(id, version, null).url().concat("?")
+            .concat(String.join("&", recoveryParameters));
+        String dataUrl = routes.Application.getStatementData(id, version, null).url();
+        List<String> alternates = new ArrayList<>();
+        alternates.add(String.format("{\"%s\" 0.9 {text/html}}", pageUrl));
+        alternates.add(String.format("{\"%s\" 0.9 {text/turtle}}", dataUrl));
+        response().setHeader("Alternates", String.join(",", alternates));
+      }
+
+    }
+
+  }
 
 }
