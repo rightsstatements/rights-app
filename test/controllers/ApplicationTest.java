@@ -343,6 +343,73 @@ public class ApplicationTest {
 
   }
 
+  @Test
+  public void testGetCollectionAsTurtle() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getCollection("ic", "1.0", null, null))
+            .header("Accept", "text/turtle"));
+        assertEquals(200, result.status());
+        assertEquals("text/turtle", result.contentType());
+        assertEquals("http://null/collection-ic/1.0.ttl", result.header("Content-Location"));
+        assertEquals(getResource("collection/ic/1.0.ttl"), contentAsString(result));
+      }
+    });
+
+  }
+
+  @Test
+  public void testGetCollectionAsJson() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getCollection("ic", "1.0", null, null))
+            .header("Accept", "application/json"));
+        assertEquals(200, result.status());
+        assertEquals("application/json", result.contentType());
+        assertEquals("http://null/collection-ic/1.0.json", result.header("Content-Location"));
+        assertEquals(getResource("collection/ic/1.0.jsonld"), contentAsString(result));
+      }
+    });
+
+  }
+
+  @Test
+  public void testGetCollectionAsJsonLd() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getCollection("ic", "1.0", null, null))
+            .header("Accept", "application/ld+json"));
+        assertEquals(200, result.status());
+        assertEquals("application/ld+json", result.contentType());
+        assertEquals("http://null/collection-ic/1.0.jsonld", result.header("Content-Location"));
+        assertEquals(getResource("collection/ic/1.0.jsonld"), contentAsString(result));
+      }
+    });
+
+  }
+
+  @Test
+  public void testGetCollectionPage() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getCollection("ic", "1.0", null, null))
+            .header("Accept", "text/html"));
+        assertEquals(200, result.status());
+        assertEquals("text/html", result.contentType());
+        assertEquals(getResource("collection/ic/1.0.html"), contentAsString(result));
+      }
+    });
+
+  }
+
   private String getResource(String file) {
 
     InputStream in = ClassLoader.getSystemResourceAsStream(file);

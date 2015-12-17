@@ -152,6 +152,27 @@ public class Application extends Controller {
 
   }
 
+  public Result getCollection(String id, String version, String extension, String language) throws IOException {
+
+    Model collection = getCollectionModel(id, version);
+
+    if (collection.isEmpty()) {
+      return notFound();
+    }
+
+    MimeType mimeType = getMimeType(request(), extension);
+
+    if (mimeType.toString().equals("text/html")) {
+      Locale locale = getLocale(request(), language);
+      return getPage(collection, "collection.hbs", locale.getLanguage());
+    } else {
+      response().setHeader("Content-Location", routes.Application.getCollection(id, version,
+          mimeTypeExtMap.get(mimeType.toString()).toString(), language).absoluteURL(request()));
+      return getData(collection, mimeType);
+    }
+
+  }
+
   private Result getData(Model model, MimeType mimeType) {
 
     OutputStream result = new ByteArrayOutputStream();
@@ -214,6 +235,19 @@ public class Application extends Controller {
         vocabProvider.getVocab()).execConstruct(statement);
 
     return statement;
+
+  }
+
+  private Model getCollectionModel(String id, String version) {
+
+    String constructStatement =  "CONSTRUCT WHERE {<http://rightsstatements.org/vocab/collection-%1$s/%2$s/>"
+        .concat(" <http://www.w3.org/2002/07/owl#versionInfo> \"%2$s\" .")
+        .concat("<http://rightsstatements.org/vocab/collection-%1$s/%2$s/> ?p ?o }");
+    Model collection = ModelFactory.createDefaultModel();
+    QueryExecutionFactory.create(QueryFactory.create(String.format(constructStatement, id, version)),
+        vocabProvider.getVocab()).execConstruct(collection);
+
+    return collection;
 
   }
 
