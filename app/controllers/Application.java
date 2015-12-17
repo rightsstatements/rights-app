@@ -37,13 +37,11 @@ import java.util.ArrayList;
  */
 public class Application extends Controller {
 
-  private static Map<String, String> mimeTypeExtensionMap = new HashMap<>();
-  static {
-    mimeTypeExtensionMap.put("text/turtle", "ttl");
-    mimeTypeExtensionMap.put("application/ld+json", "jsonld");
-    mimeTypeExtensionMap.put("application/json", "json");
-    mimeTypeExtensionMap.put("*/*", "json");
-  }
+  private static Map<String, Object> mimeTypeParserMap = Play.application().configuration().getConfig("parser").asMap();
+
+  private static Map<String, Object> mimeTypeExtMap = Play.application().configuration().getConfig("extension").asMap();
+
+  private static Map<String, Object> defaults = Play.application().configuration().getConfig("default").asMap();
 
   private static Map<String, Object> validParameters = Play.application().configuration().getConfig("params").asMap();
 
@@ -75,7 +73,7 @@ public class Application extends Controller {
 
     MimeType mimeType = getMimeType(request(), extension);
     response().setHeader("Content-Location", routes.Application.getVocabData(version,
-        mimeTypeExtensionMap.get(mimeType.toString())).absoluteURL(request()));
+        mimeTypeExtMap.get(mimeType.toString()).toString()).absoluteURL(request()));
     response().setHeader("Link", "<".concat(routes.Application.getVocabData(version, null)
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
 
@@ -129,7 +127,7 @@ public class Application extends Controller {
 
     MimeType mimeType = getMimeType(request(), extension);
     response().setHeader("Content-Location", routes.Application.getStatementData(id, version,
-        mimeTypeExtensionMap.get(mimeType.toString())).absoluteURL(request()));
+        mimeTypeExtMap.get(mimeType.toString()).toString()).absoluteURL(request()));
     response().setHeader("Link", "<".concat(routes.Application.getStatementData(id, version, null)
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
 
@@ -157,28 +155,9 @@ public class Application extends Controller {
   private Result getData(Model model, MimeType mimeType) {
 
     OutputStream result = new ByteArrayOutputStream();
-    String contentType;
-
-    switch (mimeType.toString()) {
-      case "text/turtle":
-        model.write(result, "TURTLE");
-        contentType = "text/turtle";
-        break;
-      case "application/ld+json":
-        model.write(result, "JSON-LD");
-        contentType = "application/ld+json";
-        break;
-      case "application/json":
-        model.write(result, "JSON-LD");
-        contentType = "application/json";
-        break;
-      default:
-        model.write(result, "JSON-LD");
-        contentType = "application/json";
-        break;
-    }
-
-    return ok(result.toString()).as(contentType);
+    model.write(result, mimeTypeParserMap.get(mimeType.toString()).toString());
+    return ok(result.toString()).as(
+        mimeType.toString().equals("*/*") ? defaults.get("mime").toString() : mimeType.toString());
 
   }
 
@@ -270,7 +249,7 @@ public class Application extends Controller {
 
   private static MimeType getMimeTypeByExtension(@Nonnull String extension) {
 
-    for (Map.Entry<String, String> entry : mimeTypeExtensionMap.entrySet()) {
+    for (Map.Entry<String, Object> entry : mimeTypeExtMap.entrySet()) {
       if (entry.getValue().equals(extension)) {
         try {
           return new MimeType(entry.getKey());
@@ -301,7 +280,7 @@ public class Application extends Controller {
     if (!request.acceptLanguages().isEmpty()) {
       code = request.acceptLanguages().get(0).language();
     } else {
-      code = Play.application().configuration().getString("default.language");
+      code = defaults.get("language").toString();
     }
 
     return new Locale(code);
@@ -331,13 +310,24 @@ public class Application extends Controller {
       }
 
       if (!recoveryParameters.isEmpty()) {
+
+        String vocabUrl = routes.Application.getStatement(id, version).url();
         String pageUrl = routes.Application.getStatementPage(id, version, null).url().concat("?")
             .concat(String.join("&", recoveryParameters));
         String dataUrl = routes.Application.getStatementData(id, version, null).url();
+
         List<String> alternates = new ArrayList<>();
+        alternates.add(String.format("{\"%s\" 0.9}", vocabUrl));
         alternates.add(String.format("{\"%s\" 0.9 {text/html}}", pageUrl));
-        alternates.add(String.format("{\"%s\" 0.9 {text/turtle}}", dataUrl));
+        for (Map.Entry<String, Object> entry : mimeTypeExtMap.entrySet()) {
+          if (entry.getKey().equals("*/*")) {
+            continue;
+          }
+          alternates.add(String.format("{\"%s\" 0.9 {".concat(entry.getKey()).concat("}}"), dataUrl));
+        }
+
         response().setHeader("Alternates", String.join(",", alternates));
+
       }
 
     }
