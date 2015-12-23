@@ -101,7 +101,7 @@ public class Application extends Controller {
   public Result getStatement(String id, String version) {
 
     if (!request().queryString().isEmpty()) {
-      setAlternates(request(), id, version);
+      setAlternates(request(), id, version, true);
       return status(406);
     } else  if (request().accepts("text/html")) {
       Locale locale = getLocale(request(), null);
@@ -115,7 +115,7 @@ public class Application extends Controller {
   public Result getStatementData(String id, String version, String extension) throws IOException {
 
     if (!request().queryString().isEmpty()) {
-      setAlternates(request(), id, version);
+      setAlternates(request(), id, version, false);
       return status(406);
     }
 
@@ -293,7 +293,7 @@ public class Application extends Controller {
 
   }
 
-  private void setAlternates(Http.Request request, String id, String version) {
+  private void setAlternates(Http.Request request, String id, String version, boolean includeVocab) {
 
     Map<String, String[]> parameters = request.queryString();
     String validParameters = (String) Application.validParameters.get(id);
@@ -317,8 +317,13 @@ public class Application extends Controller {
         String dataUrl = routes.Application.getStatementData(id, version, null).url();
 
         List<String> alternates = new ArrayList<>();
-        alternates.add(String.format("{\"%s\" 0.9}", vocabUrl));
+
+        if (includeVocab) {
+          alternates.add(String.format("{\"%s\" 0.9}", vocabUrl));
+        }
+
         alternates.add(String.format("{\"%s\" 0.9 {text/html}}", pageUrl));
+
         for (Map.Entry<String, Object> entry : mimeTypeExtMap.entrySet()) {
           if (entry.getKey().equals("*/*")) {
             continue;
