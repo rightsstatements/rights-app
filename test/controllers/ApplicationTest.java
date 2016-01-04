@@ -305,7 +305,7 @@ public class ApplicationTest {
         Result result = route(fakeRequest("GET", routes.Application.getStatementData("InC-OW-EU", "1.0", null).url()
             .concat("?relatedURL=http://example.org/")));
         assertEquals(406, result.status());
-        assertEquals("{\"/vocab/InC-OW-EU/1.0/\" 0.9},{\"/page/InC-OW-EU/1.0/?relatedURL=http://example.org/\" 0.9 " +
+        assertEquals("{\"/page/InC-OW-EU/1.0/?relatedURL=http://example.org/\" 0.9 " +
             "{text/html}},{\"/data/InC-OW-EU/1.0/\" 0.9 {application/ld+json}},{\"/data/InC-OW-EU/1.0/\" 0.9 " +
             "{application/json}},{\"/data/InC-OW-EU/1.0/\" 0.9 {text/turtle}}", result.header("Alternates"));
       }
