@@ -1,0 +1,31 @@
+{
+  "@id" : "http://rightsstatements.org/vocab/collection-ic/1.0/",
+  "@type" : "skos:Collection",
+  "versionInfo" : "1.0",
+  "member" : [ "http://rightsstatements.org/vocab/InC/1.0/", "http://rightsstatements.org/vocab/InC-OW-EU/1.0/", "http://rightsstatements.org/vocab/InC-RUU/1.0/", "http://rightsstatements.org/vocab/InC-EDU/1.0/", "http://rightsstatements.org/vocab/InC-NC/1.0/" ],
+  "prefLabel" : {
+    "@language" : "en",
+    "@value" : "Rights Statements for works that are in copyright"
+  },
+  "@context" : {
+    "prefLabel" : "http://www.w3.org/2004/02/skos/core#prefLabel",
+    "member" : {
+      "@id" : "http://www.w3.org/2004/02/skos/core#member",
+      "@type" : "@id"
+    },
+    "versionInfo" : "http://www.w3.org/2002/07/owl#versionInfo",
+    "cc" : "http://creativecommons.org/ns#",
+    "schema" : "http://schema.org/",
+    "premiscopy" : "http://id.loc.gov/vocabulary/preservation/copyrightStatus/",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "dcmitype" : "http://purl.org/dc/dcmitype/",
+    "skos" : "http://www.w3.org/2004/02/skos/core#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "p3p" : "http://www.w3.org/2002/01/p3prdfv1#",
+    "edm" : "http://www.europeana.eu/schemas/edm/",
+    "dcterms" : "http://purl.org/dc/terms/",
+    "odrl" : "http://www.w3c.org/community/odrl/two/vocab/2.1/",
+    "foaf" : "http://xmlns.com/foaf/0.1/",
+    "dc" : "http://purl.org/dc/elements/1.1/"
+  }
+}

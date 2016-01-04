@@ -6,3 +6,5 @@ GET   /data/:id/:version/           controllers.Application.getStatementData(id:
 GET   /data/:id/:version.:ext       controllers.Application.getStatementData(id: String, version: String, ext: String)
 GET   /page/:version/               controllers.Application.getVocabPage(version: String, language: String ?= null)
 GET   /page/:id/:version/           controllers.Application.getStatementPage(id: String, version: String, language: String ?= null)
+GET   /collection-:id/:version/     controllers.Application.getCollection(id: String, version: String, ext=null, language: String ?= null)
+GET   /collection-:id/:version.:ext controllers.Application.getCollection(id: String, version: String, ext: String, language: String ?= null)
