@@ -45,6 +45,8 @@ public class Application extends Controller {
 
   private static Map<String, Object> validParameters = Play.application().configuration().getConfig("params").asMap();
 
+  private static Map<String, Object> sparqlQueries = Play.application().configuration().getConfig("queries").asMap();
+
   private final VocabProvider vocabProvider;
 
   @Inject
@@ -184,11 +186,8 @@ public class Application extends Controller {
 
   private Result getPage(Model model, String templateFile, String language) throws IOException {
 
-    String constructLocalizedModel = "CONSTRUCT {?s ?p ?o}"
-        .concat("WHERE {?s ?p ?o . FILTER(!isLiteral(?o) || lang(?o) = \"\" || langMatches(lang(?o), \"")
-        .concat(language).concat("\"))}");
     Model localized = ModelFactory.createDefaultModel();
-    QueryExecutionFactory.create(QueryFactory.create(constructLocalizedModel),
+    QueryExecutionFactory.create(QueryFactory.create(String.format(sparqlQueries.get("localize").toString(), language)),
         model).execConstruct(localized);
 
     OutputStream boas = new ByteArrayOutputStream();
@@ -217,9 +216,8 @@ public class Application extends Controller {
 
   private Model getVocabModel(String version) {
 
-    String constructStatement = "CONSTRUCT WHERE {?s <http://www.w3.org/2002/07/owl#versionInfo> \"%1$s\" . ?s ?p ?o}";
     Model vocab = ModelFactory.createDefaultModel();
-    QueryExecutionFactory.create(QueryFactory.create(String.format(constructStatement, version)),
+    QueryExecutionFactory.create(QueryFactory.create(String.format(sparqlQueries.get("vocab").toString(), version)),
         vocabProvider.getVocab()).execConstruct(vocab);
 
     return vocab;
@@ -228,11 +226,9 @@ public class Application extends Controller {
 
   private Model getStatementModel(String id, String version) {
 
-    String constructStatement = "CONSTRUCT WHERE {?s <http://www.w3.org/2002/07/owl#versionInfo> \"%1$s\" ."
-        .concat("?s <http://purl.org/dc/elements/1.1/identifier> \"%2$s\" . ?s ?p ?o}");
     Model statement = ModelFactory.createDefaultModel();
-    QueryExecutionFactory.create(QueryFactory.create(String.format(constructStatement, version, id)),
-        vocabProvider.getVocab()).execConstruct(statement);
+    QueryExecutionFactory.create(QueryFactory.create(String.format(sparqlQueries.get("statement").toString(), version,
+        id)), vocabProvider.getVocab()).execConstruct(statement);
 
     return statement;
 
@@ -240,12 +236,9 @@ public class Application extends Controller {
 
   private Model getCollectionModel(String id, String version) {
 
-    String constructStatement =  "CONSTRUCT WHERE {<http://rightsstatements.org/vocab/collection-%1$s/%2$s/>"
-        .concat(" <http://www.w3.org/2002/07/owl#versionInfo> \"%2$s\" .")
-        .concat("<http://rightsstatements.org/vocab/collection-%1$s/%2$s/> ?p ?o }");
     Model collection = ModelFactory.createDefaultModel();
-    QueryExecutionFactory.create(QueryFactory.create(String.format(constructStatement, id, version)),
-        vocabProvider.getVocab()).execConstruct(collection);
+    QueryExecutionFactory.create(QueryFactory.create(String.format(sparqlQueries.get("collection").toString(), id,
+        version)), vocabProvider.getVocab()).execConstruct(collection);
 
     return collection;
 
