@@ -114,7 +114,7 @@ public class Application extends Controller {
 
   }
 
-  public Result getStatementData(String id, String version, String extension) throws IOException {
+  public Result getStatementData(String id, String version, String extension) {
 
     if (!request().queryString().isEmpty()) {
       setAlternates(request(), id, version, false);
@@ -154,7 +154,18 @@ public class Application extends Controller {
 
   }
 
-  public Result getCollection(String id, String version, String extension, String language) throws IOException {
+  public Result getCollection(String id, String version) {
+
+    if (request().accepts("text/html")) {
+      Locale locale = getLocale(request(), null);
+      return redirect(routes.Application.getCollectionPage(id, version, locale.getLanguage()).absoluteURL(request()));
+    } else {
+      return redirect(routes.Application.getCollectionData(id, version, null).absoluteURL(request()));
+    }
+
+  }
+
+  public Result getCollectionData(String id, String version, String extension) {
 
     Model collection = getCollectionModel(id, version);
 
@@ -163,15 +174,29 @@ public class Application extends Controller {
     }
 
     MimeType mimeType = getMimeType(request(), extension);
+    response().setHeader("Content-Location", routes.Application.getCollectionData(id, version,
+        mimeTypeExtMap.get(mimeType.toString()).toString()).absoluteURL(request()));
+    response().setHeader("Link", "<".concat(routes.Application.getCollectionData(id, version, null)
+        .absoluteURL(request())).concat(">; rel=derivedfrom"));
 
-    if (mimeType.toString().equals("text/html")) {
-      Locale locale = getLocale(request(), language);
-      return getPage(collection, "collection.hbs", locale.getLanguage());
-    } else {
-      response().setHeader("Content-Location", routes.Application.getCollection(id, version,
-          mimeTypeExtMap.get(mimeType.toString()).toString(), language).absoluteURL(request()));
-      return getData(collection, mimeType);
+    return getData(collection, mimeType);
+
+  }
+
+  public Result getCollectionPage(String id, String version, String language) throws IOException {
+
+    Model collection = getCollectionModel(id, version);
+    Locale locale = getLocale(request(), language);
+
+    if (collection.isEmpty()) {
+      return notFound();
     }
+
+    response().setHeader("Link", "<".concat(routes.Application.getCollectionPage(id, version, null)
+        .absoluteURL(request())).concat(">; rel=derivedfrom"));
+    response().setHeader("Content-Language", locale.getLanguage());
+
+    return getPage(collection, "collection.hbs", locale.getLanguage());
 
   }
 

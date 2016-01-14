@@ -344,16 +344,38 @@ public class ApplicationTest {
   }
 
   @Test
-  public void testGetCollectionAsTurtle() {
+  public void testGetCollection() {
 
     running(fakeApplication(), new Runnable() {
       @Override
       public void run() {
-        Result result = route(fakeRequest(routes.Application.getCollection("ic", "1.0", null, null))
+
+        Result data = route(fakeRequest(routes.Application.getCollection("ic", "1.0"))
+            .header("Accept", "text/turtle"));
+        assertEquals(303, data.status());
+        assertEquals("http://null/data/collection-ic/1.0/", data.redirectLocation());
+
+        Result page = route(fakeRequest(routes.Application.getCollection("ic", "1.0"))
+            .header("Accept", "text/html").header("Accept-Language", "en"));
+        assertEquals(303, page.status());
+        assertEquals("http://null/page/collection-ic/1.0/?language=en", page.redirectLocation());
+
+      }
+    });
+
+  }
+
+  @Test
+  public void testGetCollectionDataAsTurtle() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getCollectionData("ic", "1.0", null))
             .header("Accept", "text/turtle"));
         assertEquals(200, result.status());
         assertEquals("text/turtle", result.contentType());
-        assertEquals("http://null/collection-ic/1.0.ttl", result.header("Content-Location"));
+        assertEquals("http://null/data/collection-ic/1.0.ttl", result.header("Content-Location"));
         assertEquals(getResource("collection/ic/1.0.ttl"), contentAsString(result));
       }
     });
@@ -361,16 +383,16 @@ public class ApplicationTest {
   }
 
   @Test
-  public void testGetCollectionAsJson() {
+  public void testGetCollectionDataAsJson() {
 
     running(fakeApplication(), new Runnable() {
       @Override
       public void run() {
-        Result result = route(fakeRequest(routes.Application.getCollection("ic", "1.0", null, null))
+        Result result = route(fakeRequest(routes.Application.getCollectionData("ic", "1.0", null))
             .header("Accept", "application/json"));
         assertEquals(200, result.status());
         assertEquals("application/json", result.contentType());
-        assertEquals("http://null/collection-ic/1.0.json", result.header("Content-Location"));
+        assertEquals("http://null/data/collection-ic/1.0.json", result.header("Content-Location"));
         assertEquals(getResource("collection/ic/1.0.jsonld"), contentAsString(result));
       }
     });
@@ -378,16 +400,16 @@ public class ApplicationTest {
   }
 
   @Test
-  public void testGetCollectionAsJsonLd() {
+  public void testGetCollectionDataAsJsonLd() {
 
     running(fakeApplication(), new Runnable() {
       @Override
       public void run() {
-        Result result = route(fakeRequest(routes.Application.getCollection("ic", "1.0", null, null))
+        Result result = route(fakeRequest(routes.Application.getCollectionData("ic", "1.0", null))
             .header("Accept", "application/ld+json"));
         assertEquals(200, result.status());
         assertEquals("application/ld+json", result.contentType());
-        assertEquals("http://null/collection-ic/1.0.jsonld", result.header("Content-Location"));
+        assertEquals("http://null/data/collection-ic/1.0.jsonld", result.header("Content-Location"));
         assertEquals(getResource("collection/ic/1.0.jsonld"), contentAsString(result));
       }
     });
@@ -400,7 +422,7 @@ public class ApplicationTest {
     running(fakeApplication(), new Runnable() {
       @Override
       public void run() {
-        Result result = route(fakeRequest(routes.Application.getCollection("ic", "1.0", null, null))
+        Result result = route(fakeRequest(routes.Application.getCollectionPage("ic", "1.0", null))
             .header("Accept", "text/html"));
         assertEquals(200, result.status());
         assertEquals("text/html", result.contentType());
