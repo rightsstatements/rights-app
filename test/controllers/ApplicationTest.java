@@ -1,6 +1,7 @@
 package controllers;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static play.test.Helpers.contentAsString;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.fakeRequest;
@@ -273,6 +274,159 @@ public class ApplicationTest {
         assertEquals("<http://null/page/InC/1.0/>; rel=derivedfrom", result.header("Link"));
         assertEquals("en", result.header("Content-Language"));
         assertEquals(getResource("page/InC/1.0"), contentAsString(result));
+      }
+    });
+
+  }
+
+  @Test
+  public void testStatementAlternates() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest("GET", routes.Application.getStatement("InC-OW-EU", "1.0").url()
+            .concat("?relatedURL=http://example.org/")));
+        assertEquals(406, result.status());
+        assertEquals("{\"/vocab/InC-OW-EU/1.0/\" 0.9},{\"/page/InC-OW-EU/1.0/?relatedURL=http://example.org/\" 0.9 " +
+            "{text/html}},{\"/data/InC-OW-EU/1.0/\" 0.9 {application/ld+json}},{\"/data/InC-OW-EU/1.0/\" 0.9 " +
+            "{application/json}},{\"/data/InC-OW-EU/1.0/\" 0.9 {text/turtle}}", result.header("Alternates"));
+      }
+    });
+
+  }
+
+  @Test
+  public void testStatementDataAlternates() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest("GET", routes.Application.getStatementData("InC-OW-EU", "1.0", null).url()
+            .concat("?relatedURL=http://example.org/")));
+        assertEquals(406, result.status());
+        assertEquals("{\"/page/InC-OW-EU/1.0/?relatedURL=http://example.org/\" 0.9 " +
+            "{text/html}},{\"/data/InC-OW-EU/1.0/\" 0.9 {application/ld+json}},{\"/data/InC-OW-EU/1.0/\" 0.9 " +
+            "{application/json}},{\"/data/InC-OW-EU/1.0/\" 0.9 {text/turtle}}", result.header("Alternates"));
+      }
+    });
+
+  }
+
+  @Test
+  public void testInvalidStatementParameter() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest("GET", routes.Application.getStatement("InC", "1.0").url()
+            .concat("?relatedURL=http://example.org/")));
+        assertEquals(406, result.status());
+        assertNull(result.header("Alternates"));
+      }
+    });
+
+  }
+
+  @Test
+  public void testInvalidStatementDataParameter() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest("GET", routes.Application.getStatementData("InC", "1.0", null).url()
+            .concat("?relatedURL=http://example.org/")));
+        assertEquals(406, result.status());
+        assertNull(result.header("Alternates"));
+      }
+    });
+
+  }
+
+  @Test
+  public void testGetCollection() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+
+        Result data = route(fakeRequest(routes.Application.getCollection("ic", "1.0"))
+            .header("Accept", "text/turtle"));
+        assertEquals(303, data.status());
+        assertEquals("http://null/data/collection-ic/1.0/", data.redirectLocation());
+
+        Result page = route(fakeRequest(routes.Application.getCollection("ic", "1.0"))
+            .header("Accept", "text/html").header("Accept-Language", "en"));
+        assertEquals(303, page.status());
+        assertEquals("http://null/page/collection-ic/1.0/?language=en", page.redirectLocation());
+
+      }
+    });
+
+  }
+
+  @Test
+  public void testGetCollectionDataAsTurtle() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getCollectionData("ic", "1.0", null))
+            .header("Accept", "text/turtle"));
+        assertEquals(200, result.status());
+        assertEquals("text/turtle", result.contentType());
+        assertEquals("http://null/data/collection-ic/1.0.ttl", result.header("Content-Location"));
+        assertEquals(getResource("collection/ic/1.0.ttl"), contentAsString(result));
+      }
+    });
+
+  }
+
+  @Test
+  public void testGetCollectionDataAsJson() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getCollectionData("ic", "1.0", null))
+            .header("Accept", "application/json"));
+        assertEquals(200, result.status());
+        assertEquals("application/json", result.contentType());
+        assertEquals("http://null/data/collection-ic/1.0.json", result.header("Content-Location"));
+        assertEquals(getResource("collection/ic/1.0.jsonld"), contentAsString(result));
+      }
+    });
+
+  }
+
+  @Test
+  public void testGetCollectionDataAsJsonLd() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getCollectionData("ic", "1.0", null))
+            .header("Accept", "application/ld+json"));
+        assertEquals(200, result.status());
+        assertEquals("application/ld+json", result.contentType());
+        assertEquals("http://null/data/collection-ic/1.0.jsonld", result.header("Content-Location"));
+        assertEquals(getResource("collection/ic/1.0.jsonld"), contentAsString(result));
+      }
+    });
+
+  }
+
+  @Test
+  public void testGetCollectionPage() {
+
+    running(fakeApplication(), new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest(routes.Application.getCollectionPage("ic", "1.0", null))
+            .header("Accept", "text/html"));
+        assertEquals(200, result.status());
+        assertEquals("text/html", result.contentType());
+        assertEquals(getResource("collection/ic/1.0.html"), contentAsString(result));
       }
     });
 
