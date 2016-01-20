@@ -75,7 +75,8 @@ public class Application extends Controller {
 
     MimeType mimeType = getMimeType(request(), extension);
     response().setHeader("Content-Location", routes.Application.getVocabData(version,
-        mimeTypeExtMap.get(mimeType.toString()).toString()).absoluteURL(request()));
+        mimeTypeExtMap.getOrDefault(mimeType.toString(), defaults.get("mime").toString()).toString())
+        .absoluteURL(request()));
     response().setHeader("Link", "<".concat(routes.Application.getVocabData(version, null)
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
 
@@ -129,7 +130,8 @@ public class Application extends Controller {
 
     MimeType mimeType = getMimeType(request(), extension);
     response().setHeader("Content-Location", routes.Application.getStatementData(id, version,
-        mimeTypeExtMap.get(mimeType.toString()).toString()).absoluteURL(request()));
+        mimeTypeExtMap.getOrDefault(mimeType.toString(), defaults.get("mime").toString()).toString())
+        .absoluteURL(request()));
     response().setHeader("Link", "<".concat(routes.Application.getStatementData(id, version, null)
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
 
@@ -175,7 +177,8 @@ public class Application extends Controller {
 
     MimeType mimeType = getMimeType(request(), extension);
     response().setHeader("Content-Location", routes.Application.getCollectionData(id, version,
-        mimeTypeExtMap.get(mimeType.toString()).toString()).absoluteURL(request()));
+        mimeTypeExtMap.getOrDefault(mimeType.toString(), defaults.get("mime").toString()).toString())
+        .absoluteURL(request()));
     response().setHeader("Link", "<".concat(routes.Application.getCollectionData(id, version, null)
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
 
@@ -203,7 +206,8 @@ public class Application extends Controller {
   private Result getData(Model model, MimeType mimeType) {
 
     OutputStream result = new ByteArrayOutputStream();
-    model.write(result, mimeTypeParserMap.get(mimeType.toString()).toString());
+    model.write(result, mimeTypeParserMap.getOrDefault(mimeType.toString(), defaults.get("parser").toString())
+        .toString());
     return ok(result.toString()).as(
         mimeType.toString().equals("*/*") ? defaults.get("mime").toString() : mimeType.toString());
 
