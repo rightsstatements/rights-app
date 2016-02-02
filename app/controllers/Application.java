@@ -229,7 +229,8 @@ public class Application extends Controller {
     Handlebars handlebars = new Handlebars(loader);
 
     try {
-      handlebars.registerHelpers(new File("public/js/helpers.js"));
+      handlebars.registerHelpers("helpers.js", Play.application().classloader()
+          .getResourceAsStream("public/js/helpers.js"));
     } catch (Exception e) {
       Logger.error(e.toString());
     }
