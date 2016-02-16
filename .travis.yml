@@ -4,7 +4,12 @@ sudo: false
 cache:
   directories:
   - $HOME/.ivy2/cache
-branches:
-  only:
-    - master
-    - develop
+before_deploy: "sbt ++$TRAVIS_SCALA_VERSION clean dist"
+deploy:
+  provider: releases
+  api-key:
+    secure: f00T8xm4w0vS/TkGaTBzJXZtHgEj14KlvUsesTdOm09qB6uWAzWOnAsWCGttuDKxVq9d/GE6i6SgcEEWqVd43f1Z2xRYlsICyz1bCXJ65u7Clh4rhHtujU8lQEeRBYaBUR2muoexUznRTMY6/XhNQpYvjTuBVvrM24R9LuMiDwJqRK3nNZpzhMR5iRU7B0WMw+8L9yKMlb0w2sqMMtRNxHnN/1vpcCpqdiGsjNe9M4ea5LP+eUZuh158LGZtnP0beP3fS1XWPnXWvRELxFmDTKE1AvdPDx/G9bRV/+L7r1Wu5T7RpQWjsmCowu2mlE06d4En6uaa+fmihRjdDIofWdXS2fCEJXevjr34W+EXFH1SYb0NgQdqB/NRkkEsdpinz7wjWdJx0LPQL/gIScoxkomLfzpYKJ0t+z+hTvEhyUOg8+EdoRx3VSt2S/dGA83uKSm7N4xWWkfAUky+vQfmaxzn9pWgw9zSXoNcM3C1vAqNYqmmoVl/fJ+cQmCDJENr/vp3ZE6f1qJWMIREOJTa8NfsYLho6UGjlOPnZyZvC+AOxri26U0QQG9REqXuOJOIlJq/XvbFpJDrr4OMCRVnfk1FOxdGwg2g7lhugTeF+5CDeNXviQHNimEqfwuWunstxgWSqN1SVIyaNvZrM6Y4g8dF2P9ypo2qr9c9qcp1ix8=
+  file: "target/universal/rights-app-dist.zip"
+  skip_cleanup: true
+  on:
+    tags: true

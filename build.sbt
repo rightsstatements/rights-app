@@ -2,6 +2,8 @@ name := "rights-app"
 
 version := "0.1"
 
+packageName in Universal := "rights-app-dist"
+
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
 routesGenerator := InjectedRoutesGenerator
