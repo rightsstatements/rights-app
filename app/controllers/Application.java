@@ -23,7 +23,6 @@ import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
 import javax.annotation.Nonnull;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
@@ -97,7 +96,7 @@ public class Application extends Controller {
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(vocab, "vocab.hbs", locale.getLanguage());
+    return getPage(vocab, "vocab.hbs", locale.getLanguage(), null);
 
   }
 
@@ -152,7 +151,7 @@ public class Application extends Controller {
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(rightsStatement, "statement.hbs", locale.getLanguage());
+    return getPage(rightsStatement, "statement.hbs", locale.getLanguage(), getParameters(request(), id));
 
   }
 
@@ -199,7 +198,7 @@ public class Application extends Controller {
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(collection, "collection.hbs", locale.getLanguage());
+    return getPage(collection, "collection.hbs", locale.getLanguage(), null);
 
   }
 
@@ -213,15 +212,20 @@ public class Application extends Controller {
 
   }
 
-  private Result getPage(Model model, String templateFile, String language) throws IOException {
+  private Result getPage(Model model, String templateFile, String language, HashMap<String, String> parameters)
+      throws IOException {
 
     Model localized = ModelFactory.createDefaultModel();
     QueryExecutionFactory.create(QueryFactory.create(String.format(sparqlQueries.get("localize").toString(), language)),
         model).execConstruct(localized);
 
+    Map<String, Object> scope = new HashMap<>();
+    scope.put("parameters", parameters);
+    scope.put("language", language);
+
     OutputStream boas = new ByteArrayOutputStream();
     localized.write(boas, "JSON-LD");
-    Map<?,?> scope = new ObjectMapper().readValue(boas.toString(), HashMap.class);
+    scope.put("data", new ObjectMapper().readValue(boas.toString(), HashMap.class));
 
     TemplateLoader loader = new ResourceTemplateLoader();
     loader.setPrefix("public/handlebars");
@@ -353,17 +357,13 @@ public class Application extends Controller {
   private void setAlternates(Http.Request request, String id, String version, boolean includeVocab) {
 
     Map<String, String[]> parameters = request.queryString();
-    String validParameters = (String) Application.validParameters.get(id);
 
-    if (parameters.size() > 0 && validParameters != null) {
+    if (parameters.size() > 0) {
 
       List<String> recoveryParameters = new ArrayList<>();
 
-      for (String validParameter : validParameters.split(" ")) {
-        String suppliedParameter = request.getQueryString(validParameter);
-        if (suppliedParameter != null) {
-          recoveryParameters.add(validParameter.concat("=").concat(suppliedParameter));
-        }
+      for (Map.Entry<String, String> parameter : getParameters(request, id).entrySet()) {
+        recoveryParameters.add(parameter.getKey().concat("=").concat(parameter.getValue()));
       }
 
       if (!recoveryParameters.isEmpty()) {
@@ -393,6 +393,24 @@ public class Application extends Controller {
       }
 
     }
+
+  }
+
+  private HashMap<String, String> getParameters(Http.Request request, String id) {
+
+    HashMap<String, String> parameters = new HashMap<>();
+    String validParameters = (String) Application.validParameters.get(id);
+
+    if (validParameters != null) {
+      for (String validParameter : validParameters.split(" ")) {
+        String suppliedParameter = request.getQueryString(validParameter);
+        if (suppliedParameter != null) {
+          parameters.put(validParameter, request.getQueryString(validParameter));
+        }
+      }
+    }
+
+    return parameters;
 
   }
 
