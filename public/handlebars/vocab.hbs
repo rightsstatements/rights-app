@@ -1,7 +1,7 @@
 <script type="application/ld+json">
-    {{json .}}
+    {{json data}}
 </script>
 
-{{#each @graph}}
+{{#each data.[@graph]}}
     {{> table.hbs}}
 {{/each}}

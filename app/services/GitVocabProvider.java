@@ -3,6 +3,7 @@ package services;
 import com.google.inject.Singleton;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import org.apache.jena.riot.Lang;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Constants;
@@ -64,7 +65,7 @@ public class GitVocabProvider implements VocabProvider {
               ByteArrayOutputStream baos = new ByteArrayOutputStream();
               loader.copyTo(baos);
               ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-              vocab.read(bais, null, "TURTLE");
+              vocab.read(bais, null, Lang.TURTLE.getName());
             }
 
           }

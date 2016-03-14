@@ -1,5 +1,13 @@
 <script type="application/ld+json">
-    {{json .}}
+    {{json data}}
 </script>
 
-{{> table.hbs}}
+{{> table.hbs data}}
+
+{{#parameters.date}}
+    {{i18n data.identifier . locale=language}}
+{{/parameters.date}}
+
+{{#parameters.relatedURL}}
+    {{{i18n data.identifier . locale=language}}}
+{{/parameters.relatedURL}}
