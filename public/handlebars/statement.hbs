@@ -5,9 +5,11 @@
 {{> table.hbs data}}
 
 {{#parameters.date}}
-    {{i18n data.identifier . locale=language}}
+    <p>{{i18n data.identifier . locale=language}}</p>
 {{/parameters.date}}
 
 {{#parameters.relatedURL}}
-    {{{i18n data.identifier . locale=language}}}
+    <p>{{{i18n data.identifier . locale=language}}}</p>
 {{/parameters.relatedURL}}
+
+<p>{{{i18n "Disclaimer" locale=language}}}</p>
