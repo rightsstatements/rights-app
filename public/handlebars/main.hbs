@@ -1,18 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html lang="en">
+<html class="no-js" lang="{{ language }}">
 
     <head>
-        <meta charset="utf-8">
-        <title>rightsstatements.org</title>
-        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.6/semantic.min.css">
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Rights Statements</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.0/foundation.min.css" />
+        <link rel="stylesheet" href="/assets/css/style.css" />
+        <link rel="stylesheet" type="text/css" href="//cloud.typography.com/7018914/6677352/css/fonts.css" />
     </head>
 
     <body>
 
-        <div class="ui container">
-            {{{content}}}
-        </div>
+        {{{content}}}
+
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/what-input/2.0.1/what-input.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/foundation/6.2.0/foundation.min.js"></script>
+        <script>
+            $(document).foundation();
+        </script>
 
     </body>
 

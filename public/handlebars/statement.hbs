@@ -2,14 +2,35 @@
     {{json data}}
 </script>
 
-{{> table.hbs data}}
+<div class="row main">
+    <div class="large-4 columns">
+        <img src="http://placehold.it/500x170?text={{ data.prefLabel.[@value] }}" />
+    </div>
+    <div class="large-8 columns">
+        <h1>{{ data.prefLabel.[@value] }}</h1>
+        <p>{{ data.scopeNote.[@value] }}</p>
+        <h2>{{i18n "notices" locale=language}}</h2>
+        <ul>
+            {{#data.note}}
+                <li>{{ [@value] }}</li>
+            {{/data.note}}
+        </ul>
+        <p>{{{i18n "Disclaimer" locale=language}}}</p>
+        {{#parameters.date}}
+            <p>{{i18n data.identifier . locale=language}}</p>
+        {{/parameters.date}}
 
-{{#parameters.date}}
-    <p>{{i18n data.identifier . locale=language}}</p>
-{{/parameters.date}}
+        {{#parameters.relatedURL}}
+            <p>{{{i18n data.identifier . locale=language}}}</p>
+        {{/parameters.relatedURL}}
+    </div>
+</div>
 
-{{#parameters.relatedURL}}
-    <p>{{{i18n data.identifier . locale=language}}}</p>
-{{/parameters.relatedURL}}
-
-<p>{{{i18n "Disclaimer" locale=language}}}</p>
+<div class="row">
+    <div class="large-8 columns">
+        {{{ i18n "provider" locale=language }}}
+    </div>
+    <div class="large-4 columns">
+        <img src="http://placehold.it/350x75?text=rightsstatements" />
+    </div>
+</div>

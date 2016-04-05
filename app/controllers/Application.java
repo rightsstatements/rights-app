@@ -241,6 +241,7 @@ public class Application extends Controller {
 
     Template pageTemplate = handlebars.compile(templateFile);
     Map<String, Object> main = new HashMap<>();
+    main.put("language", language);
     main.put("content", pageTemplate.apply(scope));
     Template template = handlebars.compile("main.hbs");
 
