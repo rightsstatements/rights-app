@@ -25,6 +25,7 @@ import javax.annotation.Nonnull;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -45,6 +46,8 @@ public class Application extends Controller {
   private static Map<String, Object> validParameters = Play.application().configuration().getConfig("params").asMap();
 
   private static Map<String, Object> sparqlQueries = Play.application().configuration().getConfig("queries").asMap();
+
+  private static Map<String, Object> languages = Play.application().configuration().getConfig("languages").asMap();
 
   private final VocabProvider vocabProvider;
 
@@ -326,31 +329,41 @@ public class Application extends Controller {
 
   private Locale getLocale(Http.Request request, String language) {
 
+    Locale[] requestedLocales;
+
     if (language != null) {
-      return getLocaleByCode(language);
+      requestedLocales = getLocalesByCode(language);
     } else {
-      return getLocaleFromRequest(request);
+      requestedLocales = getLocalesFromRequest(request);
     }
+
+    String[] availableLocales = languages.get("available").toString().split(" +");
+
+    if (requestedLocales != null) {
+      for (Locale requestedLocale : requestedLocales) {
+        if (Arrays.asList(availableLocales).contains(requestedLocale.getLanguage())) {
+          return requestedLocale;
+        }
+      }
+    }
+
+    return new Locale(availableLocales[0]);
 
   }
 
-  private Locale getLocaleFromRequest(Http.Request request) {
-
-    String code;
+  private Locale[] getLocalesFromRequest(Http.Request request) {
 
     if (!request.acceptLanguages().isEmpty()) {
-      code = request.acceptLanguages().get(0).language();
-    } else {
-      code = defaults.get("language").toString();
+      return request.acceptLanguages().stream().map(lang -> new Locale(lang.language())).toArray(Locale[]::new);
     }
 
-    return new Locale(code);
+    return null;
 
   }
 
-  private Locale getLocaleByCode(String code) {
+  private Locale[] getLocalesByCode(String code) {
 
-    return new Locale(code);
+    return new Locale[]{new Locale(code)};
 
   }
 
