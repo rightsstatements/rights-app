@@ -2,20 +2,26 @@
     {{json data}}
 </script>
 
-<div class="row main">
+<div class="row header">
     <div class="large-4 columns">
-        <img src="http://placehold.it/500x170?text={{ data.prefLabel.[@value] }}" />
+        <img src="http://placehold.it/500x170/318ac7/ffffff?text={{ data.prefLabel.[@value] }}" />
     </div>
-    <div class="large-8 columns">
+    <div class="large-8 columns title">
         <h1>{{ data.prefLabel.[@value] }}</h1>
+    </div>
+</div>
+
+<div class="row main">
+    <div class="large-4 columns"></div>
+    <div class="large-8 columns">
         <p>{{ data.scopeNote.[@value] }}</p>
         <h2>{{i18n "notices" locale=language}}</h2>
         <ul>
             {{#data.note}}
-                <li>{{ [@value] }}</li>
+                <li><span>{{ [@value] }}</span></li>
             {{/data.note}}
         </ul>
-        <p>{{{i18n "Disclaimer" locale=language}}}</p>
+        <p class="disclaimer">{{{i18n "Disclaimer" locale=language}}}</p>
         {{#parameters.date}}
             <p>{{i18n data.identifier . locale=language}}</p>
         {{/parameters.date}}
@@ -26,11 +32,11 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="large-8 columns">
+<div class="row footer">
+    <div class="large-9 columns">
         {{{ i18n "provider" locale=language }}}
     </div>
-    <div class="large-4 columns">
-        <img src="http://placehold.it/350x75?text=rightsstatements" />
+    <div class="large-3 columns">
+        <img src="http://rightsstatements.github.io/files/images/logo.svg" />
     </div>
 </div>
