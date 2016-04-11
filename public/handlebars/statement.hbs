@@ -1,42 +1,69 @@
-<script type="application/ld+json">
-    {{json data}}
-</script>
+<!doctype html>
 
-<div class="row header">
-    <div class="large-4 columns">
-        <img src="http://placehold.it/500x170/318ac7/ffffff?text={{ data.prefLabel.[@value] }}" />
-    </div>
-    <div class="large-8 columns title">
-        <h1>{{ data.prefLabel.[@value] }}</h1>
-    </div>
-</div>
+<html class="no-js" lang="{{ language }}">
 
-<div class="row main">
-    <div class="large-4 columns"></div>
-    <div class="large-8 columns">
-        <p>{{ data.scopeNote.[@value] }}</p>
-        <h2>{{i18n "notices" locale=language}}</h2>
-        <ul>
-            {{#data.note}}
-                <li><span>{{ [@value] }}</span></li>
-            {{/data.note}}
-        </ul>
-        <p class="disclaimer">{{{i18n "Disclaimer" locale=language}}}</p>
-        {{#parameters.date}}
-            <p>{{i18n data.identifier . locale=language}}</p>
-        {{/parameters.date}}
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rights Statements</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.0/foundation.min.css" />
+    <link rel="stylesheet" href="http://graphthinking.com/etherpad2css.php?pad=rights-site.css" />
+    <link rel="stylesheet" type="text/css" href="//cloud.typography.com/7018914/6677352/css/fonts.css" />
+</head>
 
-        {{#parameters.relatedURL}}
-            <p>{{{i18n data.identifier . locale=language}}}</p>
-        {{/parameters.relatedURL}}
-    </div>
-</div>
+<body>
 
-<div class="row footer">
-    <div class="large-9 columns">
-        {{{ i18n "provider" locale=language }}}
+    <script type="application/ld+json">
+        {{json data}}
+    </script>
+
+    <div class="row header">
+        <div class="large-4 columns">
+            <img src="http://placehold.it/500x170/318ac7/ffffff?text={{ data.prefLabel.[@value] }}" />
+        </div>
+        <div class="large-8 columns title">
+            <h1>{{ data.prefLabel.[@value] }}</h1>
+        </div>
     </div>
-    <div class="large-3 columns">
-        <img src="http://rightsstatements.github.io/files/images/logo.svg" />
+
+    <div class="row main">
+        <div class="large-4 columns"></div>
+        <div class="large-8 columns">
+            <p>{{ data.scopeNote.[@value] }}</p>
+            <h2>{{i18n "notices" locale=language}}</h2>
+            <ul>
+                {{#data.note}}
+                    <li><span>{{ [@value] }}</span></li>
+                {{/data.note}}
+            </ul>
+            <p class="disclaimer">{{{i18n "Disclaimer" locale=language}}}</p>
+            {{#parameters.date}}
+                <p>{{i18n data.identifier . locale=language}}</p>
+            {{/parameters.date}}
+
+            {{#parameters.relatedURL}}
+                <p>{{{i18n data.identifier . locale=language}}}</p>
+            {{/parameters.relatedURL}}
+        </div>
     </div>
-</div>
+
+    <div class="row footer">
+        <div class="large-9 columns">
+            {{{ i18n "provider" locale=language }}}
+        </div>
+        <div class="large-3 columns">
+            <img src="http://rightsstatements.github.io/files/images/logo.svg" />
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/what-input/2.0.1/what-input.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/foundation/6.2.0/foundation.min.js"></script>
+    <script>
+        $(document).foundation();
+    </script>
+
+</body>
+
+</html>
