@@ -25,6 +25,7 @@ import javax.annotation.Nonnull;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -45,6 +46,8 @@ public class Application extends Controller {
   private static Map<String, Object> validParameters = Play.application().configuration().getConfig("params").asMap();
 
   private static Map<String, Object> sparqlQueries = Play.application().configuration().getConfig("queries").asMap();
+
+  private static Map<String, Object> languages = Play.application().configuration().getConfig("languages").asMap();
 
   private final VocabProvider vocabProvider;
 
@@ -96,7 +99,7 @@ public class Application extends Controller {
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(vocab, "vocab.hbs", locale.getLanguage(), null);
+    return getPage(vocab, "rightsstatements.github.io/en/statements/index.html", locale.getLanguage(), null);
 
   }
 
@@ -151,7 +154,7 @@ public class Application extends Controller {
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(rightsStatement, "statement.hbs", locale.getLanguage(), getParameters(request(), id));
+    return getPage(rightsStatement, "handlebars/statement.hbs", locale.getLanguage(), getParameters(request(), id));
 
   }
 
@@ -187,7 +190,7 @@ public class Application extends Controller {
 
   public Result getCollectionPage(String id, String version, String language) throws IOException {
 
-    Model collection = getCollectionModel(id, version);
+    Model collection = getVocabModel(version);
     Locale locale = getLocale(request(), language);
 
     if (collection.isEmpty()) {
@@ -198,7 +201,8 @@ public class Application extends Controller {
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(collection, "collection.hbs", locale.getLanguage(), null);
+    return getPage(collection, "rightsstatements.github.io/en/statements/collection-".concat(id).concat(".html"),
+        locale.getLanguage(), null);
 
   }
 
@@ -228,7 +232,7 @@ public class Application extends Controller {
     scope.put("data", new ObjectMapper().readValue(boas.toString(), HashMap.class));
 
     TemplateLoader loader = new ResourceTemplateLoader();
-    loader.setPrefix("public/handlebars");
+    loader.setPrefix("public");
     loader.setSuffix("");
     Handlebars handlebars = new Handlebars(loader);
 
@@ -239,12 +243,7 @@ public class Application extends Controller {
       Logger.error(e.toString());
     }
 
-    Template pageTemplate = handlebars.compile(templateFile);
-    Map<String, Object> main = new HashMap<>();
-    main.put("content", pageTemplate.apply(scope));
-    Template template = handlebars.compile("main.hbs");
-
-    return ok(template.apply(main)).as("text/html");
+    return ok(handlebars.compile(templateFile).apply(scope)).as("text/html");
 
   }
 
@@ -326,31 +325,41 @@ public class Application extends Controller {
 
   private Locale getLocale(Http.Request request, String language) {
 
+    Locale[] requestedLocales;
+
     if (language != null) {
-      return getLocaleByCode(language);
+      requestedLocales = getLocalesByCode(language);
     } else {
-      return getLocaleFromRequest(request);
+      requestedLocales = getLocalesFromRequest(request);
     }
+
+    String[] availableLocales = languages.get("available").toString().split(" +");
+
+    if (requestedLocales != null) {
+      for (Locale requestedLocale : requestedLocales) {
+        if (Arrays.asList(availableLocales).contains(requestedLocale.getLanguage())) {
+          return requestedLocale;
+        }
+      }
+    }
+
+    return new Locale(availableLocales[0]);
 
   }
 
-  private Locale getLocaleFromRequest(Http.Request request) {
-
-    String code;
+  private Locale[] getLocalesFromRequest(Http.Request request) {
 
     if (!request.acceptLanguages().isEmpty()) {
-      code = request.acceptLanguages().get(0).language();
-    } else {
-      code = defaults.get("language").toString();
+      return request.acceptLanguages().stream().map(lang -> new Locale(lang.language())).toArray(Locale[]::new);
     }
 
-    return new Locale(code);
+    return null;
 
   }
 
-  private Locale getLocaleByCode(String code) {
+  private Locale[] getLocalesByCode(String code) {
 
-    return new Locale(code);
+    return new Locale[]{new Locale(code)};
 
   }
 
