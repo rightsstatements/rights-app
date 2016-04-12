@@ -29,13 +29,6 @@
                 <div class="statement-textcolumn">
                     <h1>{{ data.prefLabel.[@value] }}</h1>
                     <p>{{ data.definition.[@value] }}</p>
-                    <h2>{{i18n "notices" locale=language}}</h2>
-                    <ul>
-                        {{#sort data.note direction="asc"}}
-                            <li><span>{{ [@value] }}</span></li>
-                        {{/sort}}
-                    </ul>
-                    <p class="disclaimer">{{{i18n "Disclaimer" locale=language}}}</p>
                     {{#parameters.date}}
                         <p>{{i18n data.identifier . locale=language}}</p>
                     {{/parameters.date}}
@@ -43,6 +36,13 @@
                     {{#parameters.relatedURL}}
                         <p>{{{i18n data.identifier . locale=language}}}</p>
                     {{/parameters.relatedURL}}
+                    <h2>{{i18n "notices" locale=language}}</h2>
+                    <ul>
+                        {{#sort data.note direction="asc"}}
+                            <li><span>{{ [@value] }}</span></li>
+                        {{/sort}}
+                    </ul>
+                    <p class="disclaimer">{{{i18n "Disclaimer" locale=language}}}</p>
                 </div>
             </div>
         </div>
