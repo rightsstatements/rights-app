@@ -99,7 +99,7 @@ public class Application extends Controller {
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(vocab, "vocab.hbs", locale.getLanguage(), null);
+    return getPage(vocab, "rightsstatements.github.io/en/statements/index.html", locale.getLanguage(), null);
 
   }
 
@@ -154,7 +154,7 @@ public class Application extends Controller {
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(rightsStatement, "statement.hbs", locale.getLanguage(), getParameters(request(), id));
+    return getPage(rightsStatement, "handlebars/statement.hbs", locale.getLanguage(), getParameters(request(), id));
 
   }
 
@@ -190,7 +190,7 @@ public class Application extends Controller {
 
   public Result getCollectionPage(String id, String version, String language) throws IOException {
 
-    Model collection = getCollectionModel(id, version);
+    Model collection = getVocabModel(version);
     Locale locale = getLocale(request(), language);
 
     if (collection.isEmpty()) {
@@ -201,7 +201,8 @@ public class Application extends Controller {
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(collection, "collection.hbs", locale.getLanguage(), null);
+    return getPage(collection, "rightsstatements.github.io/en/statements/collection-".concat(id).concat(".html"),
+        locale.getLanguage(), null);
 
   }
 
@@ -231,7 +232,7 @@ public class Application extends Controller {
     scope.put("data", new ObjectMapper().readValue(boas.toString(), HashMap.class));
 
     TemplateLoader loader = new ResourceTemplateLoader();
-    loader.setPrefix("public/handlebars");
+    loader.setPrefix("public");
     loader.setSuffix("");
     Handlebars handlebars = new Handlebars(loader);
 
@@ -242,12 +243,7 @@ public class Application extends Controller {
       Logger.error(e.toString());
     }
 
-    Template pageTemplate = handlebars.compile(templateFile);
-    Map<String, Object> main = new HashMap<>();
-    main.put("content", pageTemplate.apply(scope));
-    Template template = handlebars.compile("main.hbs");
-
-    return ok(template.apply(main)).as("text/html");
+    return ok(handlebars.compile(templateFile).apply(scope)).as("text/html");
 
   }
 

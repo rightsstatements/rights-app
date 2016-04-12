@@ -1,3 +1,6 @@
 [submodule "test/resources/data-model"]
 	path = test/resources/data-model
 	url = https://github.com/rightsstatements/data-model.git
+[submodule "public/rightsstatements.github.io"]
+	path = public/rightsstatements.github.io
+	url = https://github.com/rightsstatements/rightsstatements.github.io.git
