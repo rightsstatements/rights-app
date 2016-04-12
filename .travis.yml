@@ -5,6 +5,10 @@ cache:
   directories:
   - $HOME/.ivy2/cache
 before_deploy: "sbt ++$TRAVIS_SCALA_VERSION clean dist"
+git:
+  submodules: false
+before_install:
+  - git submodule update --remote --merge
 deploy:
   provider: releases
   api-key:
