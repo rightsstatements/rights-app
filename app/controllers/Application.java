@@ -2,7 +2,6 @@ package controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jknack.handlebars.Handlebars;
-import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import com.google.inject.Inject;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
@@ -10,13 +9,13 @@ import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
-import helpers.ResourceTemplateLoader;
 import play.Logger;
 import play.Play;
 import play.api.http.MediaRange;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import services.LayoutProvider;
 import services.VocabProvider;
 
 import javax.activation.MimeType;
@@ -51,9 +50,12 @@ public class Application extends Controller {
 
   private final VocabProvider vocabProvider;
 
+  private final LayoutProvider layoutProvider;
+
   @Inject
-  public Application(VocabProvider vocabProvider) {
+  public Application(VocabProvider vocabProvider, LayoutProvider layoutProvider) {
     this.vocabProvider = vocabProvider;
+    this.layoutProvider = layoutProvider;
   }
 
   public Result getVocab(String version) {
@@ -99,7 +101,7 @@ public class Application extends Controller {
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(vocab, "rightsstatements.github.io/en/statements/index.html", locale.getLanguage(), null);
+    return getPage(vocab, "en/statements/index.html", locale.getLanguage(), null);
 
   }
 
@@ -154,7 +156,7 @@ public class Application extends Controller {
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(rightsStatement, "handlebars/statement.hbs", locale.getLanguage(), getParameters(request(), id));
+    return getPage(rightsStatement, "en/statement.hbs", locale.getLanguage(), getParameters(request(), id));
 
   }
 
@@ -201,7 +203,7 @@ public class Application extends Controller {
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(collection, "rightsstatements.github.io/en/statements/collection-".concat(id).concat(".html"),
+    return getPage(collection, "en/statements/collection-".concat(id).concat(".html"),
         locale.getLanguage(), null);
 
   }
@@ -231,9 +233,7 @@ public class Application extends Controller {
     localized.write(boas, "JSON-LD");
     scope.put("data", new ObjectMapper().readValue(boas.toString(), HashMap.class));
 
-    TemplateLoader loader = new ResourceTemplateLoader();
-    loader.setPrefix("public");
-    loader.setSuffix("");
+    TemplateLoader loader = layoutProvider.getTemplateLoader();
     Handlebars handlebars = new Handlebars(loader);
 
     try {

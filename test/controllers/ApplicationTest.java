@@ -7,11 +7,16 @@ import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.route;
 import static play.test.Helpers.running;
+import static play.test.Helpers.start;
+import static play.test.Helpers.stop;
 
 import org.apache.commons.io.IOUtils;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import play.Logger;
 import play.mvc.Result;
+import play.test.FakeApplication;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,10 +26,23 @@ import java.io.InputStream;
  */
 public class ApplicationTest {
 
+  private static FakeApplication fakeApplication;
+
+  @BeforeClass
+  public static void startFakeApplication() {
+    fakeApplication = fakeApplication();
+    start(fakeApplication);
+  }
+
+  @AfterClass
+  public static void shutdownFakeApplication() {
+    stop(fakeApplication);
+  }
+
   @Test
   public void testGetVocab() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
 
@@ -46,7 +64,7 @@ public class ApplicationTest {
   @Test
   public void testGetStatement() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
 
@@ -68,7 +86,7 @@ public class ApplicationTest {
   @Test
   public void testGetVocabDataAsTurtle() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         Result result = route(fakeRequest(routes.Application.getVocabData("1.0", null))
@@ -86,7 +104,7 @@ public class ApplicationTest {
   @Test
   public void testGetStatementDataAsTurtle() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         Result result = route(fakeRequest(routes.Application.getStatementData("InC", "1.0", null))
@@ -104,7 +122,7 @@ public class ApplicationTest {
   @Test
   public void testGetVocabDataWithoutAcceptHeader() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         Result result = route(fakeRequest(routes.Application.getVocabData("1.0", null)));
@@ -121,7 +139,7 @@ public class ApplicationTest {
   @Test
   public void testGetVocabDataWithWildcardAcceptHeader() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         Result result = route(fakeRequest(routes.Application.getVocabData("1.0", null))
@@ -139,7 +157,7 @@ public class ApplicationTest {
   @Test
   public void testGetVocabDataAsJson() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         Result result = route(fakeRequest(routes.Application.getVocabData("1.0", null))
@@ -157,7 +175,7 @@ public class ApplicationTest {
   @Test
   public void testGetVocabDataAsJsonLd() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         Result result = route(fakeRequest(routes.Application.getVocabData("1.0", null))
@@ -175,7 +193,7 @@ public class ApplicationTest {
   @Test
   public void testGetStatementDataWithoutAcceptHeader() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         Result result = route(fakeRequest(routes.Application.getStatementData("InC", "1.0", null)));
@@ -192,7 +210,7 @@ public class ApplicationTest {
   @Test
   public void testGetStatementDataWithWildcardAcceptHeader() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         Result result = route(fakeRequest(routes.Application.getStatementData("InC", "1.0", null))
@@ -210,7 +228,7 @@ public class ApplicationTest {
   @Test
   public void testGetStatementDataAsJson() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         Result result = route(fakeRequest(routes.Application.getStatementData("InC", "1.0", null))
@@ -228,7 +246,7 @@ public class ApplicationTest {
   @Test
   public void testGetStatementDataAsJsonLd() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         Result result = route(fakeRequest(routes.Application.getStatementData("InC", "1.0", null))
@@ -246,7 +264,7 @@ public class ApplicationTest {
   @Test
   public void testGetVocabPage() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         Result result = route(fakeRequest(routes.Application.getVocabPage("1.0", "en"))
@@ -265,7 +283,7 @@ public class ApplicationTest {
   @Test
   public void testGetStatementPage() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         Result result = route(fakeRequest(routes.Application.getStatementPage("InC", "1.0", "en"))
@@ -284,7 +302,7 @@ public class ApplicationTest {
   @Test
   public void testStatementAlternates() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         Result result = route(fakeRequest("GET", routes.Application.getStatement("InC-OW-EU", "1.0").url()
@@ -301,7 +319,7 @@ public class ApplicationTest {
   @Test
   public void testStatementDataAlternates() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         Result result = route(fakeRequest("GET", routes.Application.getStatementData("InC-OW-EU", "1.0", null).url()
@@ -318,7 +336,7 @@ public class ApplicationTest {
   @Test
   public void testInvalidStatementParameter() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         Result result = route(fakeRequest("GET", routes.Application.getStatement("InC", "1.0").url()
@@ -333,7 +351,7 @@ public class ApplicationTest {
   @Test
   public void testInvalidStatementDataParameter() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         Result result = route(fakeRequest("GET", routes.Application.getStatementData("InC", "1.0", null).url()
@@ -348,7 +366,7 @@ public class ApplicationTest {
   @Test
   public void testGetCollection() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
 
@@ -370,7 +388,7 @@ public class ApplicationTest {
   @Test
   public void testGetCollectionDataAsTurtle() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         Result result = route(fakeRequest(routes.Application.getCollectionData("ic", "1.0", null))
@@ -387,7 +405,7 @@ public class ApplicationTest {
   @Test
   public void testGetCollectionDataAsJson() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         Result result = route(fakeRequest(routes.Application.getCollectionData("ic", "1.0", null))
@@ -404,7 +422,7 @@ public class ApplicationTest {
   @Test
   public void testGetCollectionDataAsJsonLd() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         Result result = route(fakeRequest(routes.Application.getCollectionData("ic", "1.0", null))
@@ -421,7 +439,7 @@ public class ApplicationTest {
   @Test
   public void testGetCollectionPage() {
 
-    running(fakeApplication(), new Runnable() {
+    running(fakeApplication, new Runnable() {
       @Override
       public void run() {
         Result result = route(fakeRequest(routes.Application.getCollectionPage("ic", "1.0", null))
