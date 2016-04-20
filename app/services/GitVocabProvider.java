@@ -3,6 +3,7 @@ package services;
 import com.google.inject.Singleton;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import org.apache.commons.io.FileUtils;
 import org.apache.jena.riot.Lang;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -36,12 +37,12 @@ public class GitVocabProvider implements VocabProvider {
 
   public GitVocabProvider() {
 
-    Configuration gitSource = Play.application().configuration().getConfig("source.git");
+    Configuration gitSource = Play.application().configuration().getConfig("source.data.git");
 
     try {
 
-      File localPath = File.createTempFile(gitSource.getString("local"), "");
-      localPath.delete();
+      File localPath = new File(gitSource.getString("local"));
+      FileUtils.deleteDirectory(localPath);
 
       try (Git git = Git.cloneRepository().setURI(gitSource.getString("remote")).setDirectory(localPath).call()) {
 

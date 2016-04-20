@@ -12,7 +12,3 @@ GET   /data/:id/:version.:ext             controllers.Application.getStatementDa
 GET   /page/:version/                     controllers.Application.getVocabPage(version: String, language: String ?= null)
 GET   /page/collection-:id/:version/      controllers.Application.getCollectionPage(id: String, version: String, language: String ?= null)
 GET   /page/:id/:version/                 controllers.Application.getStatementPage(id: String, version: String, language: String ?= null)
-
-GET   /css/*file                          controllers.Assets.at(path="/public/rightsstatements.github.io/css", file)
-GET   /js/*file                           controllers.Assets.at(path="/public/rightsstatements.github.io/js", file)
-GET   /files/*file                        controllers.Assets.at(path="/public/rightsstatements.github.io/files", file)
