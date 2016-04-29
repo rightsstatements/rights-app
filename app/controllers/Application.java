@@ -222,7 +222,7 @@ public class Application extends Controller {
   public Result notAcceptablePage() {
 
     try {
-      return notFound(layoutProvider.getTemplateLoader().sourceAt("en/406.html").content()).as("text/html");
+      return status(406, layoutProvider.getTemplateLoader().sourceAt("en/406.html").content()).as("text/html");
     } catch (IOException e) {
       Logger.error(e.toString());
       return status(406, "Not Acceptable");
