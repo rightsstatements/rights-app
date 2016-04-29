@@ -74,7 +74,7 @@ public class Application extends Controller {
     Model vocab = getVocabModel(version);
 
     if (vocab.isEmpty()) {
-      return notFound();
+      return notFoundJSON();
     }
 
     MimeType mimeType = getMimeType(request(), extension);
@@ -94,7 +94,7 @@ public class Application extends Controller {
     Locale locale = getLocale(request(), language);
 
     if (vocab.isEmpty()) {
-      return notFound();
+      return notFoundPage();
     }
 
     response().setHeader("Link", "<".concat(routes.Application.getVocabPage(version, null)
@@ -109,7 +109,7 @@ public class Application extends Controller {
 
     if (!request().queryString().isEmpty()) {
       setAlternates(request(), id, version, true);
-      return status(406);
+      return notAcceptableJSON();
     } else  if (request().accepts("text/html")) {
       Locale locale = getLocale(request(), null);
       return redirect(routes.Application.getStatementPage(id, version, locale.getLanguage()).absoluteURL(request()));
@@ -123,13 +123,13 @@ public class Application extends Controller {
 
     if (!request().queryString().isEmpty()) {
       setAlternates(request(), id, version, false);
-      return status(406);
+      return notAcceptableJSON();
     }
 
     Model rightsStatement = getStatementModel(id, version);
 
     if (rightsStatement.isEmpty()) {
-      return notFound();
+      return notFoundJSON();
     }
 
     MimeType mimeType = getMimeType(request(), extension);
@@ -149,7 +149,7 @@ public class Application extends Controller {
     Locale locale = getLocale(request(), language);
 
     if (rightsStatement.isEmpty()) {
-      return notFound();
+      return notFoundPage();
     }
 
     response().setHeader("Link", "<".concat(routes.Application.getStatementPage(id, version, null)
@@ -176,7 +176,7 @@ public class Application extends Controller {
     Model collection = getCollectionModel(id, version);
 
     if (collection.isEmpty()) {
-      return notFound();
+      return notFoundJSON();
     }
 
     MimeType mimeType = getMimeType(request(), extension);
@@ -196,7 +196,7 @@ public class Application extends Controller {
     Locale locale = getLocale(request(), language);
 
     if (collection.isEmpty()) {
-      return notFound();
+      return notFoundPage();
     }
 
     response().setHeader("Link", "<".concat(routes.Application.getCollectionPage(id, version, null)
@@ -205,6 +205,50 @@ public class Application extends Controller {
 
     return getPage(collection, "en/statements/collection-".concat(id).concat(".html"),
         locale.getLanguage(), null);
+
+  }
+
+  public Result notFoundPage() {
+
+    try {
+      return notFound(layoutProvider.getTemplateLoader().sourceAt("en/404.html").content()).as("text/html");
+    } catch (IOException e) {
+      Logger.error(e.toString());
+      return notFound("Not Found");
+    }
+
+  }
+
+  public Result notFoundJSON() {
+
+    try {
+      return notFound(layoutProvider.getTemplateLoader().sourceAt("en/404.json").content()).as("application/json");
+    } catch (IOException e) {
+      Logger.error(e.toString());
+      return notFound("Not Found");
+    }
+
+  }
+
+  public Result notAcceptablePage() {
+
+    try {
+      return notFound(layoutProvider.getTemplateLoader().sourceAt("en/406.html").content()).as("text/html");
+    } catch (IOException e) {
+      Logger.error(e.toString());
+      return status(406, "Not Acceptable");
+    }
+
+  }
+
+  public Result notAcceptableJSON() {
+
+    try {
+      return status(406, layoutProvider.getTemplateLoader().sourceAt("en/406.json").content()).as("application/json");
+    } catch (IOException e) {
+      Logger.error(e.toString());
+      return status(406, "Not Acceptable");
+    }
 
   }
 
