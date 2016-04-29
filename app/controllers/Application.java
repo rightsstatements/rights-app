@@ -74,7 +74,7 @@ public class Application extends Controller {
     Model vocab = getVocabModel(version);
 
     if (vocab.isEmpty()) {
-      return notFoundJSON();
+      return notFoundPage();
     }
 
     MimeType mimeType = getMimeType(request(), extension);
@@ -109,7 +109,7 @@ public class Application extends Controller {
 
     if (!request().queryString().isEmpty()) {
       setAlternates(request(), id, version, true);
-      return notAcceptableJSON();
+      return notAcceptablePage();
     } else  if (request().accepts("text/html")) {
       Locale locale = getLocale(request(), null);
       return redirect(routes.Application.getStatementPage(id, version, locale.getLanguage()).absoluteURL(request()));
@@ -123,13 +123,13 @@ public class Application extends Controller {
 
     if (!request().queryString().isEmpty()) {
       setAlternates(request(), id, version, false);
-      return notAcceptableJSON();
+      return notAcceptablePage();
     }
 
     Model rightsStatement = getStatementModel(id, version);
 
     if (rightsStatement.isEmpty()) {
-      return notFoundJSON();
+      return notFoundPage();
     }
 
     MimeType mimeType = getMimeType(request(), extension);
@@ -176,7 +176,7 @@ public class Application extends Controller {
     Model collection = getCollectionModel(id, version);
 
     if (collection.isEmpty()) {
-      return notFoundJSON();
+      return notFoundPage();
     }
 
     MimeType mimeType = getMimeType(request(), extension);
@@ -219,32 +219,10 @@ public class Application extends Controller {
 
   }
 
-  public Result notFoundJSON() {
-
-    try {
-      return notFound(layoutProvider.getTemplateLoader().sourceAt("en/404.json").content()).as("application/json");
-    } catch (IOException e) {
-      Logger.error(e.toString());
-      return notFound("Not Found");
-    }
-
-  }
-
   public Result notAcceptablePage() {
 
     try {
       return notFound(layoutProvider.getTemplateLoader().sourceAt("en/406.html").content()).as("text/html");
-    } catch (IOException e) {
-      Logger.error(e.toString());
-      return status(406, "Not Acceptable");
-    }
-
-  }
-
-  public Result notAcceptableJSON() {
-
-    try {
-      return status(406, layoutProvider.getTemplateLoader().sourceAt("en/406.json").content()).as("application/json");
     } catch (IOException e) {
       Logger.error(e.toString());
       return status(406, "Not Acceptable");
