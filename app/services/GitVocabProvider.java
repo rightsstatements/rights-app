@@ -1,5 +1,6 @@
 package services;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -18,7 +19,6 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathSuffixFilter;
 import play.Configuration;
 import play.Logger;
-import play.Play;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -35,9 +35,10 @@ public class GitVocabProvider implements VocabProvider {
 
   private Model vocab = ModelFactory.createDefaultModel();
 
-  public GitVocabProvider() {
+  @Inject
+  public GitVocabProvider(Configuration configuration) {
 
-    Configuration gitSource = Play.application().configuration().getConfig("source.data.git");
+    Configuration gitSource = configuration.getConfig("source.data.git");
 
     try {
 

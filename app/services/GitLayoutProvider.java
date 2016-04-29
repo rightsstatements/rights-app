@@ -2,13 +2,13 @@ package services;
 
 import com.github.jknack.handlebars.io.URLTemplateLoader;
 import com.google.inject.Singleton;
+import com.google.inject.Inject;
 import org.apache.commons.io.FileUtils;
 import org.apache.jena.atlas.RuntimeIOException;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import play.Configuration;
 import play.Logger;
-import play.Play;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +21,7 @@ import java.net.URL;
 @Singleton
 public class GitLayoutProvider implements LayoutProvider {
 
-  private Configuration gitSource = Play.application().configuration().getConfig("source.site.git");
+  private Configuration gitSource;
 
   public URLTemplateLoader getTemplateLoader() {
     URLTemplateLoader urlTemplateLoader = new ResourceTemplateLoader();
@@ -42,7 +42,10 @@ public class GitLayoutProvider implements LayoutProvider {
 
   }
 
-  public GitLayoutProvider() {
+  @Inject
+  public GitLayoutProvider(Configuration configuration) {
+
+    gitSource = configuration.getConfig("source.site.git");
 
     try {
       Logger.debug("Checking out template branch ".concat(gitSource.getString("branch")));
