@@ -101,7 +101,7 @@ public class Application extends Controller {
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(vocab, "en/statements/index.html", locale.getLanguage(), null);
+    return getPage(vocab, "en/statements/vocab.html", locale.getLanguage(), null);
 
   }
 
