@@ -1,7 +1,6 @@
 # rights-app
 
-For background information, see the [Request for Proposals for
-RightsStatements.org](http://pro.europeana.eu/page/request-for-proposals-for-rightsstatements-org).
+This is the application that serves the vocabulary terms in the [rightssstatements.org data model](https://github.com/rightsstatements/data-model). For background information, see the [Requirements for the Technical Infrastructure for Standardized International Rights Statements](http://rightsstatements.org/en/documentation/technical-white-paper/) white paper.
 
 ## Setup
 
