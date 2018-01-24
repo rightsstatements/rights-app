@@ -9,6 +9,7 @@ import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import play.Logger;
 import play.Play;
 import play.api.http.MediaRange;
@@ -436,7 +437,7 @@ public class Application extends Controller {
       for (String validParameter : validParameters.split(" ")) {
         String suppliedParameter = request.getQueryString(validParameter);
         if (suppliedParameter != null) {
-          parameters.put(validParameter, request.getQueryString(validParameter));
+          parameters.put(validParameter, StringEscapeUtils.escapeHtml4(request.getQueryString(validParameter)));
         }
       }
     }

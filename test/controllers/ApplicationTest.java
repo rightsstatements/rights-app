@@ -286,12 +286,13 @@ public class ApplicationTest {
     running(fakeApplication, new Runnable() {
       @Override
       public void run() {
-        Result result = route(fakeRequest(routes.Application.getStatementPage("InC", "1.0", "en"))
-            .header("Accept", "text/html"));
+        Result result = route(fakeRequest("GET", routes.Application.getStatementPage("InC-OW-EU", "1.0", "en").url()
+            .concat("&relatedURL=%22%3E%3Cscript%3Ewindow.location%20=%22http://www.google.com%22%3C/script%3E")));
         assertEquals(200, result.status());
         assertEquals("text/html", result.contentType());
-        assertEquals("<http://null/page/InC/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals("<http://null/page/InC-OW-EU/1.0/>; rel=derivedfrom", result.header("Link"));
         assertEquals("en", result.header("Content-Language"));
+        assertEquals(-1, contentAsString(result).indexOf("<script>window.location =\"http://www.google.com\"</script>"));
         //FIXME: re-enable once templates are finalized
         //assertEquals(getResource("page/InC/1.0"), contentAsString(result));
       }
