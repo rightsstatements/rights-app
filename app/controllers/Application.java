@@ -102,7 +102,7 @@ public class Application extends Controller {
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(vocab, "en/statements/vocab.html", locale.getLanguage(), null);
+    return getPage(vocab, locale.getLanguage().concat("/statements/vocab.html"), locale.getLanguage(), null);
 
   }
 
@@ -204,7 +204,7 @@ public class Application extends Controller {
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(collection, "en/statements/collection-".concat(id).concat(".html"),
+    return getPage(collection, locale.getLanguage().concat("/statements/collection-").concat(id).concat(".html"),
         locale.getLanguage(), null);
 
   }
