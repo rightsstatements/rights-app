@@ -102,7 +102,7 @@ public class Application extends Controller {
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(vocab, locale.getLanguage().concat("/statements/vocab.html"), locale.getLanguage(), null);
+    return getPage(vocab, locale.toLanguageTag().concat("/statements/vocab.html"), locale.getLanguage(), null);
 
   }
 
@@ -204,7 +204,7 @@ public class Application extends Controller {
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(collection, locale.getLanguage().concat("/statements/collection-").concat(id).concat(".html"),
+    return getPage(collection, locale.toLanguageTag().concat("/statements/collection-").concat(id).concat(".html"),
         locale.getLanguage(), null);
 
   }
@@ -356,24 +356,25 @@ public class Application extends Controller {
       requestedLocales = getLocalesFromRequest(request);
     }
 
-    String[] availableLocales = languages.get("available").toString().split(" +");
+    Locale[] availableLocales = Arrays.stream(languages.get("available").toString().split(" +"))
+        .map(code -> Locale.forLanguageTag(code)).toArray(Locale[]::new);
 
     if (requestedLocales != null) {
       for (Locale requestedLocale : requestedLocales) {
-        if (Arrays.asList(availableLocales).contains(requestedLocale.getLanguage())) {
+        if (Arrays.asList(availableLocales).contains(requestedLocale)) {
           return requestedLocale;
         }
       }
     }
 
-    return new Locale(availableLocales[0]);
+    return availableLocales[0];
 
   }
 
   private Locale[] getLocalesFromRequest(Http.Request request) {
 
     if (!request.acceptLanguages().isEmpty()) {
-      return request.acceptLanguages().stream().map(lang -> new Locale(lang.language())).toArray(Locale[]::new);
+      return request.acceptLanguages().stream().map(lang -> lang.toLocale()).toArray(Locale[]::new);
     }
 
     return null;
@@ -382,7 +383,7 @@ public class Application extends Controller {
 
   private Locale[] getLocalesByCode(String code) {
 
-    return new Locale[]{new Locale(code)};
+    return new Locale[]{Locale.forLanguageTag(code)};
 
   }
 
