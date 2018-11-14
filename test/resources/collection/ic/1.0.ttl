@@ -2,6 +2,7 @@
 @prefix schema: <http://schema.org/> .
 @prefix premiscopy: <http://id.loc.gov/vocabulary/preservation/copyrightStatus/> .
 @prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
 @prefix dcmitype: <http://purl.org/dc/dcmitype/> .
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
@@ -15,5 +16,5 @@
 <http://rightsstatements.org/vocab/collection-ic/1.0/>
         a                skos:Collection ;
         owl:versionInfo  "1.0" ;
-        skos:member      <http://rightsstatements.org/vocab/InC/1.0/> , <http://rightsstatements.org/vocab/InC-OW-EU/1.0/> , <http://rightsstatements.org/vocab/InC-RUU/1.0/> , <http://rightsstatements.org/vocab/InC-EDU/1.0/> , <http://rightsstatements.org/vocab/InC-NC/1.0/> ;
-        skos:prefLabel   "Rights Statements for works that are in copyright"@en .
+        skos:member      <http://rightsstatements.org/vocab/InC-EDU/1.0/> , <http://rightsstatements.org/vocab/InC/1.0/> , <http://rightsstatements.org/vocab/InC-NC/1.0/> , <http://rightsstatements.org/vocab/InC-RUU/1.0/> , <http://rightsstatements.org/vocab/InC-OW-EU/1.0/> ;
+        skos:prefLabel   "Beskrivningar för verk som skyddas genom upphovsrätt"@sv-FI , "Kuvaukset tekijänoikeuden suojaamille teoksille"@fi , "Autoriõigusliku seisundi deklaratsioonid kehtiva autoriõigusega objektidele"@et , "Statements for works that are in copyright"@en , "Declaraciones para obras que están protegidas por derecho de autor"@es , "Hinweise für Werke die urheberrechtlich geschützt sind"@de .
