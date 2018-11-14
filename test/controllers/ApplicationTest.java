@@ -1,6 +1,7 @@
 package controllers;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static play.test.Helpers.contentAsString;
 import static play.test.Helpers.fakeApplication;
@@ -295,6 +296,19 @@ public class ApplicationTest {
         assertEquals(-1, contentAsString(result).indexOf("<script>window.location =\"http://www.google.com\"</script>"));
         //FIXME: re-enable once templates are finalized
         //assertEquals(getResource("page/InC/1.0"), contentAsString(result));
+      }
+    });
+
+  }
+
+  @Test
+  public void testLocalizedGetStatementPage() {
+
+    running(fakeApplication, new Runnable() {
+      @Override
+      public void run() {
+        Result result = route(fakeRequest("GET", routes.Application.getStatementPage("InC-OW-EU", "1.0", "sv-FI").url()));
+        assertNotEquals(-1, contentAsString(result).indexOf("Underkastad upphovsrätt - EU-anonymt verk"));
       }
     });
 

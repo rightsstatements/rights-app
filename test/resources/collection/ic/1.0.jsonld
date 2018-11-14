@@ -2,11 +2,26 @@
   "@id" : "http://rightsstatements.org/vocab/collection-ic/1.0/",
   "@type" : "skos:Collection",
   "versionInfo" : "1.0",
-  "member" : [ "http://rightsstatements.org/vocab/InC/1.0/", "http://rightsstatements.org/vocab/InC-OW-EU/1.0/", "http://rightsstatements.org/vocab/InC-RUU/1.0/", "http://rightsstatements.org/vocab/InC-EDU/1.0/", "http://rightsstatements.org/vocab/InC-NC/1.0/" ],
-  "prefLabel" : {
+  "member" : [ "http://rightsstatements.org/vocab/InC-EDU/1.0/", "http://rightsstatements.org/vocab/InC/1.0/", "http://rightsstatements.org/vocab/InC-NC/1.0/", "http://rightsstatements.org/vocab/InC-RUU/1.0/", "http://rightsstatements.org/vocab/InC-OW-EU/1.0/" ],
+  "prefLabel" : [ {
+    "@language" : "sv-fi",
+    "@value" : "Beskrivningar för verk som skyddas genom upphovsrätt"
+  }, {
+    "@language" : "fi",
+    "@value" : "Kuvaukset tekijänoikeuden suojaamille teoksille"
+  }, {
+    "@language" : "et",
+    "@value" : "Autoriõigusliku seisundi deklaratsioonid kehtiva autoriõigusega objektidele"
+  }, {
     "@language" : "en",
-    "@value" : "Rights Statements for works that are in copyright"
-  },
+    "@value" : "Statements for works that are in copyright"
+  }, {
+    "@language" : "es",
+    "@value" : "Declaraciones para obras que están protegidas por derecho de autor"
+  }, {
+    "@language" : "de",
+    "@value" : "Hinweise für Werke die urheberrechtlich geschützt sind"
+  } ],
   "@context" : {
     "prefLabel" : "http://www.w3.org/2004/02/skos/core#prefLabel",
     "member" : {
@@ -18,6 +33,7 @@
     "schema" : "http://schema.org/",
     "premiscopy" : "http://id.loc.gov/vocabulary/preservation/copyrightStatus/",
     "owl" : "http://www.w3.org/2002/07/owl#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
     "dcmitype" : "http://purl.org/dc/dcmitype/",
     "skos" : "http://www.w3.org/2004/02/skos/core#",
     "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
