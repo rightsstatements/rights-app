@@ -14,3 +14,5 @@ libraryDependencies += "org.eclipse.jgit" % "org.eclipse.jgit" % "4.0.1.20150624
 libraryDependencies += "commons-io" % "commons-io" % "2.4"
 
 javaOptions in Test += "-Dconfig.file=conf/test.conf"
+
+scalaVersion := "2.11.11"
