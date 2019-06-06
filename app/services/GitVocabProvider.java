@@ -5,7 +5,6 @@ import com.google.inject.Singleton;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import org.apache.commons.io.FileUtils;
-import org.apache.jena.riot.Lang;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Constants;
@@ -38,36 +37,42 @@ public class GitVocabProvider implements VocabProvider {
   @Inject
   public GitVocabProvider(Configuration configuration) {
 
-    Configuration gitSource = configuration.getConfig("source.data.git");
+    Configuration source = configuration.getConfig("source.data");
+    Configuration gitSource = source.getConfig("git");
+    Configuration formats = source.getConfig("formats");
 
     try {
 
+      String remoteURL = gitSource.getString("remote");
       File localPath = new File(gitSource.getString("local"));
       FileUtils.deleteDirectory(localPath);
 
-      try (Git git = Git.cloneRepository().setURI(gitSource.getString("remote")).setDirectory(localPath).call()) {
+      try (Git git = Git.cloneRepository().setURI(remoteURL).setDirectory(localPath).call()) {
 
         Repository repository = git.getRepository();
-        ObjectId lastCommitId = repository.resolve(Constants.HEAD);
+        ObjectId lastCommitId = repository.resolve(gitSource.getString("rev"));
 
         try (RevWalk revWalk = new RevWalk(repository)) {
 
           RevCommit commit = revWalk.parseCommit(lastCommitId);
           RevTree tree = commit.getTree();
 
-          try (TreeWalk treeWalk = new TreeWalk(repository)) {
+          for (String format : formats.asMap().keySet()) {
+            String ext = formats.getConfig(format).getString("ext");
+            String lang = formats.getConfig(format).getString("lang");
 
-            treeWalk.addTree(tree);
-            treeWalk.setRecursive(true);
-            treeWalk.setFilter(PathSuffixFilter.create(".ttl"));
-
-            while (treeWalk.next()) {
-              ObjectId objectId = treeWalk.getObjectId(0);
-              ObjectLoader loader = repository.open(objectId);
-              ByteArrayOutputStream baos = new ByteArrayOutputStream();
-              loader.copyTo(baos);
-              ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-              vocab.read(bais, null, Lang.TURTLE.getName());
+            try (TreeWalk treeWalk = new TreeWalk(repository)) {
+              treeWalk.addTree(tree);
+              treeWalk.setRecursive(true);
+              treeWalk.setFilter(PathSuffixFilter.create(ext));
+              while (treeWalk.next()) {
+                ObjectId objectId = treeWalk.getObjectId(0);
+                ObjectLoader loader = repository.open(objectId);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                loader.copyTo(baos);
+                ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+                vocab.read(bais, null, lang);
+              }
             }
 
           }
@@ -75,8 +80,6 @@ public class GitVocabProvider implements VocabProvider {
           revWalk.dispose();
 
         }
-
-        git.close();
 
       }
 
