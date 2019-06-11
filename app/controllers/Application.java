@@ -10,6 +10,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import play.Configuration;
 import play.Logger;
 import play.Play;
 import play.api.http.MediaRange;
@@ -53,10 +54,13 @@ public class Application extends Controller {
 
   private final LayoutProvider layoutProvider;
 
+  private final Configuration configuration;
+
   @Inject
-  public Application(VocabProvider vocabProvider, LayoutProvider layoutProvider) {
+  public Application(VocabProvider vocabProvider, LayoutProvider layoutProvider, Configuration configuration) {
     this.vocabProvider = vocabProvider;
     this.layoutProvider = layoutProvider;
+    this.configuration = configuration;
   }
 
   public Result getVocab(String version) {
@@ -102,7 +106,7 @@ public class Application extends Controller {
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(vocab, locale.toLanguageTag().concat("/statements/vocab.html"), locale.getLanguage(), null);
+    return getPage(vocab, "/".concat(locale.toLanguageTag()).concat("/statements/vocab.html"), locale.getLanguage(), null);
 
   }
 
@@ -157,7 +161,7 @@ public class Application extends Controller {
         .absoluteURL(request())).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(rightsStatement, "en/statement.hbs", locale.getLanguage(), getParameters(request(), id));
+    return getPage(rightsStatement, "/en/statement.hbs", locale.getLanguage(), getParameters(request(), id));
 
   }
 
@@ -209,10 +213,11 @@ public class Application extends Controller {
 
   }
 
-  public Result notFoundPage() {
-
+  private Result notFoundPage() {
+    TemplateLoader loader = layoutProvider.getTemplateLoader();
+    loader.setPrefix(getPublicHost());
     try {
-      return notFound(layoutProvider.getTemplateLoader().sourceAt("en/404.html").content()).as("text/html");
+      return notFound(loader.sourceAt("/en/404.html").content()).as("text/html");
     } catch (IOException e) {
       Logger.error(e.toString());
       return notFound("Not Found");
@@ -220,10 +225,11 @@ public class Application extends Controller {
 
   }
 
-  public Result notAcceptablePage() {
-
+  private Result notAcceptablePage() {
+    TemplateLoader loader = layoutProvider.getTemplateLoader();
+    loader.setPrefix(getPublicHost());
     try {
-      return status(406, layoutProvider.getTemplateLoader().sourceAt("en/406.html").content()).as("text/html");
+      return status(406, loader.sourceAt("/en/406.html").content()).as("text/html");
     } catch (IOException e) {
       Logger.error(e.toString());
       return status(406, "Not Acceptable");
@@ -257,6 +263,7 @@ public class Application extends Controller {
     scope.put("data", new ObjectMapper().readValue(boas.toString(), HashMap.class));
 
     TemplateLoader loader = layoutProvider.getTemplateLoader();
+    loader.setPrefix(getPublicHost());
     Handlebars handlebars = new Handlebars(loader);
 
     try {
@@ -445,6 +452,23 @@ public class Application extends Controller {
 
     return parameters;
 
+  }
+
+  private String getPublicHost() {
+    if (configuration.getString("source.site.http") != null) {
+      return configuration.getString("source.site.http");
+    }
+    String proto = request().hasHeader("X-Forwarded-Proto")
+      ? request().getHeader("X-Forwarded-Proto")
+      : request().secure()
+        ? "https"
+        : "http";
+    String host = request().hasHeader("X-Forwarded-Host")
+      ? request().getHeader("X-Forwarded-Host")
+      : request().hasHeader("X-Forwarded-For")
+        ? request().getHeader("X-Forwarded-For")
+        : request().host();
+    return proto.concat("://").concat(host);
   }
 
 }
