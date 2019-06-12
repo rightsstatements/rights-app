@@ -50,12 +50,12 @@ public class ApplicationTest {
         Result data = route(fakeRequest(routes.Application.getVocab("1.0"))
             .header("Accept", "text/turtle"));
         assertEquals(303, data.status());
-        assertEquals("http://null/data/1.0/", data.redirectLocation());
+        assertEquals("/data/1.0/", data.redirectLocation());
 
         Result page = route(fakeRequest(routes.Application.getVocab("1.0"))
             .header("Accept", "text/html").header("Accept-Language", "en"));
         assertEquals(303, page.status());
-        assertEquals("http://null/page/1.0/?language=en", page.redirectLocation());
+        assertEquals("/page/1.0/?language=en", page.redirectLocation());
 
       }
     });
@@ -72,12 +72,12 @@ public class ApplicationTest {
         Result data = route(fakeRequest(routes.Application.getStatement("InC", "1.0"))
             .header("Accept", "text/turtle"));
         assertEquals(303, data.status());
-        assertEquals("http://null/data/InC/1.0/", data.redirectLocation());
+        assertEquals("/data/InC/1.0/", data.redirectLocation());
 
         Result page = route(fakeRequest(routes.Application.getStatement("InC", "1.0"))
             .header("Accept", "text/html").header("Accept-Language", "en"));
         assertEquals(303, page.status());
-        assertEquals("http://null/page/InC/1.0/?language=en", page.redirectLocation());
+        assertEquals("/page/InC/1.0/?language=en", page.redirectLocation());
 
       }
     });
@@ -94,8 +94,8 @@ public class ApplicationTest {
             .header("Accept", "text/turtle"));
         assertEquals(200, result.status());
         assertEquals("text/turtle", result.contentType());
-        assertEquals("http://null/data/1.0.ttl", result.header("Content-Location"));
-        assertEquals("<http://null/data/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals("/data/1.0.ttl", result.header("Content-Location"));
+        assertEquals("</data/1.0/>; rel=derivedfrom", result.header("Link"));
         assertEquals(getResource("data/1.0.ttl"), contentAsString(result));
       }
     });
@@ -112,8 +112,8 @@ public class ApplicationTest {
             .header("Accept", "text/turtle"));
         assertEquals(200, result.status());
         assertEquals("text/turtle", result.contentType());
-        assertEquals("http://null/data/InC/1.0.ttl", result.header("Content-Location"));
-        assertEquals("<http://null/data/InC/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals("/data/InC/1.0.ttl", result.header("Content-Location"));
+        assertEquals("</data/InC/1.0/>; rel=derivedfrom", result.header("Link"));
         assertEquals(getResource("data/InC/1.0.ttl"), contentAsString(result));
       }
     });
@@ -129,8 +129,8 @@ public class ApplicationTest {
         Result result = route(fakeRequest(routes.Application.getVocabData("1.0", null)));
         assertEquals(200, result.status());
         assertEquals("application/json", result.contentType());
-        assertEquals("http://null/data/1.0.json", result.header("Content-Location"));
-        assertEquals("<http://null/data/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals("/data/1.0.json", result.header("Content-Location"));
+        assertEquals("</data/1.0/>; rel=derivedfrom", result.header("Link"));
         assertEquals(getResource("data/1.0.jsonld"), contentAsString(result));
       }
     });
@@ -147,8 +147,8 @@ public class ApplicationTest {
             .header("Accept", "*/*"));
         assertEquals(200, result.status());
         assertEquals("application/json", result.contentType());
-        assertEquals("http://null/data/1.0.json", result.header("Content-Location"));
-        assertEquals("<http://null/data/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals("/data/1.0.json", result.header("Content-Location"));
+        assertEquals("</data/1.0/>; rel=derivedfrom", result.header("Link"));
         assertEquals(getResource("data/1.0.jsonld"), contentAsString(result));
       }
     });
@@ -165,8 +165,8 @@ public class ApplicationTest {
             .header("Accept", "application/json"));
         assertEquals(200, result.status());
         assertEquals("application/json", result.contentType());
-        assertEquals("http://null/data/1.0.json", result.header("Content-Location"));
-        assertEquals("<http://null/data/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals("/data/1.0.json", result.header("Content-Location"));
+        assertEquals("</data/1.0/>; rel=derivedfrom", result.header("Link"));
         assertEquals(getResource("data/1.0.jsonld"), contentAsString(result));
       }
     });
@@ -183,8 +183,8 @@ public class ApplicationTest {
             .header("Accept", "application/ld+json"));
         assertEquals(200, result.status());
         assertEquals("application/ld+json", result.contentType());
-        assertEquals("http://null/data/1.0.jsonld", result.header("Content-Location"));
-        assertEquals("<http://null/data/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals("/data/1.0.jsonld", result.header("Content-Location"));
+        assertEquals("</data/1.0/>; rel=derivedfrom", result.header("Link"));
         assertEquals(getResource("data/1.0.jsonld"), contentAsString(result));
       }
     });
@@ -200,8 +200,8 @@ public class ApplicationTest {
         Result result = route(fakeRequest(routes.Application.getStatementData("InC", "1.0", null)));
         assertEquals(200, result.status());
         assertEquals("application/json", result.contentType());
-        assertEquals("http://null/data/InC/1.0.json", result.header("Content-Location"));
-        assertEquals("<http://null/data/InC/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals("/data/InC/1.0.json", result.header("Content-Location"));
+        assertEquals("</data/InC/1.0/>; rel=derivedfrom", result.header("Link"));
         assertEquals(getResource("data/InC/1.0.jsonld"), contentAsString(result));
       }
     });
@@ -218,8 +218,8 @@ public class ApplicationTest {
             .header("Accept", "*/*"));
         assertEquals(200, result.status());
         assertEquals("application/json", result.contentType());
-        assertEquals("http://null/data/InC/1.0.json", result.header("Content-Location"));
-        assertEquals("<http://null/data/InC/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals("/data/InC/1.0.json", result.header("Content-Location"));
+        assertEquals("</data/InC/1.0/>; rel=derivedfrom", result.header("Link"));
         assertEquals(getResource("data/InC/1.0.jsonld"), contentAsString(result));
       }
     });
@@ -236,8 +236,8 @@ public class ApplicationTest {
             .header("Accept", "application/json"));
         assertEquals(200, result.status());
         assertEquals("application/json", result.contentType());
-        assertEquals("http://null/data/InC/1.0.json", result.header("Content-Location"));
-        assertEquals("<http://null/data/InC/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals("/data/InC/1.0.json", result.header("Content-Location"));
+        assertEquals("</data/InC/1.0/>; rel=derivedfrom", result.header("Link"));
         assertEquals(getResource("data/InC/1.0.jsonld"), contentAsString(result));
       }
     });
@@ -254,8 +254,8 @@ public class ApplicationTest {
             .header("Accept", "application/ld+json"));
         assertEquals(200, result.status());
         assertEquals("application/ld+json", result.contentType());
-        assertEquals("http://null/data/InC/1.0.jsonld", result.header("Content-Location"));
-        assertEquals("<http://null/data/InC/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals("/data/InC/1.0.jsonld", result.header("Content-Location"));
+        assertEquals("</data/InC/1.0/>; rel=derivedfrom", result.header("Link"));
         assertEquals(getResource("data/InC/1.0.jsonld"), contentAsString(result));
       }
     });
@@ -272,7 +272,7 @@ public class ApplicationTest {
             .header("Accept", "text/html"));
         assertEquals(200, result.status());
         assertEquals("text/html", result.contentType());
-        assertEquals("<http://null/page/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals("</page/1.0/>; rel=derivedfrom", result.header("Link"));
         assertEquals("en", result.header("Content-Language"));
         //FIXME: re-enable once templates are finalized
         //assertEquals(getResource("page/1.0"), contentAsString(result));
@@ -291,7 +291,7 @@ public class ApplicationTest {
             .concat("&relatedURL=%22%3E%3Cscript%3Ewindow.location%20=%22http://www.google.com%22%3C/script%3E")));
         assertEquals(200, result.status());
         assertEquals("text/html", result.contentType());
-        assertEquals("<http://null/page/InC-OW-EU/1.0/>; rel=derivedfrom", result.header("Link"));
+        assertEquals("</page/InC-OW-EU/1.0/>; rel=derivedfrom", result.header("Link"));
         assertEquals("en", result.header("Content-Language"));
         assertEquals(-1, contentAsString(result).indexOf("<script>window.location =\"http://www.google.com\"</script>"));
         //FIXME: re-enable once templates are finalized
@@ -388,12 +388,12 @@ public class ApplicationTest {
         Result data = route(fakeRequest(routes.Application.getCollection("ic", "1.0"))
             .header("Accept", "text/turtle"));
         assertEquals(303, data.status());
-        assertEquals("http://null/data/collection-ic/1.0/", data.redirectLocation());
+        assertEquals("/data/collection-ic/1.0/", data.redirectLocation());
 
         Result page = route(fakeRequest(routes.Application.getCollection("ic", "1.0"))
             .header("Accept", "text/html").header("Accept-Language", "en"));
         assertEquals(303, page.status());
-        assertEquals("http://null/page/collection-ic/1.0/?language=en", page.redirectLocation());
+        assertEquals("/page/collection-ic/1.0/?language=en", page.redirectLocation());
 
       }
     });
@@ -410,7 +410,7 @@ public class ApplicationTest {
             .header("Accept", "text/turtle"));
         assertEquals(200, result.status());
         assertEquals("text/turtle", result.contentType());
-        assertEquals("http://null/data/collection-ic/1.0.ttl", result.header("Content-Location"));
+        assertEquals("/data/collection-ic/1.0.ttl", result.header("Content-Location"));
         assertEquals(getResource("collection/ic/1.0.ttl"), contentAsString(result));
       }
     });
@@ -427,7 +427,7 @@ public class ApplicationTest {
             .header("Accept", "application/json"));
         assertEquals(200, result.status());
         assertEquals("application/json", result.contentType());
-        assertEquals("http://null/data/collection-ic/1.0.json", result.header("Content-Location"));
+        assertEquals("/data/collection-ic/1.0.json", result.header("Content-Location"));
         assertEquals(getResource("collection/ic/1.0.jsonld"), contentAsString(result));
       }
     });
@@ -444,7 +444,7 @@ public class ApplicationTest {
             .header("Accept", "application/ld+json"));
         assertEquals(200, result.status());
         assertEquals("application/ld+json", result.contentType());
-        assertEquals("http://null/data/collection-ic/1.0.jsonld", result.header("Content-Location"));
+        assertEquals("/data/collection-ic/1.0.jsonld", result.header("Content-Location"));
         assertEquals(getResource("collection/ic/1.0.jsonld"), contentAsString(result));
       }
     });
