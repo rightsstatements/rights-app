@@ -215,7 +215,7 @@ public class Application extends Controller {
 
   private Result notFoundPage() {
     TemplateLoader loader = layoutProvider.getTemplateLoader();
-    loader.setPrefix(getPublicHost());
+    loader.setPrefix(getDeployUrl());
     try {
       return notFound(loader.sourceAt("/en/404.html").content()).as("text/html");
     } catch (IOException e) {
@@ -227,7 +227,7 @@ public class Application extends Controller {
 
   private Result notAcceptablePage() {
     TemplateLoader loader = layoutProvider.getTemplateLoader();
-    loader.setPrefix(getPublicHost());
+    loader.setPrefix(getDeployUrl());
     try {
       return status(406, loader.sourceAt("/en/406.html").content()).as("text/html");
     } catch (IOException e) {
@@ -263,7 +263,7 @@ public class Application extends Controller {
     scope.put("data", new ObjectMapper().readValue(boas.toString(), HashMap.class));
 
     TemplateLoader loader = layoutProvider.getTemplateLoader();
-    loader.setPrefix(getPublicHost());
+    loader.setPrefix(getDeployUrl());
     Handlebars handlebars = new Handlebars(loader);
 
     try {
@@ -454,21 +454,13 @@ public class Application extends Controller {
 
   }
 
-  private String getPublicHost() {
+  private String getDeployUrl() {
     if (configuration.getString("source.site.http") != null) {
       return configuration.getString("source.site.http");
     }
-    String proto = request().hasHeader("X-Forwarded-Proto")
-      ? request().getHeader("X-Forwarded-Proto")
-      : request().secure()
-        ? "https"
-        : "http";
-    String host = request().hasHeader("X-Forwarded-Host")
-      ? request().getHeader("X-Forwarded-Host")
-      : request().hasHeader("X-Forwarded-For")
-        ? request().getHeader("X-Forwarded-For")
-        : request().host();
-    return proto.concat("://").concat(host);
+    return request().hasHeader("X-Deploy-Url")
+      ? request().getHeader("X-Deploy-Url")
+      : "/";
   }
 
 }
