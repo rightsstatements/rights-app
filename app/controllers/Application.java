@@ -10,6 +10,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import play.Configuration;
 import play.Logger;
 import play.Play;
 import play.api.http.MediaRange;
@@ -53,19 +54,22 @@ public class Application extends Controller {
 
   private final LayoutProvider layoutProvider;
 
+  private final Configuration configuration;
+
   @Inject
-  public Application(VocabProvider vocabProvider, LayoutProvider layoutProvider) {
+  public Application(VocabProvider vocabProvider, LayoutProvider layoutProvider, Configuration configuration) {
     this.vocabProvider = vocabProvider;
     this.layoutProvider = layoutProvider;
+    this.configuration = configuration;
   }
 
   public Result getVocab(String version) {
 
     if (request().accepts("text/html")) {
       Locale locale = getLocale(request(), null);
-      return redirect(routes.Application.getVocabPage(version, locale.getLanguage()).absoluteURL(request()));
+      return redirect(routes.Application.getVocabPage(version, locale.getLanguage()).url());
     } else {
-      return redirect(routes.Application.getVocabData(version, null).absoluteURL(request()));
+      return redirect(routes.Application.getVocabData(version, null).url());
     }
 
   }
@@ -81,9 +85,9 @@ public class Application extends Controller {
     MimeType mimeType = getMimeType(request(), extension);
     response().setHeader("Content-Location", routes.Application.getVocabData(version,
         mimeTypeExtMap.getOrDefault(mimeType.toString(), defaults.get("mime").toString()).toString())
-        .absoluteURL(request()));
+        .url());
     response().setHeader("Link", "<".concat(routes.Application.getVocabData(version, null)
-        .absoluteURL(request())).concat(">; rel=derivedfrom"));
+        .url()).concat(">; rel=derivedfrom"));
 
     return getData(vocab, mimeType);
 
@@ -99,10 +103,10 @@ public class Application extends Controller {
     }
 
     response().setHeader("Link", "<".concat(routes.Application.getVocabPage(version, null)
-        .absoluteURL(request())).concat(">; rel=derivedfrom"));
+        .url()).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(vocab, locale.toLanguageTag().concat("/statements/vocab.html"), locale.getLanguage(), null);
+    return getPage(vocab, "/".concat(locale.toLanguageTag()).concat("/statements/vocab.html"), locale.getLanguage(), null);
 
   }
 
@@ -113,9 +117,9 @@ public class Application extends Controller {
       return notAcceptablePage();
     } else  if (request().accepts("text/html")) {
       Locale locale = getLocale(request(), null);
-      return redirect(routes.Application.getStatementPage(id, version, locale.getLanguage()).absoluteURL(request()));
+      return redirect(routes.Application.getStatementPage(id, version, locale.getLanguage()).url());
     } else {
-      return redirect(routes.Application.getStatementData(id, version, null).absoluteURL(request()));
+      return redirect(routes.Application.getStatementData(id, version, null).url());
     }
 
   }
@@ -136,9 +140,9 @@ public class Application extends Controller {
     MimeType mimeType = getMimeType(request(), extension);
     response().setHeader("Content-Location", routes.Application.getStatementData(id, version,
         mimeTypeExtMap.getOrDefault(mimeType.toString(), defaults.get("mime").toString()).toString())
-        .absoluteURL(request()));
+        .url());
     response().setHeader("Link", "<".concat(routes.Application.getStatementData(id, version, null)
-        .absoluteURL(request())).concat(">; rel=derivedfrom"));
+        .url()).concat(">; rel=derivedfrom"));
 
     return getData(rightsStatement, mimeType);
 
@@ -154,10 +158,10 @@ public class Application extends Controller {
     }
 
     response().setHeader("Link", "<".concat(routes.Application.getStatementPage(id, version, null)
-        .absoluteURL(request())).concat(">; rel=derivedfrom"));
+        .url()).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
-    return getPage(rightsStatement, "en/statement.hbs", locale.getLanguage(), getParameters(request(), id));
+    return getPage(rightsStatement, "/en/statement.hbs", locale.getLanguage(), getParameters(request(), id));
 
   }
 
@@ -165,9 +169,9 @@ public class Application extends Controller {
 
     if (request().accepts("text/html")) {
       Locale locale = getLocale(request(), null);
-      return redirect(routes.Application.getCollectionPage(id, version, locale.getLanguage()).absoluteURL(request()));
+      return redirect(routes.Application.getCollectionPage(id, version, locale.getLanguage()).url());
     } else {
-      return redirect(routes.Application.getCollectionData(id, version, null).absoluteURL(request()));
+      return redirect(routes.Application.getCollectionData(id, version, null).url());
     }
 
   }
@@ -183,9 +187,9 @@ public class Application extends Controller {
     MimeType mimeType = getMimeType(request(), extension);
     response().setHeader("Content-Location", routes.Application.getCollectionData(id, version,
         mimeTypeExtMap.getOrDefault(mimeType.toString(), defaults.get("mime").toString()).toString())
-        .absoluteURL(request()));
+        .url());
     response().setHeader("Link", "<".concat(routes.Application.getCollectionData(id, version, null)
-        .absoluteURL(request())).concat(">; rel=derivedfrom"));
+        .url()).concat(">; rel=derivedfrom"));
 
     return getData(collection, mimeType);
 
@@ -201,7 +205,7 @@ public class Application extends Controller {
     }
 
     response().setHeader("Link", "<".concat(routes.Application.getCollectionPage(id, version, null)
-        .absoluteURL(request())).concat(">; rel=derivedfrom"));
+        .url()).concat(">; rel=derivedfrom"));
     response().setHeader("Content-Language", locale.getLanguage());
 
     return getPage(collection, locale.toLanguageTag().concat("/statements/collection-").concat(id).concat(".html"),
@@ -209,10 +213,11 @@ public class Application extends Controller {
 
   }
 
-  public Result notFoundPage() {
-
+  private Result notFoundPage() {
+    TemplateLoader loader = layoutProvider.getTemplateLoader();
+    loader.setPrefix(getDeployUrl());
     try {
-      return notFound(layoutProvider.getTemplateLoader().sourceAt("en/404.html").content()).as("text/html");
+      return notFound(loader.sourceAt("/en/404.html").content()).as("text/html");
     } catch (IOException e) {
       Logger.error(e.toString());
       return notFound("Not Found");
@@ -220,10 +225,11 @@ public class Application extends Controller {
 
   }
 
-  public Result notAcceptablePage() {
-
+  private Result notAcceptablePage() {
+    TemplateLoader loader = layoutProvider.getTemplateLoader();
+    loader.setPrefix(getDeployUrl());
     try {
-      return status(406, layoutProvider.getTemplateLoader().sourceAt("en/406.html").content()).as("text/html");
+      return status(406, loader.sourceAt("/en/406.html").content()).as("text/html");
     } catch (IOException e) {
       Logger.error(e.toString());
       return status(406, "Not Acceptable");
@@ -257,6 +263,7 @@ public class Application extends Controller {
     scope.put("data", new ObjectMapper().readValue(boas.toString(), HashMap.class));
 
     TemplateLoader loader = layoutProvider.getTemplateLoader();
+    loader.setPrefix(getDeployUrl());
     Handlebars handlebars = new Handlebars(loader);
 
     try {
@@ -445,6 +452,15 @@ public class Application extends Controller {
 
     return parameters;
 
+  }
+
+  private String getDeployUrl() {
+    if (configuration.getString("source.site.http") != null) {
+      return configuration.getString("source.site.http");
+    }
+    return request().hasHeader("X-Deploy-Url")
+      ? request().getHeader("X-Deploy-Url")
+      : "/";
   }
 
 }

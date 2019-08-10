@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[rightsstatementsorg.messagesproperties]
+file_filter = conf/messages_<lang>.properties
+source_file = conf/messages.properties
+source_lang = en
+type = PROPERTIES

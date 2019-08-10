@@ -1,11 +1,13 @@
 package services;
 
+import com.google.inject.Inject;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
+import play.Configuration;
 import play.Logger;
-import play.Play;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -19,17 +21,26 @@ public class DirectoryVocabProvider implements VocabProvider {
 
   private Model vocab = ModelFactory.createDefaultModel();
 
-  public DirectoryVocabProvider() {
+  @Inject
+  public DirectoryVocabProvider(Configuration configuration) {
 
-    String sourceDir = Play.application().configuration().getString("source.dir");
-    Path sourcePath = Paths.get(ClassLoader.getSystemResource(sourceDir).getPath());
+    Configuration source = configuration.getConfig("source.data");
+    String sourceDir = source.getString("dir");
+    Configuration formats = source.getConfig("formats");
+    Path sourcePath = new File(sourceDir).isAbsolute()
+        ? Paths.get(new File(sourceDir).getPath())
+        : Paths.get(ClassLoader.getSystemResource(sourceDir).getPath());
 
-    try (DirectoryStream<Path> files = Files.newDirectoryStream(sourcePath, "*.ttl")) {
-      for (Path file : files) {
-        vocab.read(Files.newInputStream(file), null, Lang.TURTLE.getName());
+    for (String format : formats.asMap().keySet()) {
+      String ext = formats.getConfig(format).getString("ext");
+      String lang = formats.getConfig(format).getString("lang");
+      try (DirectoryStream<Path> files = Files.newDirectoryStream(sourcePath, "*".concat(ext))) {
+        for (Path file : files) {
+          vocab.read(Files.newInputStream(file), null, lang);
+        }
+      } catch (IOException e) {
+        Logger.error(e.toString());
       }
-    } catch (IOException e) {
-      Logger.error(e.toString());
     }
 
   }
