@@ -22,4 +22,6 @@ and visit [http://localhost:9000](http://localhost:9000).
 
 To incorporate updates or new translations, install [`tx`](https://docs.transifex.com/client/introduction), run [`tx pull`](https://docs.transifex.com/client/pull#command-options)` && for f in conf/messages_*.properties; do native2ascii $f $f; done` and commit the changes. For convenience, you can also execute `./updateI18n.sh` instead. If a new translation has been added, enable it by editing the `languages.available` key in `conf/application.conf`.
 
+The new version needs to be tagged with git so that it gets recognized as a new release.
+
 See also notes on implementing translations for the [data model](https://github.com/rightsstatements/data-model/blob/master/README.md) and the [website](https://github.com/rightsstatements/rightsstatements.github.io/blob/master/README.md) for more information.
