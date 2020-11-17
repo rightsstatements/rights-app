@@ -1,0 +1,31 @@
+name: CI build
+on: push
+jobs:
+  ci:
+    name: Build the rights application
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Checkout submodules
+        uses: textbook/git-checkout-submodule-action@master
+      - name: Cache ivy2 dependencies
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-ivy2
+        with:
+          path: ~/.ivy2
+          key: ${{ runner.os }}-ivy2-${{ hashFiles('**/build.sbt') }}
+      - name: Cache sbt dependencies
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-sbt
+        with:
+          path: ~/.sbt
+          key: ${{ runner.os }}-sbt-${{ hashFiles('**/build.properties') }}
+      - name: Set up Scala
+        uses: olafurpg/setup-scala@v10
+        with:
+          java-version: adopt@1.8.0
+      - name: Run tests
+        run: sbt test
