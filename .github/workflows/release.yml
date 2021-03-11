@@ -10,6 +10,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Set up Scala
+        uses: olafurpg/setup-scala@v10
+        with:
+          java-version: adopt@1.8.0
       - name: Build rights application
         run: sbt clean dist
       - name: Create Release
