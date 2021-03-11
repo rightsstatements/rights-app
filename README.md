@@ -18,7 +18,7 @@ and visit [http://localhost:9000](http://localhost:9000).
 
 ## Implementing translations
 
-[Transifex](https://www.transifex.com/graphthinking-gmbh/rightsstatementsorg/) is used to carry out translations of the app. The relevant resource is tagged with the category `rights-app`. Please get in touch with the [maintainers](https://www.transifex.com/graphthinking-gmbh/rightsstatementsorg/settings/maintainers/) to add a new language to the project.
+[Transifex](https://www.transifex.com/rightsstatements-org/rightsstatementsorg/dashboard/) is used to carry out translations of the app. The relevant resource is tagged with the category `rights-app`. Please get in touch with the [maintainers](https://www.transifex.com/rightsstatements-org/rightsstatementsorg/settings/maintainers/) to add a new language to the project.
 
 To incorporate updates or new translations, install [`tx`](https://docs.transifex.com/client/introduction). Unicode-only characters in the translated strings will need to be converted to ASCII for the application to support them. Also, single quotes will need to be escaped. For convenience, the [`updateI18n.sh` script](updateI18n.sh) performs this functionality for you. Arguments provided to the script are passed to [`tx pull`](https://docs.transifex.com/client/pull#command-options). To update every language, you can execute
 

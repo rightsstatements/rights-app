@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# MacOS ships with BSD sed, so ensure we use GNU coretools sed (presume installed by Homebrew or MacPorts)
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  sed=gsed
+else
+  sed=sed
+fi
+
 tx pull "$@"
 
 for f in conf/messages_*.properties; do
@@ -9,7 +16,7 @@ for f in conf/messages_*.properties; do
   # otherwise be used for parameter substitutions. To produce a single quote,
   # you need to escape it with itself.
   # See https://www.playframework.com/documentation/2.4.x/ScalaI18N#Notes-on-apostrophes
-  sed -i "s/'/''/g" $f
+  $sed -i "s/'/''/g" $f
 done
 
 echo "To commit i18n changes, use:"
