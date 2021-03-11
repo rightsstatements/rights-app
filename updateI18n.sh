@@ -1,10 +1,25 @@
 #!/bin/sh
 
-tx pull -f -a
+# MacOS ships with BSD sed, so ensure we use GNU coretools sed (presume installed by Homebrew or MacPorts)
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  sed=gsed
+else
+  sed=sed
+fi
+
+tx pull "$@"
 
 for f in conf/messages_*.properties; do
   native2ascii $f $f
+
+  # java.text.MessageFormat uses single quotes to escape patterns that would
+  # otherwise be used for parameter substitutions. To produce a single quote,
+  # you need to escape it with itself.
+  # See https://www.playframework.com/documentation/2.4.x/ScalaI18N#Notes-on-apostrophes
+  $sed -i "s/'/''/g" $f
 done
 
-git add conf/messages_*.properties
-git commit -m "Update i18n"
+echo "To commit i18n changes, use:"
+echo ""
+echo " $ git add conf/messages_*.properties"
+echo " $ git commit -m \"Update i18n\""
