@@ -6,7 +6,7 @@ This is the application that serves the vocabulary terms in the [rightsstatement
 
 Clone this repository
 
-    $ git clone git@github.com:graphthinking/rights-app.git && cd rights-app
+    $ git clone git@github.com:rightsstatements/rights-app.git && cd rights-app
 
 rights-app is built with [Play Framework](https://www.playframework.com/) 2.4.3 so you need to make sure to have the
 [Java 8 JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
