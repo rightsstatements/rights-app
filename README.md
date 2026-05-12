@@ -1,4 +1,4 @@
-# rights-app
+# Rights-app
 
 This is the application that serves the vocabulary terms in the [rightsstatements.org data model](https://github.com/rightsstatements/data-model). For background information, see the [Requirements for the Technical Infrastructure for Standardized International Rights Statements](http://rightsstatements.org/en/documentation/technical-white-paper/) white paper.
 
