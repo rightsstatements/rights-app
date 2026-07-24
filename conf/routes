@@ -1,4 +1,4 @@
-GET   /app/                   controllers.Application.index()
+GET   /app/                               controllers.Application.index()
 GET   /vocab/:version/                    controllers.Application.getVocab(version: String, request: Request)
 GET   /vocab/collection-:id/:version/     controllers.Application.getCollection(id: String, version: String,request: Request)
 GET   /vocab/:id/:version/                controllers.Application.getStatement(id: String, version: String,request: Request)
@@ -13,3 +13,4 @@ GET   /data/:id/:version.:ext             controllers.Application.getStatementDa
 GET   /page/:version/                     controllers.Application.getVocabPage(version: String, language: String ?= null,request: Request)
 GET   /page/collection-:id/:version/      controllers.Application.getCollectionPage(id: String, version: String, language: String ?= null,request: Request)
 GET   /page/:id/:version/                 controllers.Application.getStatementPage(id: String, version: String, language: String ?= null,request: Request)
+GET   /page/:id/:version                  controllers.Application.getStatementPage(id: String, version: String, language: String ?= null,request: Request)
