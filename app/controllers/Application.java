@@ -200,6 +200,13 @@ public class Application extends Controller {
         .url()).concat(REL_DERIVEDFROM)).as(MIME_TYPE_TEXT_HTML);
   }
 
+
+  public Result redirectToStatementPage(String id, String version, String language,Http.Request req) {
+    String targetUrl = controllers.routes.Application.getStatementPage(id, version, language).url();
+    // Return a permanent redirect (301) appending the slash
+    return movedPermanently(targetUrl);
+  }
+
   private String validateParameters(HashMap<String, String> parameters, Request req,String language) {
     for ( String  e :  req.queryString().keySet()) {
       String value = req.getQueryString(e);

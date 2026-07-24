@@ -13,4 +13,4 @@ GET   /data/:id/:version.:ext             controllers.Application.getStatementDa
 GET   /page/:version/                     controllers.Application.getVocabPage(version: String, language: String ?= null,request: Request)
 GET   /page/collection-:id/:version/      controllers.Application.getCollectionPage(id: String, version: String, language: String ?= null,request: Request)
 GET   /page/:id/:version/                 controllers.Application.getStatementPage(id: String, version: String, language: String ?= null,request: Request)
-GET   /page/:id/:version                  controllers.Application.getStatementPage(id: String, version: String, language: String ?= null,request: Request)
+GET   /page/:id/:version                  controllers.Application.redirectToStatementPage(id: String, version: String, language: String ?= null,request: Request)
