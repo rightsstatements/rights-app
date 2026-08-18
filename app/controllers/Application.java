@@ -107,6 +107,13 @@ public class Application extends Controller {
     this.env = env;
   }
 
+  public Result redirectToGetCollectionData(String id, String version) {
+    String targetUrl = controllers.routes.Application.getCollectionData(id, version, null).url();
+    // Return a permanent redirect (301) appending the slash
+    return movedPermanently(targetUrl);
+  }
+
+
   public Result getVocab(String version, Http.Request request) {
     logger.info("Getting vocab for version: {}", version);
     if (request.accepts(MIME_TYPE_TEXT_HTML)) {
@@ -117,6 +124,11 @@ public class Application extends Controller {
       logger.info(routes.Application.getVocabData(version, null).url());
       return redirect(routes.Application.getVocabData(version, null).url());
     }
+  }
+  public Result redirectToGetVocab(String version) {
+    String targetUrl = controllers.routes.Application.getVocab(version).url();
+    // Return a permanent redirect (301) appending the slash
+    return movedPermanently(targetUrl);
   }
 
   public Result getVocabData(String version, String extension, Http.Request request) {
@@ -131,6 +143,12 @@ public class Application extends Controller {
         .url()).concat(REL_DERIVEDFROM);
     return getData(vocab, mimeType).withHeaders(HttpHeaders.CONTENT_LOCATION, mime,"Link",    link);
 
+  }
+
+  public Result redirectToGetVocabData(String version) {
+    String targetUrl = controllers.routes.Application.getVocabData(version, null).url();
+    // Return a permanent redirect (301) appending the slash
+    return movedPermanently(targetUrl);
   }
 
   public Result getVocabPage(String version, String language,Http.Request request) throws IOException {
@@ -151,6 +169,12 @@ public class Application extends Controller {
     return status(OK, page).withHeaders(HttpHeaders.CONTENT_LANGUAGE, locale.getLanguage(),"Link",linkValue).as(MIME_TYPE_TEXT_HTML);
   }
 
+  public Result redirectToVocabPage(String version, String language) {
+    String targetUrl = controllers.routes.Application.getVocabPage(version, language).url();
+    // Return a permanent redirect (301) appending the slash
+    return movedPermanently(targetUrl);
+  }
+
   public Result getStatement(String id, String version,Http.Request req) {
     if (!req.queryString().isEmpty()) {
       return notAcceptablePage(req).withHeaders("Alternates", setAlternates(req, id, version, true));
@@ -160,6 +184,12 @@ public class Application extends Controller {
     } else {
       return redirect(routes.Application.getStatementData(id, version, null).url());
     }
+  }
+
+  public Result redirectToGetStatement(String id, String version) {
+    String targetUrl = controllers.routes.Application.getStatement(id, version).url();
+    // Return a permanent redirect (301) appending the slash
+    return movedPermanently(targetUrl);
   }
 
   public Result getStatementData(String id, String version, String extension, Http.Request req) {
@@ -200,8 +230,7 @@ public class Application extends Controller {
         .url()).concat(REL_DERIVEDFROM)).as(MIME_TYPE_TEXT_HTML);
   }
 
-
-  public Result redirectToStatementPage(String id, String version, String language,Http.Request req) {
+  public Result redirectToStatementPage(String id, String version, String language) {
     String targetUrl = controllers.routes.Application.getStatementPage(id, version, language).url();
     // Return a permanent redirect (301) appending the slash
     return movedPermanently(targetUrl);
@@ -224,7 +253,7 @@ public class Application extends Controller {
     return validateLanguageParam(language);
   }
 
-  private static String validateLanguageParam(String value) {
+  private String validateLanguageParam(String value) {
     //validate language only if parameter is provide
     if(!StringUtils.isBlank(value) && !languages.contains(value)) {
       return ERROR_PAGE_UNSUPPORTED_LANGUAGE;
@@ -241,6 +270,12 @@ public class Application extends Controller {
     }
   }
 
+  public  Result redirectToGetCollection(String id, String version) {
+    String targetUrl = controllers.routes.Application.getCollection(id, version).url();
+    // Return a permanent redirect (301) appending the slash
+    return movedPermanently(targetUrl);
+  }
+
   public Result getCollectionData(String id, String version, String extension,Http.Request req) {
     Model collection = getCollectionModel(id, version);
     if (collection.isEmpty()) {
@@ -252,6 +287,12 @@ public class Application extends Controller {
     String link = "<".concat(routes.Application.getCollectionData(id, version, null)
         .url()).concat(REL_DERIVEDFROM);
     return getData(collection, mimeType).withHeaders("Content-Location", mime,"Link", link);
+  }
+
+  public Result redirectToGetStatementData(String id, String version) {
+    String targetUrl = controllers.routes.Application.getCollectionPage(id, version, null).url();
+    // Return a permanent redirect (301) appending the slash
+    return movedPermanently(targetUrl);
   }
 
   public Result getCollectionPage(String id, String version, String language,Http.Request req) throws IOException {
@@ -274,6 +315,12 @@ public class Application extends Controller {
         locale.getLanguage(), null, req);
 
     return status(OK,page).withHeaders("Link", concat, HttpHeaders.CONTENT_LANGUAGE, locale.getLanguage()).as(MIME_TYPE_TEXT_HTML);
+  }
+
+  public Result redirectToCollectionPage(String id, String version, String language) {
+    String targetUrl = controllers.routes.Application.getCollectionPage(id, version, language).url();
+    // Return a permanent redirect (301) appending the slash
+    return movedPermanently(targetUrl);
   }
 
   private Result validationErrorPage(Request req,String pageLocation) throws IOException {

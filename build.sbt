@@ -22,5 +22,5 @@ scalaVersion := "2.13.14"
 
 enablePlugins(JavaAppPackaging,DockerPlugin)
 dockerExposedPorts := Seq(9000)
-dockerBaseImage := "eclipse-temurin:17-jdk"
+dockerBaseImage := "eclipse-temurin:17-jre"
 dockerRepository := Option("docker.io/europeana")
