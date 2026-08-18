@@ -290,7 +290,7 @@ public class Application extends Controller {
   }
 
   public Result redirectToGetStatementData(String id, String version) {
-    String targetUrl = controllers.routes.Application.getCollectionPage(id, version, null).url();
+    String targetUrl = controllers.routes.Application.getStatementData(id, version, null).url();
     // Return a permanent redirect (301) appending the slash
     return movedPermanently(targetUrl);
   }
