@@ -1,8 +1,12 @@
 [main]
 host = https://www.transifex.com
 
-[rightsstatementsorg.messagesproperties]
-file_filter = conf/messages_<lang>.properties
-source_file = conf/messages.properties
-source_lang = en
-type = PROPERTIES
+[o:rightsstatements-org:p:rightsstatementsorg:r:messagesproperties]
+file_filter            = conf/messages_<lang>.properties
+source_file            = conf/messages.properties
+source_lang            = en
+type                   = PROPERTIES
+minimum_perc           = 100
+replace_edited_strings = false
+keep_translations      = false
+
