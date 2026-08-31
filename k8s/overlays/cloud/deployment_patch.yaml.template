@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rights-app-deployment
+spec:
+  replicas: ${MIN_REPLICAS}
+  template:
+    metadata:
+      annotations:
+        fluentd/include: '${COLLECT_LOGS}'
+        fluentd/multiline: 'true'
+    spec:
+      containers:
+        - name: rights-app
+          imagePullPolicy: Always
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-javaagent:/opt/docker/lib/co.elastic.apm.elastic-apm-agent-1.34.1.jar
+                      -Delastic.apm.application_packages=${ELASTIC_APP_PACKAGES}
+                      -Delastic.apm.server_urls=${ELASTIC_APM_SERVERS}
+                      -Delastic.apm.enabled=${COLLECT_APM}
+                      -Delastic.apm.service_name=${APP_NAME}
+                      -Delastic.apm.environment=${K8S_NAMESPACE}"
+
+          resources:
+            requests:
+              memory: "${MEMORY_REQUEST}M"
+              cpu: "${CPU_REQUEST}m"
+            limits:
+              memory: "${MEMORY_LIMIT}M"
+              cpu: "${CPU_LIMIT}m"

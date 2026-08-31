@@ -1,4 +1,4 @@
-# rights-app
+# Rights-app
 
 This is the application that serves the vocabulary terms in the [rightsstatements.org data model](https://github.com/rightsstatements/data-model). For background information, see the [Requirements for the Technical Infrastructure for Standardized International Rights Statements](http://rightsstatements.org/en/documentation/technical-white-paper/) white paper.
 
@@ -33,3 +33,44 @@ If a new translation has been added, enable it by editing the `languages.availab
 The new version needs to be tagged with git so that it gets recognized as a new release, using a tag that starts with `v` (e.g. `v1.2.7`).
 
 See also notes on implementing translations for the [data model](https://github.com/rightsstatements/data-model/blob/master/README.md) and the [website](https://github.com/rightsstatements/rightsstatements.github.io/blob/master/README.md) for more information.
+
+
+
+
+## 🚀 Automated Release & Deployment Process
+
+This repository uses automated workflows to manage deployments. Code deployment to target environments is triggered upon creation of new
+**Git Releases**.
+
+### ⚠️ Important: Deletion Behavior
+* **Automatic Roll-Forward/Fall-Back:** If a currently active Git Release is deleted, the system will automatically trigger a deployment for whichever release becomes the next available/valid version. Please exercise extreme caution when deleting releases in this repository.
+
+---
+
+### ⚙️ How it Works
+
+The deployment pipeline bridges Git and Jenkins using webhook automation through the following steps:
+
+
+```
+
+[ Git Release Created ]
+│
+▼
+[ Webhook Event Fired ]
+│
+▼
+[ Jenkins Job Triggered ] ──► (Passes Release Tag Info)
+│
+▼
+[ Automated Deployment ]  ──► (Checkouts latest tag, Builds & Deploys)
+
+```
+
+1. **Create Release** A developer creates and publishes a new Release in Git with a specific version tag (e.g., `v1.2.0`).
+   
+2. **Webhook Trigger** The Git platform detects the release creation event and immediately fires an automated webhook payload.
+   
+3. **Jenkins Execution** The webhook securely triggers our dedicated Jenkins deployment job, passing along the specific release tag information.
+   
+4. **Automated Deployment** Jenkins checkouts the latest release code matching that tag, builds the required software artifacts, and automatically deploys them to the target environment.

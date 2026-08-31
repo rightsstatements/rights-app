@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- https://www.playframework.com/documentation/latest/SettingsLogger -->
+
+<!DOCTYPE configuration>
+
+<configuration>
+  <import class="ch.qos.logback.classic.encoder.PatternLayoutEncoder"/>
+  <import class="ch.qos.logback.classic.AsyncAppender"/>
+  <import class="ch.qos.logback.core.FileAppender"/>
+  <import class="ch.qos.logback.core.ConsoleAppender"/>
+  <variable name="application.home" value="/opt/docker" />
+
+  <appender name="FILE" class="FileAppender">
+    <file>${application.home:-.}/logs/application.log</file>
+    <encoder class="PatternLayoutEncoder">
+      <pattern>%d{HH:mm:ss.SSS} %level %C:%L [%t] - %m%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="STDOUT" class="ConsoleAppender">
+    <encoder class="PatternLayoutEncoder">
+      <pattern>%d{HH:mm:ss.SSS} %level %C:%L [%t] - %m%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="ASYNCFILE" class="AsyncAppender">
+    <includeCallerData>true</includeCallerData>
+    <appender-ref ref="FILE"/>
+  </appender>
+
+  <appender name="ASYNCSTDOUT" class="AsyncAppender">
+    <!-- increases the default queue size -->
+    <includeCallerData>true</includeCallerData>
+    <queueSize>512</queueSize>
+    <!-- don't discard messages -->
+    <discardingThreshold>0</discardingThreshold>
+    <!-- block when queue is full -->
+    <neverBlock>false</neverBlock>
+    <appender-ref ref="STDOUT"/>
+  </appender>
+
+  <logger name="play" level="INFO"/>
+  <logger name="application" level="INFO"/>
+
+  <root level="WARN">
+    <!--<appender-ref ref="ASYNCFILE"/>  For production not using the File logging -->
+    <appender-ref ref="ASYNCSTDOUT"/>
+  </root>
+
+</configuration>

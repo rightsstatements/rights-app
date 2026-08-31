@@ -3,8 +3,12 @@ package services;
 import com.google.inject.Inject;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigList;
+import com.typesafe.config.ConfigValue;
+import java.util.List;
 import org.apache.jena.riot.Lang;
-import play.Configuration;
+import play.api.Configuration;
 import play.Logger;
 
 import java.io.File;
@@ -13,6 +17,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import scala.Option;
 
 /**
  * Created by fo on 10.03.16.
@@ -23,17 +28,16 @@ public class DirectoryVocabProvider implements VocabProvider {
 
   @Inject
   public DirectoryVocabProvider(Configuration configuration) {
-
-    Configuration source = configuration.getConfig("source.data");
+    Config source = configuration.underlying().getConfig("source.data");
     String sourceDir = source.getString("dir");
-    Configuration formats = source.getConfig("formats");
+    Config formats = source.getConfig("formats");
     Path sourcePath = new File(sourceDir).isAbsolute()
         ? Paths.get(new File(sourceDir).getPath())
         : Paths.get(ClassLoader.getSystemResource(sourceDir).getPath());
 
-    for (String format : formats.asMap().keySet()) {
-      String ext = formats.getConfig(format).getString("ext");
-      String lang = formats.getConfig(format).getString("lang");
+    for (String formatName : formats.root().keySet()) {
+      String ext = formats.getConfig(formatName).getString("ext");
+      String lang = formats.getConfig(formatName).getString("lang");
       try (DirectoryStream<Path> files = Files.newDirectoryStream(sourcePath, "*".concat(ext))) {
         for (Path file : files) {
           vocab.read(Files.newInputStream(file), null, lang);
@@ -42,12 +46,10 @@ public class DirectoryVocabProvider implements VocabProvider {
         Logger.error(e.toString());
       }
     }
-
   }
 
   @Override
   public Model getVocab() {
     return vocab;
   }
-
 }
