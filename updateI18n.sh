@@ -10,7 +10,7 @@ fi
 tx pull "$@"
 
 for f in conf/messages_*.properties; do
-  native2ascii $f $f
+#  native2ascii $f $f
 
   # java.text.MessageFormat uses single quotes to escape patterns that would
   # otherwise be used for parameter substitutions. To produce a single quote,
