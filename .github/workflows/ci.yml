@@ -10,14 +10,14 @@ jobs:
         with:
           submodules: recursive
       - name: Cache ivy2 dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         env:
           cache-name: cache-ivy2
         with:
           path: ~/.ivy2
           key: ${{ runner.os }}-ivy2-${{ hashFiles('**/build.sbt') }}
       - name: Cache sbt dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         env:
           cache-name: cache-sbt
         with:
