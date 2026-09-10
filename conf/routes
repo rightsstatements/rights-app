@@ -9,18 +9,17 @@ GET   /vocab/collection-:id/:version      controllers.Application.redirectToGetC
 GET   /vocab/:id/:version/                controllers.Application.getStatement(id: String, version: String,request: Request)
 GET   /vocab/:id/:version                 controllers.Application.redirectToGetStatement(id: String, version: String)
 
-
+GET   /data/:version.:ext<[a-zA-Z0-9]+>                 controllers.Application.getVocabData(version: String, ext: String,request: Request)
 GET   /data/:version/                     controllers.Application.getVocabData(version: String, ext=null,request: Request)
 GET   /data/:version                      controllers.Application.redirectToGetVocabData(version: String)
-GET   /data/:version.:ext                 controllers.Application.getVocabData(version: String, ext: String,request: Request)
 
+GET   /data/collection-:id/:version.:ext<[a-zA-Z0-9]+>  controllers.Application.getCollectionData(id: String, version: String, ext: String,request: Request)
 GET   /data/collection-:id/:version/      controllers.Application.getCollectionData(id: String, version: String, ext=null,request: Request)
 GET   /data/collection-:id/:version       controllers.Application.redirectToGetCollectionData(id: String, version: String)
-GET   /data/collection-:id/:version.:ext  controllers.Application.getCollectionData(id: String, version: String, ext: String,request: Request)
 
-GET   /data/:id/:version/                 controllers.Application.getStatementData(id: String, version: String, ext=null,request: Request)
+GET   /data/:id/:version.:ext<[a-zA-Z0-9]+>             controllers.Application.getStatementData(id: String, version: String, ext: String,request: Request)
+GET   /data/:id/:version/                 controllers.Application.getStatementData(id: String, version: String,ext=null,request: Request)
 GET   /data/:id/:version                  controllers.Application.redirectToGetStatementData(id: String, version: String)
-GET   /data/:id/:version.:ext             controllers.Application.getStatementData(id: String, version: String, ext: String,request: Request)
 
 
 GET   /page/:version/                     controllers.Application.getVocabPage(version: String, language: String ?= null,request: Request)
