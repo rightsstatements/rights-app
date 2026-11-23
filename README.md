@@ -51,7 +51,6 @@ This repository uses automated workflows to manage deployments. Code deployment 
 
 The deployment pipeline bridges Git and Jenkins using webhook automation through the following steps:
 
-
 ```
 
 [ Git Release Created ]
