@@ -9,6 +9,7 @@ spec:
       annotations:
         fluentd/include: '${COLLECT_LOGS}'
         fluentd/multiline: 'true'
+        deployment.europeana.eu/build-id: '${DEPLOYMENT_BUILD_ID}'
     spec:
       containers:
         - name: rights-app
@@ -21,7 +22,8 @@ spec:
                       -Delastic.apm.enabled=${COLLECT_APM}
                       -Delastic.apm.service_name=${APP_NAME}
                       -Delastic.apm.environment=${K8S_NAMESPACE}"
-
+            - name: APPLICATION_SECRET
+              value: "${APPLICATION_SECRET}"
           resources:
             requests:
               memory: "${MEMORY_REQUEST}M"
