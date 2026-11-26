@@ -13,8 +13,10 @@ libraryDependencies += "com.github.jknack" % "handlebars" % "2.2.2"
 libraryDependencies += "org.eclipse.jgit" % "org.eclipse.jgit" % "4.0.1.201506240215-r"
 libraryDependencies += "commons-io" % "commons-io" % "2.4"
 libraryDependencies += "com.google.inject" % "guice" % "3+"
-libraryDependencies += "co.elastic.apm" % "elastic-apm-agent" % "1.34.1"
+libraryDependencies += "co.elastic.apm" % "elastic-apm-agent" % "1.57.1"
 libraryDependencies += guice
+// make sure any log4j message are handled by logback instead
+libraryDependencies += "org.slf4j" % "log4j-over-slf4j" % "2.0.20"
 
 Test / javaOptions += "-Dconfig.file=conf/test.conf"
 Universal / javaOptions ++= Seq("-Dpidfile.path=/dev/null","-Dconfig.file=conf/environment.conf")
